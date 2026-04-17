@@ -72,16 +72,21 @@ function renderPosts() {
   grid.innerHTML = list.map((p) => {
     const title = p.title || '(제목 없음)';
     const link = p.link || '#';
-    const date = fmtDate(p.date);
-    const desc = (p.description || '').slice(0, 150);
+    const date = fmtDate(p.date || p.lastmod);
+    const desc = (p.description || '').slice(0, 140);
+    const thumb = p.image || '';
+    const thumbHtml = thumb
+      ? `<div class="post-thumb" style="background-image:url('${thumb.replace(/'/g, "\\'")}')"></div>`
+      : `<div class="post-thumb no-image">📝</div>`;
     return `
-      <a class="post-card text-only" href="${link}" target="_blank" rel="noopener" title="${title.replace(/"/g, '&quot;')}">
+      <a class="post-card" href="${link}" target="_blank" rel="noopener" title="${title.replace(/"/g, '&quot;')}">
+        ${thumbHtml}
         <div class="post-body">
           <h3 class="post-title">${title}</h3>
-          ${desc ? `<p class="post-desc">${desc}${(p.description || '').length > 150 ? '…' : ''}</p>` : ''}
+          ${desc ? `<p class="post-desc">${desc}${(p.description || '').length > 140 ? '…' : ''}</p>` : ''}
           <div class="post-meta">
             <span class="post-date">📅 ${date}</span>
-            <span class="post-link">원문 보기 →</span>
+            <span class="post-link">원문 →</span>
           </div>
         </div>
       </a>
