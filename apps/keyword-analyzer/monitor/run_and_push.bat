@@ -1,22 +1,21 @@
 @echo off
 REM ============================================================
-REM  Dolmaro 키워드 모니터 — 자동 실행 + git push
-REM  Windows 작업 스케줄러에서 월/금 10시에 호출됨
+REM  Dolmaro keyword monitor - auto run + git push
+REM  Called by Windows Task Scheduler at Mon/Fri 10:00 AM
 REM ============================================================
-chcp 65001 >nul
 setlocal
 
-REM 레포 루트로 이동 (이 배치 위치: apps/keyword-analyzer/monitor/)
+REM Move to repo root (this bat lives at apps/keyword-analyzer/monitor/)
 pushd "%~dp0..\..\.."
 set "REPO_ROOT=%cd%"
 echo [%date% %time%] REPO_ROOT = %REPO_ROOT%
 
-REM 로그 폴더
+REM Log folder
 set "LOG_DIR=%REPO_ROOT%\apps\keyword-analyzer\logs"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
 set "LOG_FILE=%LOG_DIR%\%date:~0,4%-%date:~5,2%-%date:~8,2%.log"
 
-REM Python 확인
+REM Check Python
 python --version >nul 2>&1
 if errorlevel 1 (
     echo Python not installed. >> "%LOG_FILE%"
@@ -25,7 +24,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Git 확인
+REM Check Git
 git --version >nul 2>&1
 if errorlevel 1 (
     echo Git not installed. >> "%LOG_FILE%"
@@ -36,39 +35,39 @@ if errorlevel 1 (
 
 echo. >> "%LOG_FILE%"
 echo ======================================================== >> "%LOG_FILE%"
-echo  시작: %date% %time% >> "%LOG_FILE%"
+echo  START: %date% %time% >> "%LOG_FILE%"
 echo ======================================================== >> "%LOG_FILE%"
 
-REM 1) WSL에서 푸시된 최신 코드/키워드 당기기 (충돌 방지: rebase + 실패시 중단)
+REM 1) Pull latest code and keywords
 echo [1/4] git pull --rebase >> "%LOG_FILE%"
 git pull --rebase >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
-    echo git pull 실패. 충돌 여부 확인 필요. >> "%LOG_FILE%"
-    echo git pull 실패. 충돌 여부 확인 필요.
+    echo git pull failed. Check for conflicts. >> "%LOG_FILE%"
+    echo git pull failed. Check for conflicts.
     popd
     exit /b 1
 )
 
-REM 2) 모니터 실행 (--no-pause = 자동 종료, 스케줄러에서는 Enter를 누를 사람이 없음)
+REM 2) Run monitor (--no-pause = auto-close, no human to press Enter)
 echo [2/4] python naver_monitor.py --no-pause >> "%LOG_FILE%"
 python "%REPO_ROOT%\apps\keyword-analyzer\monitor\naver_monitor.py" --no-pause >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
-    echo 모니터 실행 실패. >> "%LOG_FILE%"
-    echo 모니터 실행 실패.
+    echo Monitor run failed. >> "%LOG_FILE%"
+    echo Monitor run failed.
     popd
     exit /b 1
 )
 
-REM 3) 결과 파일 stage + commit
+REM 3) Stage + commit results
 echo [3/4] git add + commit >> "%LOG_FILE%"
 git add "apps/keyword-analyzer/data" >> "%LOG_FILE%" 2>&1
 
-REM 변경사항 있는지 확인
+REM Check if there are changes
 git diff --cached --quiet
 if errorlevel 1 (
     git commit -m "keyword monitor: %date% %time%" >> "%LOG_FILE%" 2>&1
 ) else (
-    echo 변경사항 없음 (commit skip) >> "%LOG_FILE%"
+    echo No changes to commit. >> "%LOG_FILE%"
     popd
     exit /b 0
 )
@@ -77,14 +76,14 @@ REM 4) push
 echo [4/4] git push >> "%LOG_FILE%"
 git push >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
-    echo git push 실패. Git Credential Manager 설정 확인. >> "%LOG_FILE%"
-    echo git push 실패. Git Credential Manager 설정 확인.
+    echo git push failed. Check Git Credential Manager. >> "%LOG_FILE%"
+    echo git push failed. Check Git Credential Manager.
     popd
     exit /b 1
 )
 
 echo. >> "%LOG_FILE%"
-echo  완료: %date% %time% >> "%LOG_FILE%"
+echo  DONE: %date% %time% >> "%LOG_FILE%"
 echo ======================================================== >> "%LOG_FILE%"
 
 popd
