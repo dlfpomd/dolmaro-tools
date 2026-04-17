@@ -41,6 +41,13 @@ a:hover { text-decoration: underline; }
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
 }
+.dash-sync-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  margin-top: 4px;
+  cursor: help;
+}
 .dash-stats {
   display: flex;
   gap: 24px;
@@ -260,6 +267,10 @@ a:hover { text-decoration: underline; }
   color: #7c3aed;
   font-size: 40px;
 }
+.post-card.text-only .post-body {
+  padding: 18px 18px 16px;
+  min-height: 160px;
+}
 .post-body { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
 .post-title {
   font-size: 15px;
@@ -273,6 +284,16 @@ a:hover { text-decoration: underline; }
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: calc(1.45em * 2);
+}
+.post-desc {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #64748b;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .post-meta {
   display: flex;

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>블로그 이관 · Dolmaro Tools</title>
-  <meta name="description" content="네이버 블로그 → 이레한의원 홈페이지(irea.co.kr) 자동 이관 현황. 매일 AM 10·PM 15 자동 발행.">
+  <meta name="description" content="네이버 블로그 → ireaomd.co.kr 자동 이관 현황. 매일 오전 11:30 자동 발행, 정오에 대시보드 동기화.">
   <meta name="theme-color" content="#7c3aed">
   <link rel="icon" type="image/png" href="../../icons/favicon.png">
   <link rel="stylesheet" href="css/dashboard.css">
@@ -18,7 +18,8 @@
       <div class="dash-title-row">
         <div>
           <h1 class="dash-title">블로그 이관</h1>
-          <p class="dash-subtitle">네이버 블로그 → 이레한의원 홈페이지(irea.co.kr) · 매일 AM 10시 · PM 3시 자동 발행</p>
+          <p class="dash-subtitle">네이버 블로그 → ireaomd.co.kr · 매일 오전 11:30 자동 발행 · 정오 대시보드 동기화</p>
+          <p id="lastSync" class="dash-sync-hint"></p>
         </div>
         <div class="dash-stats">
           <div class="dash-stat">
@@ -37,103 +38,127 @@
   <main class="dash-main">
     <div class="dash-container">
 
-      <!-- 사용 방법 — 평소엔 접혀 있음 -->
       <details id="helpSection" class="help-section">
         <summary class="help-summary">
           <span class="help-icon">📖</span>
-          <span class="help-title">사용 방법 · 수동 실행 · 설정 수정 · 문제 해결</span>
+          <span class="help-title">이 프로그램 작동 방식 · 수동 실행 · 글 개수 조정 · 문제 해결</span>
           <span class="help-arrow">▾</span>
         </summary>
         <div class="help-body">
 
           <div class="help-block">
-            <h3>🟢 자동 실행 (기본)</h3>
-            <p>매일 <strong>오전 10시</strong>와 <strong>오후 3시</strong>에 PC가 자동으로 네이버 블로그(<code>dlfpomd2</code>)에서 미이관 글 <strong>1개</strong>를 가져와 이레한의원 홈페이지에 발행합니다. 발행되면 이 페이지 목록에 자동 반영 (새로고침).</p>
-            <p>작업 스케줄러 이름: <code>IREA_Blog_AM</code>, <code>IREA_Blog_PM</code></p>
+            <h3>🟢 자동 실행 흐름 (건드리면 안 됨)</h3>
+            <p>매일 <strong>오전 11:30</strong>에 Windows 작업 스케줄러가 <code>blog-import-task</code>를 실행합니다. 이 작업은 WSL(Ubuntu) 안의 <code>clinic-os</code>에서 네이버 블로그(<code>dlfpomd2</code>, <code>xkjbaeakds</code>)의 새 글 1편을 가져와 <code>ireaomd.co.kr</code> 데이터베이스에 넣고 사이트를 다시 빌드/배포합니다.</p>
+            <p>그리고 <strong>낮 12:00</strong>에 별도 작업 <code>DolmaroBlogDashboardSync</code>가 <code>ireaomd.co.kr/rss.xml</code>을 가져와 이 페이지의 목록을 갱신합니다. 이 두 작업은 <strong>완전히 독립</strong>적입니다 — 대시보드 쪽이 망가져도 발행은 계속됩니다.</p>
           </div>
 
           <div class="help-block">
-            <h3>▶️ 지금 바로 실행하고 싶을 때</h3>
-            <p><strong>방법 A — 탐색기에서 더블클릭 (제일 쉬움):</strong></p>
-            <ol>
-              <li>파일 탐색기를 엽니다 (<kbd>Win</kbd> + <kbd>E</kbd>)</li>
-              <li>주소창에 이 경로를 붙여넣고 엔터:<br>
-                <code>C:\Users\user\Documents\Claude\blog_migrator</code></li>
-              <li><code>auto_migrate.bat</code> 을 더블클릭</li>
-              <li>1개 글이 이관된 뒤 <code>auto_migrate_log.txt</code>에 완료 시각이 기록됨</li>
-            </ol>
-            <p><strong>방법 B — 작업 스케줄러에서 즉시 실행:</strong></p>
+            <h3>▶️ 지금 바로 한 편 이관하고 싶을 때</h3>
+            <p><strong>방법 A — 작업 스케줄러에서 즉시 실행:</strong></p>
             <ol>
               <li><kbd>Win</kbd> + <kbd>R</kbd> → <code>taskschd.msc</code> 엔터</li>
-              <li><code>IREA_Blog_AM</code> 또는 <code>IREA_Blog_PM</code> 우클릭 → "실행"</li>
+              <li>목록에서 <code>blog-import-task</code> 우클릭 → "실행"</li>
+              <li>10~15분 뒤 새 글이 <a href="https://ireaomd.co.kr/blog" target="_blank" rel="noopener">ireaomd.co.kr/blog</a>에 올라감</li>
             </ol>
-            <p><strong>방법 C — PowerShell에서 여러 개 한 번에:</strong></p>
-            <pre><code>cd C:\Users\user\Documents\Claude\blog_migrator
-python main.py --batch 5</code></pre>
-            <p class="help-tip">💡 <code>--batch N</code>의 N은 한 번에 이관할 글 개수. 너무 크게 하면 Claude API 비용이 많이 듭니다.</p>
+            <p><strong>방법 B — PowerShell 명령어:</strong></p>
+            <pre><code>schtasks /run /tn "blog-import-task"</code></pre>
+            <p><strong>방법 C — WSL에서 직접 (여러 편 한 번에):</strong></p>
+            <pre><code>wsl -d Ubuntu -u dolmaro --exec bash -lc ^
+  "cd /home/dolmaro/clinic-os && node src/lib/local/blog-daily-import.mjs --count=5"</code></pre>
+            <p class="help-tip">💡 <code>--count=N</code>의 N은 한 번에 이관할 글 개수. 이관 완료 후 정오 스케줄러가 아직 안 돌았다면 대시보드 새로고침 전에 <strong>"새로고침"</strong> 버튼을 누르거나, <code>DolmaroBlogDashboardSync</code>를 수동 실행하세요.</p>
           </div>
 
           <div class="help-block">
-            <h3>✏️ 설정(블로그·카테고리·모델 등) 수정</h3>
-            <p>아래 파일을 메모장 또는 VSCode로 열어 편집:</p>
+            <h3>🔢 하루에 몇 편 이관할지 바꾸기</h3>
+            <p>기본값은 하루 <strong>1편</strong>입니다. 바꾸려면 아래 파일을 편집:</p>
             <ul>
-              <li><code>C:\Users\user\Documents\Claude\blog_migrator\config.py</code></li>
+              <li>WSL 경로: <code>/home/dolmaro/clinic-os/src/lib/local/blog-cron.sh</code></li>
+              <li>편집할 줄: <code>node src/lib/local/blog-daily-import.mjs --count=1</code> 의 <code>--count=1</code>을 <code>--count=2</code> 등으로 변경</li>
             </ul>
-            <p>주요 항목:</p>
-            <ul>
-              <li><code>NAVER_BLOG_ID</code> — 가져올 네이버 블로그 아이디 (현재 <code>dlfpomd2</code>)</li>
-              <li><code>START_YEAR</code> — 이 연도 이후 글만 수집 (현재 <code>2020</code>)</li>
-              <li><code>SORT_ORDER</code> — <code>oldest</code>(오래된 것 먼저) / <code>newest</code>(최신 먼저)</li>
-              <li><code>WP_CATEGORY_ID</code> — 홈페이지 카테고리 (현재 <code>3</code> = 이레칼럼)</li>
-              <li><code>WP_POST_STATUS</code> — <code>publish</code>(즉시 공개) / <code>draft</code>(임시저장)</li>
-              <li><code>CLAUDE_MODEL</code> — 제목·Q&A 생성에 쓰는 Claude 모델</li>
-            </ul>
-            <p class="help-warn">⚠️ <strong>보안 주의:</strong> <code>config.py</code>에 <code>ANTHROPIC_API_KEY</code>와 <code>WP_APP_PASSWORD</code>가 평문으로 들어있습니다. <strong>절대 GitHub 등 공개 장소에 올리지 마세요.</strong> PC 분실/공유 시 키 회전 필수.</p>
+            <p>빠른 편집 (PowerShell):</p>
+            <pre><code>wsl -d Ubuntu -u dolmaro --exec nano /home/dolmaro/clinic-os/src/lib/local/blog-cron.sh</code></pre>
           </div>
 
           <div class="help-block">
-            <h3>🆕 새 PC에 세팅할 때 (최초 1회)</h3>
-            <p>이미 세팅된 PC에서는 건너뛰세요.</p>
+            <h3>➕ 새 네이버 블로그를 소스로 추가하기</h3>
+            <p><code>extract-naver.js</code>는 여러 블로그 ID를 한 번에 처리할 수 있습니다. 일회성 실행은 아래처럼:</p>
+            <pre><code>wsl -d Ubuntu -u dolmaro --exec bash -lc ^
+  "cd /home/dolmaro/clinic-os && node scripts/extract-naver.js --blog-id=새블로그아이디 --limit=50"</code></pre>
+            <p>자동 스케줄에 넣으려면 <code>blog-daily-import.mjs</code> 파일을 편집 (WSL 경로):</p>
+            <pre><code>/home/dolmaro/clinic-os/src/lib/local/blog-daily-import.mjs</code></pre>
+          </div>
+
+          <div class="help-block">
+            <h3>🔄 대시보드를 지금 바로 갱신하고 싶을 때</h3>
+            <p>RSS에 이미 반영됐는데 위 카드 목록에 안 보이면 정오 스케줄러가 아직 안 돈 것입니다. 세 가지 방법:</p>
             <ol>
-              <li><strong>Python 3.10+ 설치</strong> (<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>) — "Add Python to PATH" 체크</li>
-              <li><strong>폴더 복사</strong> — 기존 PC의 <code>C:\Users\user\Documents\Claude\blog_migrator\</code> 전체를 새 PC 같은 경로에 복사</li>
-              <li><strong>의존성 설치</strong> — PowerShell에서:
-                <pre><code>cd C:\Users\user\Documents\Claude\blog_migrator
-pip install -r requirements.txt</code></pre>
+              <li>우측 상단 <strong>"새로고침"</strong> 버튼 — 이건 캐시된 <code>posts.json</code>을 다시 읽는 것일 뿐이라, <strong>새 데이터가 반영되진 않습니다</strong></li>
+              <li>아래처럼 수동 싱크 실행:
+                <pre><code>schtasks /run /tn "DolmaroBlogDashboardSync"</code></pre>
               </li>
-              <li><strong>스케줄러 등록</strong> — <code>setup_scheduler.bat</code>을 <strong>우클릭 → "관리자 권한으로 실행"</strong></li>
-              <li><strong>테스트</strong> — <code>auto_migrate.bat</code> 더블클릭 → <code>auto_migrate_log.txt</code>에 "Done" 기록 확인</li>
+              <li>WSL에서 직접:
+                <pre><code>wsl -d Ubuntu -u dolmaro --exec bash -lc ^
+  "/home/dolmaro/dolmaro-tools/apps/blog-migrator/monitor/sync_and_push.sh"</code></pre>
+              </li>
             </ol>
+            <p>2번/3번 실행 후 ~30초 기다렸다가 페이지 <kbd>Ctrl</kbd>+<kbd>F5</kbd></p>
           </div>
 
           <div class="help-block">
-            <h3>🔎 문제가 생겼을 때</h3>
+            <h3>🔎 문제 해결</h3>
             <ul>
-              <li><strong>실행 로그:</strong> <code>C:\Users\user\Documents\Claude\blog_migrator\auto_migrate_log.txt</code></li>
-              <li><strong>이관 이력:</strong> <code>C:\Users\user\Documents\Claude\blog_migrator\processed_posts.json</code> (이 파일에 등록된 글은 다음 실행에서 건너뜀)</li>
-              <li><strong>스케줄 확인:</strong> <code>schtasks /query /tn "IREA_Blog_AM"</code></li>
-              <li><strong>스케줄 해제:</strong> <code>schtasks /delete /tn "IREA_Blog_AM" /f</code> 와 <code>/tn "IREA_Blog_PM"</code></li>
-              <li><strong>같은 글 다시 이관하고 싶을 때:</strong> <code>processed_posts.json</code>에서 해당 <code>log_no</code> 항목 삭제 후 재실행</li>
-              <li><strong>Claude API 크레딧 부족:</strong> <a href="https://console.anthropic.com/settings/billing" target="_blank" rel="noopener">console.anthropic.com/settings/billing</a></li>
-              <li><strong>워드프레스 인증 실패:</strong> irea.co.kr 관리자 → 사용자 → 새 앱 비밀번호 발급 → <code>config.py</code>의 <code>WP_APP_PASSWORD</code> 교체</li>
+              <li><strong>이관 로그:</strong> <code>C:\Users\user\Desktop\blog-import.log</code></li>
+              <li><strong>대시보드 싱크 로그:</strong> <code>C:\Users\user\Desktop\dolmaro-sync.log</code></li>
+              <li><strong>WSL 내부 상세 로그:</strong> <code>/home/dolmaro/clinic-os/.agent/logs/blog-import-YYYY-MM-DD.log</code></li>
+              <li><strong>스케줄 확인:</strong>
+                <pre><code>schtasks /query /tn "blog-import-task" /v /fo LIST
+schtasks /query /tn "DolmaroBlogDashboardSync" /v /fo LIST</code></pre>
+              </li>
+              <li><strong>ireaomd.co.kr에 안 보이면:</strong> clinic-os 빌드 실패 가능. WSL 로그(<code>.agent/logs/</code>) 확인.</li>
+              <li><strong>RSS는 있는데 대시보드만 비어있으면:</strong> git push 실패 가능. <code>dolmaro-sync.log</code> 마지막 줄 확인.</li>
             </ul>
+          </div>
+
+          <div class="help-block help-block-quick">
+            <h3>🆕 새 PC에 대시보드 싱크 세팅 (최초 1회)</h3>
+            <p>이관 자동화(<code>blog-import-task</code>)는 이미 돌고 있다고 가정. 이 페이지 갱신 기능만 붙이는 과정입니다.</p>
+            <ol>
+              <li><strong>dolmaro-tools 복제</strong> (WSL 쪽):
+                <pre><code>wsl -d Ubuntu -u dolmaro --exec bash -lc ^
+  "cd ~ && git clone https://github.com/dlfpomd/dolmaro-tools.git"</code></pre>
+              </li>
+              <li><strong>스케줄러 등록</strong> — 관리자 권한 PowerShell에서:
+                <pre><code>C:\dolmaro-tools\apps\blog-migrator\monitor\setup_scheduler.bat</code></pre>
+                (WSL에서 Windows 경로로도 접근 가능한 위치에 있다고 가정)
+              </li>
+              <li><strong>즉시 테스트:</strong> <code>schtasks /run /tn "DolmaroBlogDashboardSync"</code></li>
+              <li><strong>로그 확인:</strong> <code>notepad %USERPROFILE%\Desktop\dolmaro-sync.log</code></li>
+            </ol>
           </div>
 
           <div class="help-block help-block-quick">
             <h3>📋 자주 쓰는 명령어 (PowerShell에서)</h3>
             <table class="help-cmd-table">
               <tbody>
-                <tr><td>1개 이관 (지금 즉시)</td><td><code>schtasks /run /tn "IREA_Blog_AM"</code></td></tr>
-                <tr><td>N개 한 번에 이관</td><td><code>cd C:\Users\user\Documents\Claude\blog_migrator ; python main.py --batch 5</code></td></tr>
-                <tr><td>AM/PM 일정 확인</td><td><code>schtasks /query /tn "IREA_Blog_AM" /v /fo LIST</code></td></tr>
-                <tr><td>이관 이력 보기</td><td><code>notepad C:\Users\user\Documents\Claude\blog_migrator\processed_posts.json</code></td></tr>
-                <tr><td>실행 로그 보기</td><td><code>notepad C:\Users\user\Documents\Claude\blog_migrator\auto_migrate_log.txt</code></td></tr>
+                <tr><td>1편 이관 즉시 실행</td><td><code>schtasks /run /tn "blog-import-task"</code></td></tr>
+                <tr><td>대시보드 싱크 즉시 실행</td><td><code>schtasks /run /tn "DolmaroBlogDashboardSync"</code></td></tr>
+                <tr><td>N편 한 번에 이관</td><td><code>wsl -u dolmaro bash -lc "cd /home/dolmaro/clinic-os && node src/lib/local/blog-daily-import.mjs --count=5"</code></td></tr>
+                <tr><td>이관 작업 다음 실행 시각</td><td><code>schtasks /query /tn "blog-import-task" /v /fo LIST</code></td></tr>
+                <tr><td>싱크 작업 다음 실행 시각</td><td><code>schtasks /query /tn "DolmaroBlogDashboardSync" /v /fo LIST</code></td></tr>
+                <tr><td>이관 로그 보기</td><td><code>notepad %USERPROFILE%\Desktop\blog-import.log</code></td></tr>
+                <tr><td>싱크 로그 보기</td><td><code>notepad %USERPROFILE%\Desktop\dolmaro-sync.log</code></td></tr>
               </tbody>
             </table>
           </div>
 
         </div>
       </details>
+
+      <section id="emptyState" class="state-msg" hidden>
+        <div class="state-icon">📝</div>
+        <h2>아직 동기화된 글이 없습니다</h2>
+        <p>정오 스케줄러가 한 번이라도 돌고 나면 여기에 글 목록이 표시됩니다.<br>지금 바로 보고 싶으면 위 "📖" 섹션의 <strong>🔄 대시보드를 지금 바로 갱신</strong>을 참고하세요.</p>
+      </section>
 
       <section id="errorState" class="state-msg error" hidden>
         <div class="state-icon">⚠️</div>
@@ -144,8 +169,8 @@ pip install -r requirements.txt</code></pre>
       <div class="toolbar">
         <span id="resultCount" class="result-count">불러오는 중...</span>
         <div style="display:flex; gap:8px;">
-          <input type="text" id="searchInput" class="search-input" placeholder="제목으로 검색...">
-          <button id="refreshBtn" class="refresh-btn" title="새로고침">
+          <input type="text" id="searchInput" class="search-input" placeholder="제목·요약으로 검색...">
+          <button id="refreshBtn" class="refresh-btn" title="캐시 무시하고 다시 읽기">
             <span>🔄</span><span>새로고침</span>
           </button>
         </div>
@@ -162,7 +187,7 @@ pip install -r requirements.txt</code></pre>
 
   <footer class="dash-footer">
     <div class="dash-container">
-      <p>© 2026 Dolmaro Tools · 블로그 이관 · 데이터: <a href="https://www.irea.co.kr/" target="_blank" rel="noopener">irea.co.kr</a></p>
+      <p>© 2026 Dolmaro Tools · 블로그 이관 · 데이터: <a href="https://ireaomd.co.kr/" target="_blank" rel="noopener">ireaomd.co.kr</a> (RSS)</p>
     </div>
   </footer>
 
