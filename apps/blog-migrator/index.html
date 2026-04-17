@@ -3,71 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>블로그 → 홈페이지 이관 — Dolmaro Tools</title>
-  <link rel="stylesheet" href="../../css/hub.css">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    .placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 70vh;
-      text-align: center;
-      padding: 40px 20px;
-    }
-    .placeholder-icon {
-      width: 88px;
-      height: 88px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #a855f7, #7c3aed);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
-    }
-    .placeholder h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
-    .placeholder p {
-      font-size: 15px;
-      color: var(--text-muted);
-      max-width: 440px;
-      margin-bottom: 28px;
-    }
-    .placeholder .btn-home {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: #0f172a;
-      color: #fff;
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: transform 0.15s;
-    }
-    .placeholder .btn-home:hover { transform: translateY(-1px); text-decoration: none; }
-  </style>
+  <title>블로그 이관 · Dolmaro Tools</title>
+  <meta name="description" content="네이버 블로그 → 이레한의원 홈페이지(irea.co.kr) 자동 이관 현황. 매일 AM 10·PM 15 자동 발행.">
+  <meta name="theme-color" content="#7c3aed">
+  <link rel="icon" type="image/png" href="../../icons/favicon.png">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <a href="../../index.html" class="back-to-hub">← 홈</a>
+  <a href="../../index.html" class="back-to-hub" title="Dolmaro Tools 홈으로">← Dolmaro Tools</a>
 
-  <div class="placeholder">
-    <div class="placeholder-icon">
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
+  <header class="dash-header">
+    <div class="dash-container">
+      <div class="dash-title-row">
+        <div>
+          <h1 class="dash-title">블로그 이관</h1>
+          <p class="dash-subtitle">네이버 블로그 → 이레한의원 홈페이지(irea.co.kr) · 매일 AM 10시 · PM 3시 자동 발행</p>
+        </div>
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <span class="dash-stat-label">전체 발행</span>
+            <span id="statTotal" class="dash-stat-value">—</span>
+          </div>
+          <div class="dash-stat">
+            <span class="dash-stat-label">화면 표시</span>
+            <span id="statLoaded" class="dash-stat-value">—</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <h1>블로그 → 홈페이지 이관</h1>
-    <p>네이버 블로그 글을 이레한의원 홈페이지로 자동 이관.<br>Q&A 자동 생성, 이미지 최적화, SEO 메타 처리.<br>클로드에서 작성해둔 앱을 여기로 이관할 예정입니다.</p>
-    <a href="../../index.html" class="btn-home">← 홈으로 돌아가기</a>
-  </div>
+  </header>
+
+  <main class="dash-main">
+    <div class="dash-container">
+
+      <!-- 사용 방법 — 평소엔 접혀 있음 -->
+      <details id="helpSection" class="help-section">
+        <summary class="help-summary">
+          <span class="help-icon">📖</span>
+          <span class="help-title">사용 방법 · 수동 실행 · 설정 수정 · 문제 해결</span>
+          <span class="help-arrow">▾</span>
+        </summary>
+        <div class="help-body">
+
+          <div class="help-block">
+            <h3>🟢 자동 실행 (기본)</h3>
+            <p>매일 <strong>오전 10시</strong>와 <strong>오후 3시</strong>에 PC가 자동으로 네이버 블로그(<code>dlfpomd2</code>)에서 미이관 글 <strong>1개</strong>를 가져와 이레한의원 홈페이지에 발행합니다. 발행되면 이 페이지 목록에 자동 반영 (새로고침).</p>
+            <p>작업 스케줄러 이름: <code>IREA_Blog_AM</code>, <code>IREA_Blog_PM</code></p>
+          </div>
+
+          <div class="help-block">
+            <h3>▶️ 지금 바로 실행하고 싶을 때</h3>
+            <p><strong>방법 A — 탐색기에서 더블클릭 (제일 쉬움):</strong></p>
+            <ol>
+              <li>파일 탐색기를 엽니다 (<kbd>Win</kbd> + <kbd>E</kbd>)</li>
+              <li>주소창에 이 경로를 붙여넣고 엔터:<br>
+                <code>C:\Users\user\Documents\Claude\blog_migrator</code></li>
+              <li><code>auto_migrate.bat</code> 을 더블클릭</li>
+              <li>1개 글이 이관된 뒤 <code>auto_migrate_log.txt</code>에 완료 시각이 기록됨</li>
+            </ol>
+            <p><strong>방법 B — 작업 스케줄러에서 즉시 실행:</strong></p>
+            <ol>
+              <li><kbd>Win</kbd> + <kbd>R</kbd> → <code>taskschd.msc</code> 엔터</li>
+              <li><code>IREA_Blog_AM</code> 또는 <code>IREA_Blog_PM</code> 우클릭 → "실행"</li>
+            </ol>
+            <p><strong>방법 C — PowerShell에서 여러 개 한 번에:</strong></p>
+            <pre><code>cd C:\Users\user\Documents\Claude\blog_migrator
+python main.py --batch 5</code></pre>
+            <p class="help-tip">💡 <code>--batch N</code>의 N은 한 번에 이관할 글 개수. 너무 크게 하면 Claude API 비용이 많이 듭니다.</p>
+          </div>
+
+          <div class="help-block">
+            <h3>✏️ 설정(블로그·카테고리·모델 등) 수정</h3>
+            <p>아래 파일을 메모장 또는 VSCode로 열어 편집:</p>
+            <ul>
+              <li><code>C:\Users\user\Documents\Claude\blog_migrator\config.py</code></li>
+            </ul>
+            <p>주요 항목:</p>
+            <ul>
+              <li><code>NAVER_BLOG_ID</code> — 가져올 네이버 블로그 아이디 (현재 <code>dlfpomd2</code>)</li>
+              <li><code>START_YEAR</code> — 이 연도 이후 글만 수집 (현재 <code>2020</code>)</li>
+              <li><code>SORT_ORDER</code> — <code>oldest</code>(오래된 것 먼저) / <code>newest</code>(최신 먼저)</li>
+              <li><code>WP_CATEGORY_ID</code> — 홈페이지 카테고리 (현재 <code>3</code> = 이레칼럼)</li>
+              <li><code>WP_POST_STATUS</code> — <code>publish</code>(즉시 공개) / <code>draft</code>(임시저장)</li>
+              <li><code>CLAUDE_MODEL</code> — 제목·Q&A 생성에 쓰는 Claude 모델</li>
+            </ul>
+            <p class="help-warn">⚠️ <strong>보안 주의:</strong> <code>config.py</code>에 <code>ANTHROPIC_API_KEY</code>와 <code>WP_APP_PASSWORD</code>가 평문으로 들어있습니다. <strong>절대 GitHub 등 공개 장소에 올리지 마세요.</strong> PC 분실/공유 시 키 회전 필수.</p>
+          </div>
+
+          <div class="help-block">
+            <h3>🆕 새 PC에 세팅할 때 (최초 1회)</h3>
+            <p>이미 세팅된 PC에서는 건너뛰세요.</p>
+            <ol>
+              <li><strong>Python 3.10+ 설치</strong> (<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>) — "Add Python to PATH" 체크</li>
+              <li><strong>폴더 복사</strong> — 기존 PC의 <code>C:\Users\user\Documents\Claude\blog_migrator\</code> 전체를 새 PC 같은 경로에 복사</li>
+              <li><strong>의존성 설치</strong> — PowerShell에서:
+                <pre><code>cd C:\Users\user\Documents\Claude\blog_migrator
+pip install -r requirements.txt</code></pre>
+              </li>
+              <li><strong>스케줄러 등록</strong> — <code>setup_scheduler.bat</code>을 <strong>우클릭 → "관리자 권한으로 실행"</strong></li>
+              <li><strong>테스트</strong> — <code>auto_migrate.bat</code> 더블클릭 → <code>auto_migrate_log.txt</code>에 "Done" 기록 확인</li>
+            </ol>
+          </div>
+
+          <div class="help-block">
+            <h3>🔎 문제가 생겼을 때</h3>
+            <ul>
+              <li><strong>실행 로그:</strong> <code>C:\Users\user\Documents\Claude\blog_migrator\auto_migrate_log.txt</code></li>
+              <li><strong>이관 이력:</strong> <code>C:\Users\user\Documents\Claude\blog_migrator\processed_posts.json</code> (이 파일에 등록된 글은 다음 실행에서 건너뜀)</li>
+              <li><strong>스케줄 확인:</strong> <code>schtasks /query /tn "IREA_Blog_AM"</code></li>
+              <li><strong>스케줄 해제:</strong> <code>schtasks /delete /tn "IREA_Blog_AM" /f</code> 와 <code>/tn "IREA_Blog_PM"</code></li>
+              <li><strong>같은 글 다시 이관하고 싶을 때:</strong> <code>processed_posts.json</code>에서 해당 <code>log_no</code> 항목 삭제 후 재실행</li>
+              <li><strong>Claude API 크레딧 부족:</strong> <a href="https://console.anthropic.com/settings/billing" target="_blank" rel="noopener">console.anthropic.com/settings/billing</a></li>
+              <li><strong>워드프레스 인증 실패:</strong> irea.co.kr 관리자 → 사용자 → 새 앱 비밀번호 발급 → <code>config.py</code>의 <code>WP_APP_PASSWORD</code> 교체</li>
+            </ul>
+          </div>
+
+          <div class="help-block help-block-quick">
+            <h3>📋 자주 쓰는 명령어 (PowerShell에서)</h3>
+            <table class="help-cmd-table">
+              <tbody>
+                <tr><td>1개 이관 (지금 즉시)</td><td><code>schtasks /run /tn "IREA_Blog_AM"</code></td></tr>
+                <tr><td>N개 한 번에 이관</td><td><code>cd C:\Users\user\Documents\Claude\blog_migrator ; python main.py --batch 5</code></td></tr>
+                <tr><td>AM/PM 일정 확인</td><td><code>schtasks /query /tn "IREA_Blog_AM" /v /fo LIST</code></td></tr>
+                <tr><td>이관 이력 보기</td><td><code>notepad C:\Users\user\Documents\Claude\blog_migrator\processed_posts.json</code></td></tr>
+                <tr><td>실행 로그 보기</td><td><code>notepad C:\Users\user\Documents\Claude\blog_migrator\auto_migrate_log.txt</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </details>
+
+      <section id="errorState" class="state-msg error" hidden>
+        <div class="state-icon">⚠️</div>
+        <h2>데이터를 불러오지 못했습니다</h2>
+        <p id="errorMsg"></p>
+      </section>
+
+      <div class="toolbar">
+        <span id="resultCount" class="result-count">불러오는 중...</span>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="searchInput" class="search-input" placeholder="제목으로 검색...">
+          <button id="refreshBtn" class="refresh-btn" title="새로고침">
+            <span>🔄</span><span>새로고침</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="postGrid" class="post-grid"></div>
+
+      <div id="loadMoreWrap" class="load-more-wrap" hidden>
+        <button id="loadMoreBtn" class="load-more-btn">더 보기</button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="dash-footer">
+    <div class="dash-container">
+      <p>© 2026 Dolmaro Tools · 블로그 이관 · 데이터: <a href="https://www.irea.co.kr/" target="_blank" rel="noopener">irea.co.kr</a></p>
+    </div>
+  </footer>
+
+  <script src="js/dashboard.js"></script>
 </body>
 </html>
