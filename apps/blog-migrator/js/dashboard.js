@@ -102,13 +102,13 @@ function renderPosts() {
 function renderLoadMore() {
   const wrap = $('#loadMoreWrap');
   const btn = $('#loadMoreBtn');
-  if (state.page >= state.totalPages) {
+  if (state.totalPages > 0 && state.page >= state.totalPages) {
     wrap.hidden = true;
     return;
   }
   wrap.hidden = false;
   btn.disabled = state.loading;
-  btn.textContent = state.loading ? '불러오는 중...' : `더 보기 (${Math.min(PAGE_SIZE, state.totalPosts - state.posts.length)}개)`;
+  btn.textContent = state.loading ? '불러오는 중...' : `더 보기 (${Math.min(PAGE_SIZE, Math.max(0, state.totalPosts - state.posts.length))}개)`;
 }
 
 function showError(msg) {
@@ -119,7 +119,8 @@ function showError(msg) {
 }
 
 async function loadMore() {
-  if (state.loading || state.page >= state.totalPages) return;
+  if (state.loading) return;
+  if (state.totalPages > 0 && state.page >= state.totalPages) return;
   state.loading = true;
   renderLoadMore();
   try {
