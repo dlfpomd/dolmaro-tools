@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쇼츠 라이터 — 자가면역 의학 대본 생성기</title>
+  <meta name="description" content="네이버 블로그/PDF에서 자료 추출 후 YouTube 쇼츠 의학 대본을 AI로 생성">
+  <meta name="theme-color" content="#dc2626">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/favicon.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/back-link.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-hub-row">
+        <a href="../../index.html" class="sidebar-back-link" title="Dolmaro Tools 홈">← Dolmaro Tools</a>
+      </div>
+      <div class="sidebar-header">
+        <h1 class="logo">🎬 쇼츠 라이터</h1>
+        <button class="icon-btn" onclick="app.newScript()" title="새 대본">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="section-title">워크플로우</h3>
+        <div class="workflow-steps" id="workflowSteps">
+          <div class="workflow-step active" data-step="1">
+            <span class="step-num">1</span>
+            <span class="step-label">자료 입력</span>
+          </div>
+          <div class="workflow-step" data-step="2">
+            <span class="step-num">2</span>
+            <span class="step-label">주제 확인</span>
+          </div>
+          <div class="workflow-step" data-step="3">
+            <span class="step-num">3</span>
+            <span class="step-label">대본 생성</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="section-title">히스토리</h3>
+        <div class="history-list" id="historyList">
+          <p class="empty-hint">생성한 대본이 여기에 저장됩니다</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section sidebar-footer">
+        <a href="#" class="sidebar-link" onclick="app.openSettings()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          API 설정
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <!-- Step 1: Input -->
+      <section class="step-section active" id="step-1">
+        <div class="step-header">
+          <h2>1단계: 자료 입력</h2>
+          <p class="step-desc">블로그 URL, PDF 업로드, 또는 직접 텍스트 붙여넣기</p>
+        </div>
+
+        <div class="input-tabs">
+          <button class="input-tab active" data-tab="url" onclick="app.switchInputTab('url')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            블로그 URL
+          </button>
+          <button class="input-tab" data-tab="pdf" onclick="app.switchInputTab('pdf')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            PDF 업로드
+          </button>
+          <button class="input-tab" data-tab="text" onclick="app.switchInputTab('text')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+            텍스트 붙여넣기
+          </button>
+        </div>
+
+        <div class="input-panel active" id="input-url">
+          <label class="input-label">네이버 블로그 URL</label>
+          <div class="url-input-row">
+            <input type="url" id="urlInput" placeholder="https://blog.naver.com/blogId/logNo" autocomplete="off">
+            <button class="btn btn-primary" onclick="app.extractFromUrl()">자료 추출</button>
+          </div>
+          <p class="input-hint">지원: <code>blog.naver.com/xxx/123</code>, <code>m.blog.naver.com/xxx/123</code>, <code>PostView.naver</code> 쿼리 형식</p>
+        </div>
+
+        <div class="input-panel" id="input-pdf">
+          <label class="input-label">PDF 파일 업로드 (여러 파일 동시 가능)</label>
+          <div class="file-drop-area" id="fileDropArea">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p>PDF 파일을 드래그하거나 클릭해서 선택</p>
+            <input type="file" id="pdfInput" accept=".pdf" multiple hidden>
+          </div>
+          <div class="selected-files" id="selectedFiles"></div>
+          <button class="btn btn-primary" onclick="app.extractFromPdf()" id="extractPdfBtn" disabled>PDF 추출</button>
+        </div>
+
+        <div class="input-panel" id="input-text">
+          <label class="input-label">텍스트 직접 입력</label>
+          <textarea id="textInput" rows="10" placeholder="논문, 기사, 블로그 본문 등을 직접 붙여넣으세요..."></textarea>
+          <button class="btn btn-primary" onclick="app.useTextInput()">다음 단계로</button>
+        </div>
+      </section>
+
+      <!-- Step 2: Preview & Topic -->
+      <section class="step-section" id="step-2">
+        <div class="step-header">
+          <h2>2단계: 자료 검토 및 주제 확인</h2>
+          <p class="step-desc">추출된 자료를 확인하고 대본의 주제를 정하세요</p>
+        </div>
+
+        <div class="content-panel">
+          <div class="content-sources" id="contentSources"></div>
+
+          <label class="input-label">추출된 자료 (수정 가능)</label>
+          <textarea id="extractedContent" rows="15" placeholder="추출된 자료가 여기에 표시됩니다..."></textarea>
+          <div class="char-counter" id="charCounter">0자</div>
+
+          <label class="input-label" style="margin-top:20px;">쇼츠 주제 / 제목 <span class="required">*</span></label>
+          <input type="text" id="topicInput" placeholder="예: 쇼그렌증후군 환자가 삼차신경통에 주의해야 하는 이유">
+          <p class="input-hint">구체적일수록 좋음. 환자 관점 질문형도 OK</p>
+
+          <div class="options-row">
+            <label class="input-label-inline">
+              대본 길이
+              <select id="lengthSelect">
+                <option value="30-45">짧게 (30~45줄, 1분~1분 30초)</option>
+                <option value="45-60" selected>표준 (45~60줄, 1분 30초~2분)</option>
+                <option value="60-80">길게 (60~80줄, 2~3분)</option>
+              </select>
+            </label>
+            <label class="input-label-inline">
+              톤
+              <select id="toneSelect">
+                <option value="medical" selected>전문 의학 + 환자 친화적</option>
+                <option value="casual">좀 더 구어체</option>
+                <option value="academic">학술적/엄밀한</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="step-actions">
+            <button class="btn btn-outline" onclick="app.goToStep(1)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              자료 다시 입력
+            </button>
+            <button class="btn btn-primary" onclick="app.generateScript()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              대본 생성하기
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3: Generated Script -->
+      <section class="step-section" id="step-3">
+        <div class="step-header">
+          <h2>3단계: 생성된 대본</h2>
+          <p class="step-desc">결과를 확인하고 수정/다운로드하세요</p>
+        </div>
+
+        <div class="script-result">
+          <div class="script-meta">
+            <span class="meta-item" id="scriptTopic">주제: —</span>
+            <span class="meta-item" id="scriptLines">— 줄</span>
+            <span class="meta-item" id="scriptChars">— 자</span>
+          </div>
+
+          <textarea id="generatedScript" rows="25" placeholder="생성된 대본이 여기에 표시됩니다..."></textarea>
+
+          <div class="step-actions">
+            <button class="btn btn-outline" onclick="app.goToStep(2)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              주제 수정
+            </button>
+            <button class="btn btn-outline" onclick="app.regenerateScript()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+              다시 생성
+            </button>
+            <button class="btn btn-outline" onclick="app.copyScript()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              복사
+            </button>
+            <button class="btn btn-primary" onclick="app.downloadScript()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              다운로드 (.txt)
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings Modal -->
+      <div class="modal" id="settingsModal">
+        <div class="modal-backdrop" onclick="app.closeSettings()"></div>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>API 설정</h3>
+            <button class="icon-btn" onclick="app.closeSettings()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Anthropic API Key</label>
+              <div class="input-with-btn">
+                <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-...">
+                <button class="btn btn-sm" onclick="app.toggleKeyVisibility()">보기</button>
+              </div>
+              <p class="input-hint">발급: <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a></p>
+            </div>
+            <div class="form-group">
+              <label>모델</label>
+              <select id="modelSelect">
+                <option value="claude-opus-4-7">Claude Opus 4.7 (최고 품질)</option>
+                <option value="claude-sonnet-4-6" selected>Claude Sonnet 4.6 (균형, 추천)</option>
+                <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (빠름)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>CORS 프록시 (네이버 블로그 접근용)</label>
+              <select id="proxySelect">
+                <option value="allorigins" selected>api.allorigins.win (기본)</option>
+                <option value="corsproxy">corsproxy.io</option>
+                <option value="custom">커스텀 Cloudflare Worker</option>
+              </select>
+              <input type="url" id="customProxyInput" placeholder="https://your-worker.workers.dev/?url=" style="display:none;margin-top:8px;">
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="app.saveSettings()">저장</button>
+            </div>
+            <div class="api-status" id="apiStatus"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Overlay -->
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text" id="loadingText">처리 중...</p>
+        <p class="loading-subtext" id="loadingSubtext"></p>
+      </div>
+
+      <!-- Toast -->
+      <div class="toast" id="toast"></div>
+    </main>
+  </div>
+
+  <!-- pdf.js from CDN -->
+  <script type="module" src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

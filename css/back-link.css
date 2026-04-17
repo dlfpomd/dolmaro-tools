@@ -1,0 +1,58 @@
+/* Shared back-to-hub link
+   Two variants:
+   - .back-to-hub       — floating top-left (for full-bleed pages)
+   - .sidebar-back-link — inline inside dark sidebar (for sidebar apps)
+*/
+
+.back-to-hub {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #fff;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+  text-decoration: none;
+  transition: all 0.15s;
+  opacity: 0.85;
+}
+.back-to-hub:hover {
+  opacity: 1;
+  transform: translateX(-2px);
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Inline variant for dark sidebar apps */
+.sidebar-hub-row {
+  padding: 12px 20px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.sidebar-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 4px 10px 4px 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.sidebar-back-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  transform: translateX(-2px);
+}

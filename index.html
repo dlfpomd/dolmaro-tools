@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dolmaro Tools — 자가면역 콘텐츠 제작 도구 모음</title>
+  <meta name="description" content="이레한의원 콘텐츠 제작을 위한 웹 도구 허브. 트렌드 분석, 대본 생성, 키워드 분석, 블로그 이관.">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="icon" type="image/png" href="icons/favicon.png">
+  <link rel="stylesheet" href="css/hub.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="hub-header">
+    <div class="hub-container">
+      <h1 class="hub-brand">
+        <span class="brand-mark">🛠️</span>
+        Dolmaro Tools
+      </h1>
+      <p class="hub-tagline">자가면역 콘텐츠 제작 도구 모음</p>
+    </div>
+  </header>
+
+  <main class="hub-main">
+    <div class="hub-container">
+      <section class="apps-section">
+        <h2 class="section-title">사용 가능한 도구</h2>
+        <div class="apps-grid">
+
+          <!-- Trend Scanner -->
+          <a href="apps/trend-scanner/" class="app-card" data-accent="blue">
+            <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">자가면역 트렌드 스캐너</h3>
+              <p class="card-desc">ViewStats 알고리즘 기반 YouTube 트렌드 실시간 분석. 카테고리별 Outlier Score로 바이럴 영상을 찾아냅니다.</p>
+              <div class="card-meta">
+                <span class="tag">YouTube API</span>
+                <span class="tag">18개 카테고리</span>
+              </div>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <!-- Shorts Writer -->
+          <a href="apps/shorts-writer/" class="app-card" data-accent="red">
+            <div class="card-icon" style="background: linear-gradient(135deg, #dc2626, #991b1b);">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="12" y1="18" x2="12" y2="12"/>
+                <line x1="9" y1="15" x2="15" y2="15"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">쇼츠 라이터</h3>
+              <p class="card-desc">네이버 블로그·PDF에서 자료 추출 후 AI가 본인 스타일대로 쇼츠 대본 자동 생성. 15개 실제 대본으로 문체 학습.</p>
+              <div class="card-meta">
+                <span class="tag">Claude API</span>
+                <span class="tag">PDF · Blog</span>
+              </div>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <!-- Keyword Analyzer (Coming soon) -->
+          <a href="apps/keyword-analyzer/" class="app-card coming-soon" data-accent="green">
+            <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #047857);">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">키워드 분석</h3>
+              <p class="card-desc">검색량·경쟁도·관련 키워드 분석. 블로그·유튜브 타겟팅용 키워드 리서치 도구.</p>
+              <div class="card-meta">
+                <span class="tag">준비중</span>
+              </div>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <!-- Blog Migrator (Coming soon) -->
+          <a href="apps/blog-migrator/" class="app-card coming-soon" data-accent="purple">
+            <div class="card-icon" style="background: linear-gradient(135deg, #a855f7, #7c3aed);">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">블로그 → 홈페이지 이관</h3>
+              <p class="card-desc">네이버 블로그 글을 이레한의원 홈페이지로 자동 이관. 이미지 최적화, Q&A 자동 생성, SEO 메타 처리.</p>
+              <div class="card-meta">
+                <span class="tag">준비중</span>
+              </div>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+        </div>
+      </section>
+
+      <section class="info-section">
+        <h2 class="section-title">About</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <h4>🔒 모든 데이터는 로컬에</h4>
+            <p>API 키, 생성된 대본, 수집 데이터는 모두 브라우저 localStorage에만 저장됩니다. 서버로 전송되지 않습니다.</p>
+          </div>
+          <div class="info-item">
+            <h4>⚡ 서버 없이 동작</h4>
+            <p>정적 웹페이지로만 구성되어 있어 GitHub Pages에 바로 배포 가능하며, 오프라인에서도 일부 기능이 동작합니다.</p>
+          </div>
+          <div class="info-item">
+            <h4>🧩 독립적인 앱 구조</h4>
+            <p>각 도구는 독립 폴더에서 동작해서 하나가 고장나도 다른 앱에 영향 없음. 새 앱 추가도 폴더 하나로 완료.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="hub-footer">
+    <div class="hub-container">
+      <p>© 2026 Dolmaro Tools · 이레한의원 자가면역질환 콘텐츠 제작 도구</p>
+    </div>
+  </footer>
+
+  <script>
+    // Unregister any root-scope service worker left over from the old
+    // shorts-writer-web / trend-scanner deployments (each app now runs its own
+    // SW inside its own subfolder — the hub itself doesn't need one).
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        for (const r of regs) {
+          if (r.scope.replace(location.origin, '') === '/') r.unregister();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

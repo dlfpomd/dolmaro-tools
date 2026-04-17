@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>블로그 → 홈페이지 이관 — Dolmaro Tools</title>
+  <link rel="stylesheet" href="../../css/hub.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .placeholder-icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+    }
+    .placeholder h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .placeholder p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 440px;
+      margin-bottom: 28px;
+    }
+    .placeholder .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: #0f172a;
+      color: #fff;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .placeholder .btn-home:hover { transform: translateY(-1px); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <a href="../../index.html" class="back-to-hub">← 홈</a>
+
+  <div class="placeholder">
+    <div class="placeholder-icon">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    </div>
+    <h1>블로그 → 홈페이지 이관</h1>
+    <p>네이버 블로그 글을 이레한의원 홈페이지로 자동 이관.<br>Q&A 자동 생성, 이미지 최적화, SEO 메타 처리.<br>클로드에서 작성해둔 앱을 여기로 이관할 예정입니다.</p>
+    <a href="../../index.html" class="btn-home">← 홈으로 돌아가기</a>
+  </div>
+</body>
+</html>

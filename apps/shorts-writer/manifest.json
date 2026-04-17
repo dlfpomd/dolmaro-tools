@@ -1,0 +1,26 @@
+{
+  "name": "쇼츠 라이터 — 자가면역 의학 대본 생성기",
+  "short_name": "쇼츠 라이터",
+  "description": "네이버 블로그/PDF에서 자료 추출 후 AI로 유튜브 쇼츠 의학 대본을 생성",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
