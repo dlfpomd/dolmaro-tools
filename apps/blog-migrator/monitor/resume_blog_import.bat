@@ -35,7 +35,7 @@ if not errorlevel 1 (
 )
 
 echo.
-echo   Next run of %MAIN_TASK%:
-schtasks /query /tn "%MAIN_TASK%" /fo LIST | findstr /i "Next\|다음"
+echo   Status of %MAIN_TASK%:
+schtasks /query /tn "%MAIN_TASK%" /fo LIST
 echo.
 pause
