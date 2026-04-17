@@ -49,12 +49,17 @@ async function loadData() {
 function showEmpty() {
   $('#emptyState').hidden = false;
   $('#errorState').hidden = true;
+  // 데이터 없을 땐 사용 방법을 자동으로 펼쳐줌
+  const help = $('#helpSection');
+  if (help) help.open = true;
 }
 
 function showError(msg) {
   $('#errorState').hidden = false;
   $('#errorMsg').textContent = msg;
   $('#emptyState').hidden = true;
+  const help = $('#helpSection');
+  if (help) help.open = true;
 }
 
 function render() {

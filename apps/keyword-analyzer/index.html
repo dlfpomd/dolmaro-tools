@@ -32,15 +32,103 @@
   <main class="dash-main">
     <div class="dash-container">
 
+      <!-- 사용 방법 — 평소엔 접혀 있고, 데이터 없을 때 자동 펼침 -->
+      <details id="helpSection" class="help-section">
+        <summary class="help-summary">
+          <span class="help-icon">📖</span>
+          <span class="help-title">사용 방법 · 수동 실행 · 키워드 추가</span>
+          <span class="help-arrow">▾</span>
+        </summary>
+        <div class="help-body">
+
+          <div class="help-block">
+            <h3>🟢 자동 실행 (기본)</h3>
+            <p>매주 <strong>월요일·금요일 오전 10시</strong>에 PC가 자동으로 Chrome을 열어 네이버 검색을 돌고, 결과를 이 페이지에 업로드합니다. 수면모드라도 Windows가 깨워 실행합니다.</p>
+          </div>
+
+          <div class="help-block">
+            <h3>▶️ 지금 바로 실행하고 싶을 때</h3>
+            <p><strong>방법 A — 탐색기에서 더블클릭 (제일 쉬움):</strong></p>
+            <ol>
+              <li>파일 탐색기를 엽니다 (<kbd>Win</kbd> + <kbd>E</kbd>)</li>
+              <li>주소창에 이 경로를 붙여넣고 엔터:<br>
+                <code>C:\dolmaro-tools\apps\keyword-analyzer\monitor</code></li>
+              <li><code>run_and_push.bat</code> 을 더블클릭</li>
+              <li>Chrome이 자동으로 열리고 30~40분 뒤 결과가 이 페이지에 자동 반영</li>
+            </ol>
+            <p><strong>방법 B — Windows 작업 스케줄러에서 즉시 실행:</strong></p>
+            <ol>
+              <li><kbd>Win</kbd> + <kbd>R</kbd> → <code>taskschd.msc</code> 엔터</li>
+              <li>왼쪽 "작업 스케줄러 라이브러리" 클릭</li>
+              <li>목록에서 <code>DolmaroKeywordMonitor</code> 우클릭 → "실행"</li>
+            </ol>
+          </div>
+
+          <div class="help-block">
+            <h3>✏️ 키워드 추가·수정하고 싶을 때</h3>
+            <p>아래 두 파일을 메모장(또는 Claude Code)에 열어서 편집:</p>
+            <ul>
+              <li><code>C:\dolmaro-tools\apps\keyword-analyzer\keywords\shogren.json</code> — 쇼그렌증후군</li>
+              <li><code>C:\dolmaro-tools\apps\keyword-analyzer\keywords\oral_burning.json</code> — 구강작열감·혀통증·미각이상</li>
+            </ul>
+            <p><strong>형식:</strong> <code>"최상"</code>, <code>"상"</code>, <code>"중"</code> 세 카테고리에 문자열 하나씩 추가. 따옴표·쉼표 주의. 저장하면 다음 실행부터 반영.</p>
+            <p class="help-tip">💡 WSL에서 Claude Code로 편집했다면 반드시 <code>git push</code> 하세요. Windows에서 편집했다면 다음 자동 실행 때 <code>git pull</code>이 먼저 돌아가니 그냥 저장만 해도 됨.</p>
+          </div>
+
+          <div class="help-block">
+            <h3>🆕 새 PC에 세팅할 때 (최초 1회)</h3>
+            <p>이미 세팅된 PC에서는 건너뛰세요.</p>
+            <ol>
+              <li><strong>필요 프로그램 설치:</strong>
+                <ul>
+                  <li>Python 3.10+ (<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>) — 설치 시 "Add Python to PATH" 체크</li>
+                  <li>Git for Windows (<a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a>)</li>
+                  <li>Google Chrome</li>
+                </ul>
+              </li>
+              <li><strong>레포 복제</strong> — PowerShell 실행 후:
+                <pre><code>git clone https://github.com/dlfpomd/dolmaro-tools.git C:\dolmaro-tools</code></pre>
+              </li>
+              <li><strong>스케줄러 등록:</strong>
+                <br><code>C:\dolmaro-tools\apps\keyword-analyzer\monitor\setup_scheduler.bat</code>
+                <br>를 <strong>우클릭 → "관리자 권한으로 실행"</strong>
+              </li>
+              <li><strong>첫 푸시 테스트:</strong> <code>run_and_push.bat</code> 을 한 번 더블클릭해서 GitHub 로그인 창이 뜨면 로그인 (이후 자동 저장됨)</li>
+            </ol>
+          </div>
+
+          <div class="help-block">
+            <h3>🔎 문제가 생겼을 때</h3>
+            <ul>
+              <li><strong>실행 로그:</strong> <code>C:\dolmaro-tools\apps\keyword-analyzer\logs\YYYY-MM-DD.log</code></li>
+              <li><strong>스케줄 확인:</strong> PowerShell에서 <code>schtasks /query /tn "DolmaroKeywordMonitor"</code></li>
+              <li><strong>스케줄 해제:</strong> <code>schtasks /delete /tn "DolmaroKeywordMonitor" /f</code></li>
+              <li><strong>git push 실패 시:</strong> GitHub Credential Manager가 꺼져 있을 수 있음. PowerShell에서 <code>git config --global credential.helper manager</code> 실행 후 재시도</li>
+              <li><strong>Chrome이 안 열리면:</strong> Chrome이 최신 버전인지 확인. Selenium이 자동으로 드라이버를 내려받지만 Chrome이 너무 오래됐으면 실패</li>
+            </ul>
+          </div>
+
+          <div class="help-block help-block-quick">
+            <h3>📋 자주 쓰는 명령어 (PowerShell에서)</h3>
+            <table class="help-cmd-table">
+              <tbody>
+                <tr><td>지금 즉시 실행</td><td><code>schtasks /run /tn "DolmaroKeywordMonitor"</code></td></tr>
+                <tr><td>다음 실행 시간 확인</td><td><code>schtasks /query /tn "DolmaroKeywordMonitor" /v /fo LIST</code></td></tr>
+                <tr><td>최신 코드 당기기</td><td><code>cd C:\dolmaro-tools ; git pull</code></td></tr>
+                <tr><td>수동 푸시</td><td><code>cd C:\dolmaro-tools ; git push</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </details>
+
       <section id="emptyState" class="empty-state" hidden>
         <div class="empty-icon">📊</div>
         <h2>아직 수집된 데이터가 없습니다</h2>
-        <p>
-          <code>apps/keyword-analyzer/monitor/run_and_push.bat</code> 을 실행하거나<br>
-          작업 스케줄러가 월/금 오전 10시에 자동으로 채워줄 예정입니다.
-        </p>
+        <p>월/금 오전 10시에 자동으로 첫 수집이 돕니다.</p>
         <p class="empty-setup">
-          최초 설정: <code>monitor/setup_scheduler.bat</code> 을 <strong>관리자 권한</strong>으로 한 번 실행하세요.
+          👆 위의 <strong>"📖 사용 방법"</strong>을 펼치면 지금 바로 실행하는 방법 · 최초 설정 방법 · 문제 해결 방법이 모두 나옵니다.
         </p>
       </section>
 
