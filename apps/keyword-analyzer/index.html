@@ -3,71 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>키워드 분석 — Dolmaro Tools</title>
-  <link rel="stylesheet" href="../../css/hub.css">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    .placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 70vh;
-      text-align: center;
-      padding: 40px 20px;
-    }
-    .placeholder-icon {
-      width: 88px;
-      height: 88px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #10b981, #047857);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-    }
-    .placeholder h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
-    .placeholder p {
-      font-size: 15px;
-      color: var(--text-muted);
-      max-width: 440px;
-      margin-bottom: 28px;
-    }
-    .placeholder .btn-home {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: #0f172a;
-      color: #fff;
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: transform 0.15s;
-    }
-    .placeholder .btn-home:hover { transform: translateY(-1px); text-decoration: none; }
-  </style>
+  <title>키워드 분석 · Dolmaro Tools</title>
+  <meta name="description" content="이레한의원 네이버 검색 첫 페이지 노출 모니터링 — 쇼그렌증후군, 구강작열감증후군">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="icon" type="image/png" href="../../icons/favicon.png">
+  <link rel="stylesheet" href="../../css/back-link.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <a href="../../index.html" class="back-to-hub">← 홈</a>
+  <a href="../../index.html" class="back-to-hub" title="Dolmaro Tools 홈으로">← Dolmaro Tools</a>
 
-  <div class="placeholder">
-    <div class="placeholder-icon">
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
+  <header class="dash-header">
+    <div class="dash-container">
+      <div class="dash-title-row">
+        <div>
+          <h1 class="dash-title">키워드 분석</h1>
+          <p class="dash-subtitle">네이버 검색 첫 페이지 노출 모니터링 · 이레한의원</p>
+        </div>
+        <div class="dash-last-run">
+          <span class="last-run-label">마지막 실행</span>
+          <span id="lastRun" class="last-run-value">—</span>
+        </div>
+      </div>
     </div>
-    <h1>키워드 분석</h1>
-    <p>검색량·경쟁도·관련 키워드 분석 도구.<br>클로드에서 작성해둔 앱을 여기로 이관할 예정입니다.</p>
-    <a href="../../index.html" class="btn-home">← 홈으로 돌아가기</a>
-  </div>
+  </header>
+
+  <main class="dash-main">
+    <div class="dash-container">
+
+      <section id="emptyState" class="empty-state" hidden>
+        <div class="empty-icon">📊</div>
+        <h2>아직 수집된 데이터가 없습니다</h2>
+        <p>
+          <code>apps/keyword-analyzer/monitor/run_and_push.bat</code> 을 실행하거나<br>
+          작업 스케줄러가 월/금 오전 10시에 자동으로 채워줄 예정입니다.
+        </p>
+        <p class="empty-setup">
+          최초 설정: <code>monitor/setup_scheduler.bat</code> 을 <strong>관리자 권한</strong>으로 한 번 실행하세요.
+        </p>
+      </section>
+
+      <section id="errorState" class="empty-state error" hidden>
+        <div class="empty-icon">⚠️</div>
+        <h2 id="errorTitle">데이터를 불러오지 못했습니다</h2>
+        <p id="errorMsg"></p>
+      </section>
+
+      <nav id="diseaseTabs" class="disease-tabs" hidden></nav>
+
+      <section id="summarySection" class="summary-grid" hidden></section>
+
+      <section id="recommendSection" class="recommend-section" hidden>
+        <div class="section-head">
+          <h2 class="section-title">📢 다음 블로그/유튜브 발행 추천</h2>
+          <p class="section-desc">노출 안 된 <strong>최상/상</strong> 우선순위 키워드 중에서 우선 게시할 순서입니다.</p>
+        </div>
+        <ol id="recommendList" class="recommend-list"></ol>
+      </section>
+
+      <section id="filterBar" class="filter-bar" hidden>
+        <div class="filter-group">
+          <span class="filter-label">우선순위</span>
+          <button class="filter-btn active" data-filter="priority" data-value="all">전체</button>
+          <button class="filter-btn" data-filter="priority" data-value="최상">최상</button>
+          <button class="filter-btn" data-filter="priority" data-value="상">상</button>
+          <button class="filter-btn" data-filter="priority" data-value="중">중</button>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">노출 상태</span>
+          <button class="filter-btn active" data-filter="status" data-value="all">전체</button>
+          <button class="filter-btn" data-filter="status" data-value="exposed">노출 O</button>
+          <button class="filter-btn" data-filter="status" data-value="not_exposed">노출 X</button>
+        </div>
+        <div class="filter-group search-group">
+          <input type="text" id="searchInput" placeholder="키워드 검색..." class="search-input">
+          <span id="resultCount" class="result-count"></span>
+        </div>
+      </section>
+
+      <section id="tableSection" class="table-section" hidden>
+        <div class="table-wrap">
+          <table class="keyword-table">
+            <thead>
+              <tr>
+                <th style="width:38%;">키워드</th>
+                <th style="width:8%;">우선순위</th>
+                <th style="width:7%;">노출</th>
+                <th style="width:7%;">블로그</th>
+                <th style="width:8%;">홈페이지</th>
+                <th style="width:7%;">유튜브</th>
+                <th style="width:7%;">이미지</th>
+                <th style="width:18%;">발견 위치</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="dash-footer">
+    <div class="dash-container">
+      <p>© 2026 Dolmaro Tools · 키워드 분석</p>
+    </div>
+  </footer>
+
+  <script src="js/dashboard.js"></script>
 </body>
 </html>
