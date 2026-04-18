@@ -48,7 +48,7 @@ const QUOTA_COST = {
 
 class TrendScannerApp {
   constructor() {
-    this.apiKey = localStorage.getItem(STORAGE_KEYS.apiKey) || '';
+    this.apiKey = this._loadApiKeyAnywhere();
     this.currentKeyword = null;
     this.currentCategory = 'all';
     this.currentPageToken = null;
@@ -119,6 +119,71 @@ class TrendScannerApp {
     }
     const input = document.getElementById('apiKeyInput');
     if (input) input.value = this.apiKey;
+    this._renderBookmarkUrl();
+  }
+
+  _renderBookmarkUrl() {
+    const section = document.getElementById('bookmarkSection');
+    const urlInput = document.getElementById('bookmarkUrl');
+    if (!section || !urlInput) return;
+    if (!this.apiKey) {
+      section.style.display = 'none';
+      return;
+    }
+    const base = window.location.origin + window.location.pathname;
+    urlInput.value = `${base}#k=${encodeURIComponent(this.apiKey)}`;
+    section.style.display = '';
+  }
+
+  _loadApiKeyAnywhere() {
+    // 1) URL hash (e.g. ...#k=AIzaXXX) — survives localStorage wipes
+    // 2) URL query (e.g. ...?k=AIzaXXX) — in case user used ? by mistake
+    // 3) localStorage
+    const tryParse = (s, name) => {
+      if (!s) return '';
+      const re = new RegExp(`[?&#]${name}=([^&]+)`);
+      const m = s.match(re);
+      return m ? decodeURIComponent(m[1]) : '';
+    };
+    const fromHash = tryParse(window.location.hash, 'k') || tryParse(window.location.hash, 'key') || tryParse(window.location.hash, 'apiKey');
+    const fromQuery = tryParse(window.location.search, 'k') || tryParse(window.location.search, 'key') || tryParse(window.location.search, 'apiKey');
+    const fromUrl = fromHash || fromQuery;
+    if (fromUrl && fromUrl.startsWith('AIza')) {
+      try { localStorage.setItem(STORAGE_KEYS.apiKey, fromUrl); } catch (e) {}
+      return fromUrl;
+    }
+    return localStorage.getItem(STORAGE_KEYS.apiKey) || '';
+  }
+
+  copyBookmarkUrl() {
+    const input = document.getElementById('bookmarkUrl');
+    if (!input) return;
+    const doFallback = () => {
+      input.select();
+      input.setSelectionRange(0, 99999);
+      try { document.execCommand('copy'); } catch (e) {}
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(input.value).then(
+        () => this._showStatus('success', '✓ 북마크 URL이 클립보드에 복사되었습니다.'),
+        () => { doFallback(); this._showStatus('success', '✓ URL이 선택되었습니다. Ctrl+C로 복사하세요.'); }
+      );
+    } else {
+      doFallback();
+      this._showStatus('success', '✓ URL이 선택되었습니다. Ctrl+C로 복사하세요.');
+    }
+  }
+
+  clearApiKey() {
+    if (!confirm('저장된 API 키를 삭제하시겠습니까?')) return;
+    this.apiKey = '';
+    try { localStorage.removeItem(STORAGE_KEYS.apiKey); } catch (e) {}
+    // Also clean the URL so a page reload won't restore it from there
+    if (window.location.hash.includes('k=') || window.location.hash.includes('key=')) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    this._renderApiStatus();
+    this._showStatus('', '저장된 API 키가 삭제되었습니다.');
   }
 
   showTab(tabName) {
