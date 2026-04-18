@@ -2,15 +2,18 @@
 REM ============================================================
 REM  Dolmaro keyword monitor - auto run + git push
 REM  Called by Windows Task Scheduler at Mon/Fri 10:00 AM
+REM
+REM  Strategy:
+REM  - Python + Selenium runs on Windows (needs Chrome)
+REM  - git commit/push is delegated to WSL (uses WSL credentials)
+REM    because Windows-side git has no identity / credentials set.
 REM ============================================================
 setlocal
 
-REM Move to repo root (this bat lives at apps/keyword-analyzer/monitor/)
 pushd "%~dp0..\..\.."
 set "REPO_ROOT=%cd%"
 echo [%date% %time%] REPO_ROOT = %REPO_ROOT%
 
-REM Log folder
 set "LOG_DIR=%REPO_ROOT%\apps\keyword-analyzer\logs"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
 set "LOG_FILE=%LOG_DIR%\%date:~0,4%-%date:~5,2%-%date:~8,2%.log"
@@ -24,32 +27,23 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Check Git
-git --version >nul 2>&1
-if errorlevel 1 (
-    echo Git not installed. >> "%LOG_FILE%"
-    echo Git not installed.
-    pause
-    exit /b 1
-)
-
 echo. >> "%LOG_FILE%"
-echo ======================================================== >> "%LOG_FILE%"
+echo ============================================================ >> "%LOG_FILE%"
 echo  START: %date% %time% >> "%LOG_FILE%"
-echo ======================================================== >> "%LOG_FILE%"
+echo ============================================================ >> "%LOG_FILE%"
 
-REM 1) Pull latest code and keywords
-echo [1/4] git pull --rebase >> "%LOG_FILE%"
-git pull --rebase >> "%LOG_FILE%" 2>&1
+REM 1) Sync via WSL first (pull latest keyword lists + prior data)
+echo [1/3] WSL: git pull --rebase >> "%LOG_FILE%"
+wsl.exe -d Ubuntu -u dolmaro --exec /bin/bash -lc "cd /mnt/c/dolmaro-tools && git pull --rebase origin main" >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
-    echo git pull failed. Check for conflicts. >> "%LOG_FILE%"
-    echo git pull failed. Check for conflicts.
+    echo git pull failed. >> "%LOG_FILE%"
+    echo git pull failed.
     popd
     exit /b 1
 )
 
-REM 2) Run monitor (--no-pause = auto-close, no human to press Enter)
-echo [2/4] python naver_monitor.py --no-pause >> "%LOG_FILE%"
+REM 2) Run the monitor (Windows Python + Selenium)
+echo [2/3] python naver_monitor.py --no-pause >> "%LOG_FILE%"
 python "%REPO_ROOT%\apps\keyword-analyzer\monitor\naver_monitor.py" --no-pause >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
     echo Monitor run failed. >> "%LOG_FILE%"
@@ -58,34 +52,15 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM 3) Stage + commit results
-echo [3/4] git add + commit >> "%LOG_FILE%"
-git add "apps/keyword-analyzer/data" >> "%LOG_FILE%" 2>&1
-
-REM Check if there are changes
-git diff --cached --quiet
-if errorlevel 1 (
-    git commit -m "keyword monitor: %date% %time%" >> "%LOG_FILE%" 2>&1
-) else (
-    echo No changes to commit. >> "%LOG_FILE%"
-    popd
-    exit /b 0
-)
-
-REM 4) push
-echo [4/4] git push >> "%LOG_FILE%"
-git push >> "%LOG_FILE%" 2>&1
-if errorlevel 1 (
-    echo git push failed. Check Git Credential Manager. >> "%LOG_FILE%"
-    echo git push failed. Check Git Credential Manager.
-    popd
-    exit /b 1
-)
+REM 3) Commit + push via WSL (WSL has the GitHub credentials)
+echo [3/3] WSL: commit + push >> "%LOG_FILE%"
+wsl.exe -d Ubuntu -u dolmaro --exec /bin/bash -lc "/mnt/c/dolmaro-tools/apps/keyword-analyzer/monitor/commit_and_push.sh" >> "%LOG_FILE%" 2>&1
+set EXIT_CODE=%errorlevel%
 
 echo. >> "%LOG_FILE%"
-echo  DONE: %date% %time% >> "%LOG_FILE%"
-echo ======================================================== >> "%LOG_FILE%"
+echo  DONE: %date% %time% (exit %EXIT_CODE%) >> "%LOG_FILE%"
+echo ============================================================ >> "%LOG_FILE%"
 
 popd
 endlocal
-exit /b 0
+exit /b %EXIT_CODE%
