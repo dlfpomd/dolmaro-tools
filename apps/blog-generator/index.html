@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>논문 → 한의학 블로그 생성기 · Dolmaro Tools</title>
+  <meta name="description" content="논문 PDF 업로드 → 쇼그렌/구강작열감/자가면역 전문 한의사 스타일로 블로그 글 자동 생성.">
+  <meta name="theme-color" content="#8b4513">
+  <link rel="icon" type="image/png" href="../../icons/favicon.png">
+  <link rel="preconnect" href="https://unpkg.com">
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; }
+    .back-to-hub {
+      position: fixed; top: 14px; left: 14px; z-index: 100;
+      padding: 7px 14px; background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #d4c9b8; border-radius: 100px;
+      font-size: 13px; color: #1a1410; text-decoration: none;
+      backdrop-filter: blur(8px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: transform 0.15s;
+    }
+    .back-to-hub:hover { transform: translateX(-2px); }
+    #boot { padding: 40px 20px; text-align: center; color: #6b5e52; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <a href="../../index.html" class="back-to-hub" title="Dolmaro Tools 홈으로">← Dolmaro Tools</a>
+  <div id="root">
+    <div id="boot">🔄 블로그 생성기 불러오는 중... (React·Babel 로딩)</div>
+  </div>
+
+  <!-- React 18 production -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel standalone (JSX를 브라우저에서 바로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- localStorage 래퍼: Claude.ai의 window.storage API를 흉내냄 -->
+  <script>
+    window.storage = {
+      async get(key) {
+        const value = localStorage.getItem(key);
+        return value ? { value } : null;
+      },
+      async set(key, value) {
+        localStorage.setItem(key, value);
+        return true;
+      },
+      async delete(key) {
+        localStorage.removeItem(key);
+        return true;
+      }
+    };
+  </script>
+
+  <!-- 메인 앱 -->
+  <script type="text/babel" data-presets="react" data-type="module" src="js/app.jsx"></script>
+</body>
+</html>
