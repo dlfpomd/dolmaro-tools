@@ -386,7 +386,7 @@ IMPORTANT: All text within the image (labels, titles, signs) MUST be written in 
 
 /** 블로그 글을 분석해 AEO 최적 대표 이미지 프롬프트를 작성하고 바로 이미지를 생성. */
 async function generateHeroImage({ apiKey, blogText, title, keywords, aspectRatio = "1:1" }) {
-  // 1) 주제 선택 + 프롬프트 작성 (텍스트 모델)
+  // 1) 주제 선택 + 프롬프트 작성 (텍스트 모델, JSON 스키마 강제)
   const craftUrl = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_SPLIT_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const craftPrompt = `당신은 한의학 블로그의 대표 이미지(썸네일)를 위한 이미지 생성 프롬프트를 작성하는 전문가입니다.
 
@@ -401,7 +401,7 @@ async function generateHeroImage({ apiKey, blogText, title, keywords, aspectRati
 - 구강작열감증후군, 혀 통증, 미각이상 → 사람의 혀 클로즈업 (입 약간 벌린 상태)
 - 쇼그렌증후군 안구건조, 건조성 각결막염 → 사람의 눈 클로즈업 (건조·충혈 시각화)
 - 쇼그렌증후군 구강건조 → 사람의 입·입술 클로즈업
-- 류마티스 관절염, 손/손가락 통증 → 손가락 관절 클로즈업
+- 류마티스 관절염, 손/손가락 통증 → 손가락 관절 클로즈업 (주먹을 살짝 쥐거나 관절이 부어있는 느낌)
 - 섬유근육통, 만성통증 → 어깨·목 부위, 통증 표현 자세
 - 루푸스, 자가면역 피부 증상 → 얼굴·피부 클로즈업
 - 하시모토 갑상선염 → 목 앞부분 클로즈업
@@ -415,28 +415,87 @@ async function generateHeroImage({ apiKey, blogText, title, keywords, aspectRati
 본문 요약 (일부):
 ${blogText.slice(0, 1800)}
 
-위 정보를 기반으로 가장 적합한 **한 장의 대표 이미지**를 결정하고, 영문 이미지 생성 프롬프트를 작성하세요.
+위 정보를 기반으로 가장 적합한 **한 장의 대표 이미지**를 결정하고, 영문 이미지 생성 프롬프트를 작성해 아래 JSON 형식으로 출력하세요.
 
-**반드시 아래 형식으로만 출력**하세요. 다른 설명 금지:
-<SUBJECT>한국어로 선택한 주제 (예: "사람의 혀 클로즈업 — 구강작열감 표현")</SUBJECT>
-<PROMPT>Ultra high-resolution photo-realistic close-up photograph ... (영문, 이미지 생성용, 4~6문장)</PROMPT>`;
+{
+  "subject": "한국어로 선택한 주제 (예: 손가락 관절 클로즈업 — 류마티스 관절염 표현)",
+  "imagePrompt": "Ultra high-resolution photo-realistic close-up photograph ... (영문, 4~6문장, 이미지 생성기에 그대로 전달)"
+}`;
 
   const craftRes = await fetch(craftUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       contents: [{ role: "user", parts: [{ text: craftPrompt }] }],
-      generationConfig: { temperature: 0.4, maxOutputTokens: 800 },
+      generationConfig: {
+        temperature: 0.4,
+        maxOutputTokens: 2000,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "OBJECT",
+          properties: {
+            subject: { type: "STRING" },
+            imagePrompt: { type: "STRING" },
+          },
+          required: ["subject", "imagePrompt"],
+        },
+      },
     }),
   });
   const craftData = await craftRes.json();
   if (craftData.error) throw new Error(craftData.error.message || "대표 이미지 프롬프트 생성 실패");
-  const craftText = (craftData.candidates || [])[0]?.content?.parts?.map(p => p.text || "").join("") || "";
-  const subjectM = craftText.match(/<SUBJECT>([\s\S]*?)<\/SUBJECT>/);
-  const promptM = craftText.match(/<PROMPT>([\s\S]*?)<\/PROMPT>/);
-  if (!promptM) throw new Error("대표 이미지 프롬프트 파싱 실패. 원본: " + craftText.slice(0, 200));
-  const subject = subjectM ? subjectM[1].trim() : "대표 이미지";
-  const rawImgPrompt = promptM[1].trim();
+
+  const cand = (craftData.candidates || [])[0];
+  const craftText = cand?.content?.parts?.map(p => p.text || "").join("") || "";
+  const finishReason = cand?.finishReason;
+
+  let subject = "대표 이미지";
+  let rawImgPrompt = "";
+
+  // 1차: JSON 스키마 응답 파싱
+  try {
+    const clean = craftText.replace(/```json\n?|```\n?/g, "").trim();
+    const json = JSON.parse(clean);
+    if (json.imagePrompt) {
+      subject = json.subject || subject;
+      rawImgPrompt = json.imagePrompt;
+    }
+  } catch (e) { /* fall through to tolerant parser */ }
+
+  // 2차: 과거 XML 태그 호환 (이전 버전 응답 유지 or 폴백)
+  if (!rawImgPrompt) {
+    const subjectM = craftText.match(/<SUBJECT>([\s\S]*?)(?:<\/SUBJECT>|$)/);
+    const promptM = craftText.match(/<PROMPT>([\s\S]*?)(?:<\/PROMPT>|$)/);
+    if (promptM && promptM[1].trim().length > 20) {
+      subject = subjectM ? subjectM[1].trim() : subject;
+      rawImgPrompt = promptM[1].trim();
+    }
+  }
+
+  // 3차: "subject:" / "prompt:" 평문 포맷
+  if (!rawImgPrompt) {
+    const subLine = craftText.match(/(?:^|\n)\s*(?:\*\*)?\s*subject\s*(?:\*\*)?\s*[:：]\s*(.+?)(?:\n|$)/i);
+    const prmLine = craftText.match(/(?:^|\n)\s*(?:\*\*)?\s*(?:image\s*)?prompt\s*(?:\*\*)?\s*[:：]\s*([\s\S]+)$/i);
+    if (prmLine && prmLine[1].trim().length > 20) {
+      subject = subLine ? subLine[1].trim() : subject;
+      rawImgPrompt = prmLine[1].trim();
+    }
+  }
+
+  // 4차: 마지막 fallback — 응답 전체가 영문 paragraph면 그대로 사용
+  if (!rawImgPrompt) {
+    const englishChars = (craftText.match(/[a-zA-Z]/g) || []).length;
+    if (englishChars > 100 && craftText.trim().length > 60) {
+      rawImgPrompt = craftText.trim();
+    }
+  }
+
+  if (!rawImgPrompt) {
+    throw new Error(
+      `대표 이미지 프롬프트 파싱 실패 (finish=${finishReason || "?"}, ${craftText.length}자).\n` +
+      `원본 처음 400자: ${craftText.slice(0, 400)}`
+    );
+  }
 
   // AEO/Naver AI 친화 문구 강제 추가
   const finalPrompt = `${rawImgPrompt}
