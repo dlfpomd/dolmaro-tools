@@ -302,6 +302,8 @@ ${blogText}`;
     body: JSON.stringify({
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       generationConfig: {
+        maxOutputTokens: 4000,
+        thinkingConfig: { thinkingBudget: 0 },
         responseMimeType: "application/json",
         responseSchema: {
           type: "ARRAY",
@@ -429,7 +431,11 @@ ${blogText.slice(0, 1800)}
       contents: [{ role: "user", parts: [{ text: craftPrompt }] }],
       generationConfig: {
         temperature: 0.4,
-        maxOutputTokens: 2000,
+        maxOutputTokens: 4000,
+        // Gemini 2.5 Flash는 기본 thinking 모드에서 내부 추론에 토큰을 쓰기 때문에
+        // 실제 응답 전에 maxOutputTokens가 소진되어 잘리는 문제가 있음.
+        // 단순한 JSON 포맷 변환 작업이라 thinking이 필요 없으므로 완전히 끈다.
+        thinkingConfig: { thinkingBudget: 0 },
         responseMimeType: "application/json",
         responseSchema: {
           type: "OBJECT",
