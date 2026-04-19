@@ -540,7 +540,52 @@ Natural lighting, clinically clean environment if any background is visible.`;
   throw new Error("대표 이미지 생성 응답에 이미지 데이터 없음");
 }
 
-async function downloadImagesAsZip(paragraphs, filenamePrefix = "blog-images", hero = null) {
+/** 자유 프롬프트로 단일 이미지 생성 (사용자가 직접 입력) */
+async function generateFromPrompt({ apiKey, prompt, aspectRatio = "1:1", style = "photo" }) {
+  const styleHints = {
+    photo: "Photo-realistic, ultra high-resolution medical photography, natural lighting, sharp focus, professional quality.",
+    illustration: "Clean medical illustration, professional anatomical style, educational clarity.",
+    infographic: "Medical infographic style with charts, diagrams, and icons. Clean professional layout.",
+    auto: "High quality, professional medical aesthetic.",
+  };
+  const fullPrompt = `${prompt.trim()}
+
+Style: ${styleHints[style] || styleHints.photo}
+Aspect ratio: ${aspectRatio}.
+Subject must be centered and front-facing, instantly recognizable.
+No text, no watermarks, no logos in the image.
+If any labels are unavoidable, use Korean (한글).`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_GEN_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+      generationConfig: {
+        responseModalities: ["IMAGE", "TEXT"],
+        imageConfig: { aspectRatio },
+      },
+    }),
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+  for (const part of data.candidates?.[0]?.content?.parts || []) {
+    const inline = part.inline_data || part.inlineData;
+    if (inline && inline.data) {
+      return {
+        imageUrl: `data:${inline.mime_type || inline.mimeType || "image/png"};base64,${inline.data}`,
+        aspectRatio,
+        style,
+        userPrompt: prompt.trim(),
+        fullPrompt,
+      };
+    }
+  }
+  throw new Error("커스텀 이미지 생성 응답에 이미지 데이터가 없습니다.");
+}
+
+async function downloadImagesAsZip(paragraphs, filenamePrefix = "blog-images", hero = null, customs = null) {
   if (!window.JSZip) throw new Error("JSZip 라이브러리가 로드되지 않았습니다.");
   const zip = new window.JSZip();
   const folder = zip.folder(filenamePrefix);
@@ -553,6 +598,12 @@ async function downloadImagesAsZip(paragraphs, filenamePrefix = "blog-images", h
     if (p.imageUrl && p.imageUrl.startsWith("data:")) {
       const b64 = p.imageUrl.split(",")[1];
       folder.file(`${String(i + 1).padStart(2, "0")}_${p.imageType}.png`, b64, { base64: true });
+    }
+  });
+  (customs || []).forEach((c, i) => {
+    if (c.imageUrl && c.imageUrl.startsWith("data:")) {
+      const b64 = c.imageUrl.split(",")[1];
+      folder.file(`custom_${String(i + 1).padStart(2, "0")}_${c.style || "photo"}.png`, b64, { base64: true });
     }
   });
   const blob = await zip.generateAsync({ type: "blob" });
@@ -753,6 +804,13 @@ function BlogWriter() {
   const [hero, setHero] = useState(null); // { imageUrl, subject, prompt, aspectRatio }
   const [heroStatus, setHeroStatus] = useState("idle");
   const [heroError, setHeroError] = useState("");
+
+  // ── 자유 프롬프트 이미지
+  const [customPrompt, setCustomPrompt] = useState("");
+  const [customAspect, setCustomAspect] = useState("1:1");
+  const [customStyle, setCustomStyle] = useState("photo");
+  const [customImages, setCustomImages] = useState([]); // [{ id, imageUrl, userPrompt, aspectRatio, style, status, error }]
+  const [customGenerating, setCustomGenerating] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("mediblog_portrait");
@@ -963,11 +1021,13 @@ function BlogWriter() {
 
   async function handleDownloadZip() {
     const hasHero = hero && hero.imageUrl;
-    if (!hasHero && imageParagraphs.filter(p => p.status === "completed").length === 0) return;
+    const completedParagraphs = imageParagraphs.filter(p => p.status === "completed");
+    const completedCustoms = customImages.filter(c => c.status === "completed" && c.imageUrl);
+    if (!hasHero && completedParagraphs.length === 0 && completedCustoms.length === 0) return;
     setZipping(true);
     try {
       const safeTitle = (result?.meta?.title || "blog-images").replace(/[^\w가-힣]+/g, "-").slice(0, 40);
-      await downloadImagesAsZip(imageParagraphs, safeTitle, hasHero ? hero : null);
+      await downloadImagesAsZip(imageParagraphs, safeTitle, hasHero ? hero : null, completedCustoms);
     } catch (err) {
       alert("ZIP 다운로드 실패: " + err.message);
     }
@@ -980,6 +1040,57 @@ function BlogWriter() {
     const a = document.createElement("a");
     a.href = hero.imageUrl;
     a.download = `${safeTitle}_hero_${hero.aspectRatio.replace(":", "x")}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  async function generateCustomImage() {
+    const p = customPrompt.trim();
+    if (!p) { alert("이미지 프롬프트를 입력해주세요."); return; }
+    if (!apiKey.trim() || provider !== "gemini") {
+      alert("Gemini API 키가 필요합니다.");
+      return;
+    }
+    const placeholderId = Date.now();
+    setCustomImages(prev => [...prev, {
+      id: placeholderId,
+      userPrompt: p,
+      aspectRatio: customAspect,
+      style: customStyle,
+      status: "generating",
+      imageUrl: null,
+    }]);
+    setCustomGenerating(true);
+    try {
+      const img = await generateFromPrompt({
+        apiKey: apiKey.trim(),
+        prompt: p,
+        aspectRatio: customAspect,
+        style: customStyle,
+      });
+      setCustomImages(prev => prev.map(x => x.id === placeholderId
+        ? { ...x, ...img, status: "completed" }
+        : x));
+    } catch (err) {
+      setCustomImages(prev => prev.map(x => x.id === placeholderId
+        ? { ...x, status: "error", error: err.message }
+        : x));
+      alert("커스텀 이미지 생성 실패: " + err.message);
+    } finally {
+      setCustomGenerating(false);
+    }
+  }
+
+  function removeCustomImage(id) {
+    setCustomImages(prev => prev.filter(x => x.id !== id));
+  }
+
+  function downloadCustomImage(img) {
+    if (!img?.imageUrl) return;
+    const safeTitle = (result?.meta?.title || "custom").replace(/[^\w가-힣]+/g, "-").slice(0, 40);
+    const slug = (img.userPrompt || "image").replace(/[^\w가-힣]+/g, "-").slice(0, 30);
+    const a = document.createElement("a");
+    a.href = img.imageUrl;
+    a.download = `${safeTitle}_custom_${slug}_${img.aspectRatio.replace(":", "x")}.png`;
     document.body.appendChild(a); a.click(); a.remove();
   }
 
@@ -1420,7 +1531,9 @@ ${raw1}`;
       )}
 
       {/* 🎨 이미지 생성 (Nano Banana Pro) — 블로그 생성 후 표시 */}
-      {result && (
+      {result && (() => {
+        const customCompleted = customImages.filter(c => c.status === "completed").length;
+        return (
         <div style={{ ...s.card, borderColor: "#bae6fd", background: "#f0f9ff" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
             <span style={{ fontSize: 20 }}>🎨</span>
@@ -1533,19 +1646,107 @@ ${raw1}`;
             </div>
           )}
 
-          {/* 생성된 이미지 리스트 */}
+          {/* ⬇️ 전체 다운로드 바 — hero / 단락 / 커스텀 중 하나라도 있으면 노출 */}
+          {(hero?.imageUrl || imageParagraphs.some(p => p.status === "completed") || customImages.some(c => c.status === "completed")) && (
+            <div style={{ marginTop: 16, padding: "10px 14px", background: "#0f172a", color: "#fff", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+              <div style={{ fontSize: 12, fontWeight: 600 }}>
+                📦 준비된 이미지:&nbsp;
+                {hero?.imageUrl && <span style={{ marginRight: 10 }}>대표 1장</span>}
+                {imageParagraphs.some(p => p.status === "completed") && <span style={{ marginRight: 10 }}>단락 {imageParagraphs.filter(p => p.status === "completed").length}장</span>}
+                {customImages.some(c => c.status === "completed") && <span style={{ marginRight: 10 }}>커스텀 {customImages.filter(c => c.status === "completed").length}장</span>}
+              </div>
+              <button onClick={handleDownloadZip} disabled={zipping}
+                style={{ padding: "8px 16px", background: zipping ? "#94a3b8" : "#22c55e", color: "#fff", border: "none", borderRadius: 8, cursor: zipping ? "wait" : "pointer", fontSize: 12, fontWeight: 700 }}>
+                {zipping ? "압축 중…" : "⬇️ 전부 ZIP 다운로드"}
+              </button>
+            </div>
+          )}
+
+          {/* ✏️ 자유 프롬프트 이미지 섹션 */}
+          <div style={{ marginTop: 18, background: "#fff", border: "1.5px solid #a855f7", borderRadius: 10, padding: 14 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+              <span style={{ fontSize: 16 }}>✏️</span>
+              <div style={{ fontSize: 13, fontWeight: 800, color: "#6b21a8" }}>직접 프롬프트로 이미지 만들기</div>
+              <span style={{ fontSize: 10, background: "#f3e8ff", color: "#6b21a8", padding: "2px 8px", borderRadius: 10, fontWeight: 600 }}>{customCompleted}장 생성됨</span>
+            </div>
+            <div style={{ fontSize: 11, color: "#6b21a8", marginBottom: 8, lineHeight: 1.5 }}>
+              원하는 장면·주제를 한국어 또는 영어로 자유롭게 입력하세요. 여러 번 생성해 누적할 수 있고, 맨 위 "⬇️ 전부 ZIP 다운로드"에 함께 담깁니다.
+            </div>
+            <textarea
+              value={customPrompt}
+              onChange={e => setCustomPrompt(e.target.value)}
+              placeholder={"예1) 쇼그렌증후군 환자의 침샘이 부어있는 모습을 측면에서 포착한 실사 사진\n예2) 한의사가 환자의 손목에 침을 놓는 장면, 클로즈업\n예3) 구강 건조증을 표현하는 입 내부 클로즈업, 혀 질감이 선명하게 보이는 사진"}
+              style={{ width: "100%", minHeight: 70, padding: 10, border: "1px solid #d8b4fe", borderRadius: 8, fontSize: 12, fontFamily: "inherit", lineHeight: 1.5, background: "#faf5ff", resize: "vertical", boxSizing: "border-box" }}
+            />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1.5fr", gap: 8, marginTop: 10 }}>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 700, color: "#6b21a8", display: "block", marginBottom: 4 }}>스타일</label>
+                <select value={customStyle} onChange={e => setCustomStyle(e.target.value)} style={{ ...s.select, fontSize: 12 }}>
+                  <option value="photo">📷 실사 사진</option>
+                  <option value="illustration">🎨 일러스트</option>
+                  <option value="infographic">📊 인포그래픽</option>
+                  <option value="auto">자동</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 700, color: "#6b21a8", display: "block", marginBottom: 4 }}>비율</label>
+                <select value={customAspect} onChange={e => setCustomAspect(e.target.value)} style={{ ...s.select, fontSize: 12 }}>
+                  <option value="1:1">1:1 정사각</option>
+                  <option value="16:9">16:9 가로</option>
+                  <option value="9:16">9:16 세로</option>
+                  <option value="4:3">4:3</option>
+                  <option value="3:4">3:4</option>
+                </select>
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-end" }}>
+                <button onClick={generateCustomImage} disabled={customGenerating || !customPrompt.trim()}
+                  style={{ width: "100%", padding: "9px 10px", background: customGenerating ? "#c4b5fd" : "#7c3aed", color: "#fff", border: "none", borderRadius: 8, cursor: customGenerating ? "wait" : "pointer", fontSize: 12, fontWeight: 700 }}>
+                  {customGenerating ? "생성 중…" : "✨ 이미지 생성"}
+                </button>
+              </div>
+            </div>
+
+            {customImages.length > 0 && (
+              <div style={{ marginTop: 14, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
+                {customImages.map((img) => (
+                  <div key={img.id} style={{ background: "#faf5ff", border: "1px solid #e9d5ff", borderRadius: 8, overflow: "hidden" }}>
+                    <div style={{ aspectRatio: img.aspectRatio.replace(":", " / "), background: "#f1f5f9", position: "relative" }}>
+                      {img.imageUrl ? (
+                        <img src={img.imageUrl} alt={img.userPrompt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      ) : (
+                        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#7c3aed", fontSize: 12 }}>
+                          {img.status === "generating" ? "⟳ 생성 중…" : `❌ ${img.error?.slice(0, 60) || "실패"}`}
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ padding: "6px 10px", fontSize: 11, color: "#6b21a8", lineHeight: 1.5, borderTop: "1px solid #e9d5ff" }}>
+                      <div style={{ display: "flex", gap: 4, marginBottom: 3 }}>
+                        <span style={{ fontSize: 9, fontWeight: 700, padding: "1px 6px", borderRadius: 3, background: "#e9d5ff", color: "#6b21a8" }}>{img.style.toUpperCase()}</span>
+                        <span style={{ fontSize: 9, fontWeight: 700, padding: "1px 6px", borderRadius: 3, background: "#e9d5ff", color: "#6b21a8" }}>{img.aspectRatio}</span>
+                      </div>
+                      <div style={{ overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{img.userPrompt}</div>
+                      <div style={{ display: "flex", gap: 4, marginTop: 6 }}>
+                        {img.imageUrl && (
+                          <button onClick={() => downloadCustomImage(img)} style={{ flex: 1, padding: "4px 8px", background: "#7c3aed", color: "#fff", border: "none", borderRadius: 4, fontSize: 10, fontWeight: 600, cursor: "pointer" }}>
+                            📥 다운
+                          </button>
+                        )}
+                        <button onClick={() => removeCustomImage(img.id)} style={{ padding: "4px 8px", background: "#fff", color: "#dc2626", border: "1px solid #fca5a5", borderRadius: 4, fontSize: 10, cursor: "pointer" }}>
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* 생성된 단락 이미지 리스트 */}
           {imageParagraphs.length > 0 && (
             <div style={{ marginTop: 16 }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#0c4a6e" }}>
-                  생성 현황: {imageParagraphs.filter(p => p.status === "completed").length} / {imageParagraphs.length}
-                </div>
-                {imageParagraphs.some(p => p.status === "completed") && (
-                  <button onClick={handleDownloadZip} disabled={zipping}
-                    style={{ padding: "7px 14px", background: "#0369a1", color: "#fff", border: "none", borderRadius: 8, cursor: zipping ? "wait" : "pointer", fontSize: 12, fontWeight: 700 }}>
-                    {zipping ? "압축 중…" : "📦 전체 다운로드 (ZIP)"}
-                  </button>
-                )}
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#0c4a6e", marginBottom: 10 }}>
+                📑 단락별 이미지: {imageParagraphs.filter(p => p.status === "completed").length} / {imageParagraphs.length}
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
@@ -1578,7 +1779,8 @@ ${raw1}`;
             </div>
           )}
         </div>
-      )}
+        );
+      })()}
 
       <div style={{ textAlign: "center", fontSize: 11, color: "#ccc", marginTop: 8, paddingBottom: 20 }}>
         인천 송도 국제 신도시 이레한의원 · Powered by {PROVIDERS[provider].short}
