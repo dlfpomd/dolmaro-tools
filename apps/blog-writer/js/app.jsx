@@ -277,6 +277,134 @@ async function callGemini({ apiKey, messages }) {
 }
 
 // ────────────────────────────────────────────────
+// Image generation (Nano Banana Pro via Gemini API)
+// ────────────────────────────────────────────────
+const IMAGE_SPLIT_MODEL = "gemini-2.5-flash";
+const IMAGE_GEN_MODEL = "gemini-3.1-flash-image-preview"; // Nano Banana Pro
+
+async function splitBlogForImages({ apiKey, blogText, paragraphCount = 6 }) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_SPLIT_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const prompt = `다음 블로그 글을 정확히 ${paragraphCount}개의 논리적 단락으로 나누어주세요. 각 단락에 가장 적합한 이미지 유형을 다음 중 하나로 지정하세요.
+
+유형 3가지:
+- "photo": 일반 설명·일상 묘사 (사실적 사진 스타일)
+- "illustration": 의학 용어·해부학·개념 설명 (의학 일러스트)
+- "infographic": 통계·수치·구조·비교 (의학 인포그래픽)
+
+원본 단락을 그대로 쓰지 말고 이미지 생성에 적합한 1~3문장으로 핵심을 간추려 작성하세요.
+
+블로그 글:
+${blogText}`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "ARRAY",
+          items: {
+            type: "OBJECT",
+            properties: {
+              text: { type: "STRING" },
+              imageType: { type: "STRING", enum: ["photo", "illustration", "infographic"] },
+            },
+            required: ["text", "imageType"],
+          },
+        },
+      },
+    }),
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+  const raw = (data.candidates || [])[0]?.content?.parts?.[0]?.text || "";
+  let arr;
+  try { arr = JSON.parse(raw.replace(/```json\n?/g, "").replace(/```\n?$/g, "").trim()); }
+  catch { throw new Error("단락 분할 응답을 JSON으로 파싱하지 못했습니다."); }
+  return arr.map((p, i) => ({ ...p, id: i, status: "pending", imageUrl: null }));
+}
+
+async function generateParagraphImage({ apiKey, paragraph, portrait, clinicName, doctorName }) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_GEN_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const styles = {
+    photo: `Realistic professional medical photography, high quality, natural lighting. If a doctor is present, they must have the facial features of the person in the provided reference image and their name tag or embroidery on the white coat must clearly say '${doctorName}' in Korean (한글). Any text in the image must be in Korean (한글).`,
+    illustration: `Clean medical illustration, professional anatomical style, clear and educational. Use Korean (한글) for any labels or descriptions in the image.`,
+    infographic: `Medical infographic style, including charts, diagrams, and medical icons. Professional layout. Use Korean (한글) for all titles, labels, and data descriptions in the image.`,
+  };
+  let prompt;
+  if (paragraph.id === 0 && portrait) {
+    const shortName = doctorName.split(" ")[0] || doctorName;
+    prompt = `Transform the person in the reference image into a professional doctor named '${shortName}' in a bright and welcoming ${clinicName} medical clinic environment.
+The doctor's white coat must have '${doctorName}' clearly written in Korean (한글) on the chest area.
+The doctor has a natural, average hairstyle appropriate for a 30-year-old male.
+The doctor is kindly explaining medical details while looking at a patient and having a conversation.
+In the background, there is a computer monitor displaying a professional medical illustration.
+Ensure there are NO heavy medical machines like ultrasound or X-ray devices in the room.
+Maintain the facial features of the person in the image.
+Professional bright lighting, 16:9 aspect ratio, high quality, realistic modern medical setting.
+All text in the image must be in Korean (한글).`;
+  } else {
+    prompt = `Create an image for the following medical blog paragraph.
+Style: ${styles[paragraph.imageType]}.
+Content: ${paragraph.text}.
+Aspect ratio: 16:9. High resolution, professional medical aesthetic.
+IMPORTANT: All text within the image (labels, titles, signs) MUST be written in Korean (한글).`;
+    if (portrait && paragraph.imageType === "photo") {
+      prompt += ` If a doctor appears in the scene, ensure they look exactly like the person in the reference image and have '${doctorName}' written on their white coat.`;
+    }
+  }
+
+  const parts = [{ text: prompt }];
+  if (portrait) {
+    const b64 = portrait.split(",")[1] || portrait;
+    parts.push({ inline_data: { mime_type: "image/png", data: b64 } });
+  }
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts }],
+      generationConfig: {
+        responseModalities: ["IMAGE", "TEXT"],
+        imageConfig: { aspectRatio: "16:9" },
+      },
+    }),
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+  for (const part of data.candidates?.[0]?.content?.parts || []) {
+    const inline = part.inline_data || part.inlineData;
+    if (inline && inline.data) {
+      return `data:${inline.mime_type || inline.mimeType || "image/png"};base64,${inline.data}`;
+    }
+  }
+  throw new Error("이미지 생성 응답에 이미지 데이터가 없습니다.");
+}
+
+async function downloadImagesAsZip(paragraphs, filenamePrefix = "blog-images") {
+  if (!window.JSZip) throw new Error("JSZip 라이브러리가 로드되지 않았습니다.");
+  const zip = new window.JSZip();
+  const folder = zip.folder(filenamePrefix);
+  paragraphs.forEach((p, i) => {
+    if (p.imageUrl && p.imageUrl.startsWith("data:")) {
+      const b64 = p.imageUrl.split(",")[1];
+      folder.file(`${String(i + 1).padStart(2, "0")}_${p.imageType}.png`, b64, { base64: true });
+    }
+  });
+  const blob = await zip.generateAsync({ type: "blob" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${filenamePrefix}.zip`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(a.href);
+}
+
+// ────────────────────────────────────────────────
 // Sub components
 // ────────────────────────────────────────────────
 function Spinner({ msg }) {
@@ -447,6 +575,23 @@ function BlogWriter() {
   const [activeTab, setActiveTab] = useState("preview");
   const fileRef = useRef();
 
+  // ── 이미지 생성 상태
+  const [portrait, setPortrait] = useState("");
+  const [clinicName, setClinicName] = useState(() => localStorage.getItem("mediblog_clinic") || "이레한의원");
+  const [doctorName, setDoctorName] = useState(() => localStorage.getItem("mediblog_doctor") || "박석민 원장");
+  const [imageParagraphCount, setImageParagraphCount] = useState("6");
+  const [imageParagraphs, setImageParagraphs] = useState([]);
+  const [imageStatus, setImageStatus] = useState("idle"); // idle | generating | done | error
+  const [imageError, setImageError] = useState("");
+  const [imageProgress, setImageProgress] = useState("");
+  const [zipping, setZipping] = useState(false);
+  const portraitRef = useRef();
+
+  useEffect(() => {
+    const saved = localStorage.getItem("mediblog_portrait");
+    if (saved) setPortrait(saved);
+  }, []);
+
   const finalDisease = disease === "직접 입력" ? customDisease : disease;
 
   const handleFile = (e) => {
@@ -509,6 +654,113 @@ function BlogWriter() {
     }
     flushList();
     return out.join("\n");
+  }
+
+  function handlePortraitUpload(e) {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    if (!f.type.startsWith("image/")) { alert("이미지 파일만 업로드 가능합니다."); return; }
+    if (f.size > 5 * 1024 * 1024) { alert("이미지가 너무 큽니다 (최대 5MB)."); return; }
+    const r = new FileReader();
+    r.onload = () => {
+      const dataUrl = r.result;
+      setPortrait(dataUrl);
+      try { localStorage.setItem("mediblog_portrait", dataUrl); } catch (err) {
+        console.warn("포트레이트 localStorage 저장 실패:", err.message);
+      }
+    };
+    r.readAsDataURL(f);
+  }
+
+  function clearPortrait() {
+    setPortrait("");
+    try { localStorage.removeItem("mediblog_portrait"); } catch (e) {}
+    if (portraitRef.current) portraitRef.current.value = "";
+  }
+
+  async function generateAllImages() {
+    if (!result?.content) { setImageError("먼저 블로그 글을 생성해주세요."); return; }
+    if (!apiKey.trim() || provider !== "gemini") {
+      setImageError("이미지 생성은 Gemini API 키가 필요합니다. 상단에서 Gemini를 선택하고 키를 저장해주세요.");
+      return;
+    }
+    setImageError(""); setImageStatus("generating"); setImageParagraphs([]);
+    try {
+      localStorage.setItem("mediblog_clinic", clinicName);
+      localStorage.setItem("mediblog_doctor", doctorName);
+    } catch (e) {}
+
+    try {
+      setImageProgress(`1단계: 블로그를 ${imageParagraphCount}개 단락으로 분할 중…`);
+      const split = await splitBlogForImages({
+        apiKey: apiKey.trim(),
+        blogText: result.content,
+        paragraphCount: parseInt(imageParagraphCount, 10),
+      });
+      setImageParagraphs(split);
+
+      const working = [...split];
+      for (let i = 0; i < working.length; i++) {
+        setImageProgress(`2단계: 이미지 생성 (${i + 1}/${working.length})…`);
+        setImageParagraphs(prev => prev.map((p, idx) => idx === i ? { ...p, status: "generating" } : p));
+        try {
+          const imgUrl = await generateParagraphImage({
+            apiKey: apiKey.trim(),
+            paragraph: working[i],
+            portrait: portrait || undefined,
+            clinicName,
+            doctorName,
+          });
+          working[i] = { ...working[i], imageUrl: imgUrl, status: "completed" };
+          setImageParagraphs(prev => prev.map((p, idx) => idx === i ? { ...p, imageUrl: imgUrl, status: "completed" } : p));
+        } catch (err) {
+          console.error(`단락 ${i + 1} 이미지 생성 실패:`, err);
+          working[i] = { ...working[i], status: "error", error: err.message };
+          setImageParagraphs(prev => prev.map((p, idx) => idx === i ? { ...p, status: "error", error: err.message } : p));
+          if (/not\s*found|billing|permission|unsupported/i.test(err.message || "")) {
+            setImageError(`모델 접근 실패: ${err.message}. ${IMAGE_GEN_MODEL}은 결제가 활성화된 API 키에서만 작동합니다.`);
+            setImageStatus("error");
+            return;
+          }
+        }
+      }
+      setImageStatus("done");
+      setImageProgress("");
+    } catch (err) {
+      setImageError(err.message);
+      setImageStatus("error");
+      setImageProgress("");
+    }
+  }
+
+  async function retryImage(idx) {
+    const p = imageParagraphs[idx];
+    if (!p) return;
+    setImageParagraphs(prev => prev.map((x, i) => i === idx ? { ...x, status: "generating", error: undefined } : x));
+    try {
+      const imgUrl = await generateParagraphImage({
+        apiKey: apiKey.trim(),
+        paragraph: p,
+        portrait: portrait || undefined,
+        clinicName,
+        doctorName,
+      });
+      setImageParagraphs(prev => prev.map((x, i) => i === idx ? { ...x, imageUrl: imgUrl, status: "completed" } : x));
+    } catch (err) {
+      setImageParagraphs(prev => prev.map((x, i) => i === idx ? { ...x, status: "error", error: err.message } : x));
+    }
+  }
+
+  async function handleDownloadZip() {
+    if (imageParagraphs.filter(p => p.status === "completed").length === 0) return;
+    setZipping(true);
+    try {
+      const safeTitle = (result?.meta?.title || "blog-images").replace(/[^\w가-힣]+/g, "-").slice(0, 40);
+      await downloadImagesAsZip(imageParagraphs, safeTitle);
+    } catch (err) {
+      alert("ZIP 다운로드 실패: " + err.message);
+    }
+    setZipping(false);
   }
 
   async function copyAsHtml() {
@@ -944,6 +1196,124 @@ ${raw1}`;
           {activeTab === "preview" && <div style={{ lineHeight: 1.8 }}>{renderMd(result.content)}</div>}
           {activeTab === "raw" && <textarea readOnly value={result.content} style={{ ...s.input, height: 540, resize: "vertical", fontFamily: "monospace", fontSize: 13, lineHeight: 1.7 }} />}
           {activeTab === "debug" && <textarea readOnly value={rawDebug} style={{ ...s.input, height: 540, resize: "vertical", fontFamily: "monospace", fontSize: 12, lineHeight: 1.6, background: "#1a1a2e", color: "#a8d8a8" }} />}
+        </div>
+      )}
+
+      {/* 🎨 이미지 생성 (Nano Banana Pro) — 블로그 생성 후 표시 */}
+      {result && (
+        <div style={{ ...s.card, borderColor: "#bae6fd", background: "#f0f9ff" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+            <span style={{ fontSize: 20 }}>🎨</span>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: "#0c4a6e" }}>이미지 자동 생성 (Nano Banana Pro)</div>
+              <div style={{ fontSize: 11, color: "#075985", marginTop: 2 }}>
+                블로그를 {imageParagraphCount}개 단락으로 나눠 각 단락에 맞는 한글 의료 이미지 생성 · 16:9 · ZIP 다운로드
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: "#fef3c7", border: "1px solid #fbbf24", borderRadius: 8, padding: "8px 12px", fontSize: 11, color: "#78350f", marginBottom: 12, lineHeight: 1.5 }}>
+            ⚠️ <strong>{IMAGE_GEN_MODEL}</strong>은 <strong>결제가 활성화된 Gemini API 키</strong>에서만 작동합니다. 무료 티어 키로는 이미지 생성이 막혀 있습니다. <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" style={{ color: "#1a3a5c" }}>결제 설정 안내</a>
+          </div>
+
+          {/* 인물 사진 업로드 */}
+          <div style={{ marginBottom: 12 }}>
+            <label style={s.label}>👤 인물 사진 (첫 단락의 "원장" 변신에 사용, 선택)</label>
+            {!portrait ? (
+              <div onClick={() => portraitRef.current?.click()}
+                style={{ border: "2px dashed #94a3b8", borderRadius: 10, padding: 20, textAlign: "center", cursor: "pointer", background: "#fff" }}>
+                <div style={{ fontSize: 24, marginBottom: 4 }}>📸</div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#555" }}>클릭하여 업로드</div>
+                <div style={{ fontSize: 10, color: "#999", marginTop: 3 }}>얼굴이 잘 나온 정면 사진 · 최대 5MB · localStorage 저장</div>
+                <input ref={portraitRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handlePortraitUpload} />
+              </div>
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", gap: 12, background: "#fff", border: "1px solid #cbd5e1", borderRadius: 10, padding: 10 }}>
+                <img src={portrait} alt="portrait" style={{ width: 56, height: 56, borderRadius: "50%", objectFit: "cover", border: "2px solid #1a3a5c" }} />
+                <div style={{ flex: 1, fontSize: 12, color: "#0c4a6e" }}>
+                  <div style={{ fontWeight: 700 }}>✅ 인물 사진 저장됨</div>
+                  <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>첫 단락에서 '{doctorName}'으로 변신 · 다음 글에서도 재사용</div>
+                </div>
+                <button onClick={clearPortrait} style={{ background: "none", border: "none", color: "#dc2626", cursor: "pointer", fontSize: 18, padding: 4 }}>✕</button>
+              </div>
+            )}
+          </div>
+
+          {/* 원장/한의원 이름 & 단락 갯수 */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 100px", gap: 10, marginBottom: 12 }}>
+            <div>
+              <label style={s.label}>🏥 한의원</label>
+              <input value={clinicName} onChange={e => setClinicName(e.target.value)} style={{ ...s.input, fontSize: 13 }} />
+            </div>
+            <div>
+              <label style={s.label}>👨‍⚕️ 원장 표시 (이름+호칭)</label>
+              <input value={doctorName} onChange={e => setDoctorName(e.target.value)} style={{ ...s.input, fontSize: 13 }} />
+            </div>
+            <div>
+              <label style={s.label}>📑 단락</label>
+              <select value={imageParagraphCount} onChange={e => setImageParagraphCount(e.target.value)} style={s.select}>
+                <option value="6">6개</option>
+                <option value="7">7개</option>
+                <option value="8">8개</option>
+              </select>
+            </div>
+          </div>
+
+          <button onClick={generateAllImages} disabled={imageStatus === "generating"}
+            style={{ ...s.btn, background: imageStatus === "generating" ? "#93c5fd" : "#0369a1", opacity: imageStatus === "generating" ? 0.8 : 1, cursor: imageStatus === "generating" ? "wait" : "pointer" }}>
+            {imageStatus === "generating"
+              ? (imageProgress || "생성 중…")
+              : imageParagraphs.length > 0
+                ? "🔄 이미지 다시 생성"
+                : `🎨 이미지 ${imageParagraphCount}개 생성 시작`}
+          </button>
+
+          {imageError && <div style={{ color: "#dc2626", fontSize: 12, marginTop: 10, padding: "8px 12px", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8 }}>⚠️ {imageError}</div>}
+
+          {/* 생성된 이미지 리스트 */}
+          {imageParagraphs.length > 0 && (
+            <div style={{ marginTop: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#0c4a6e" }}>
+                  생성 현황: {imageParagraphs.filter(p => p.status === "completed").length} / {imageParagraphs.length}
+                </div>
+                {imageParagraphs.some(p => p.status === "completed") && (
+                  <button onClick={handleDownloadZip} disabled={zipping}
+                    style={{ padding: "7px 14px", background: "#0369a1", color: "#fff", border: "none", borderRadius: 8, cursor: zipping ? "wait" : "pointer", fontSize: 12, fontWeight: 700 }}>
+                    {zipping ? "압축 중…" : "📦 전체 다운로드 (ZIP)"}
+                  </button>
+                )}
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
+                {imageParagraphs.map((p, i) => (
+                  <div key={i} style={{ background: "#fff", border: "1px solid #cbd5e1", borderRadius: 10, overflow: "hidden" }}>
+                    <div style={{ padding: "8px 12px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: 8, fontSize: 12 }}>
+                      <span style={{ background: "#e2e8f0", color: "#334155", fontWeight: 700, width: 22, height: 22, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11 }}>{i + 1}</span>
+                      <span style={{
+                        fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 4, letterSpacing: 0.5,
+                        background: p.imageType === "photo" ? "#dcfce7" : p.imageType === "illustration" ? "#fef3c7" : "#e0e7ff",
+                        color: p.imageType === "photo" ? "#166534" : p.imageType === "illustration" ? "#78350f" : "#3730a3",
+                      }}>{(p.imageType || "").toUpperCase()}</span>
+                      <span style={{ flex: 1, color: "#475569", fontSize: 12, lineHeight: 1.5, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{p.text}</span>
+                      {p.status === "completed" && <span style={{ color: "#16a34a" }}>✓</span>}
+                      {p.status === "generating" && <span style={{ color: "#0369a1" }}>⟳</span>}
+                      {p.status === "error" && <button onClick={() => retryImage(i)} title={p.error || ""} style={{ background: "none", border: "1px solid #dc2626", color: "#dc2626", borderRadius: 4, padding: "2px 8px", fontSize: 10, cursor: "pointer" }}>재시도</button>}
+                    </div>
+                    <div style={{ aspectRatio: "16 / 9", background: "#f1f5f9", position: "relative" }}>
+                      {p.imageUrl ? (
+                        <img src={p.imageUrl} alt={`단락 ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      ) : (
+                        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 6, color: "#94a3b8", fontSize: 12 }}>
+                          {p.status === "generating" ? "⟳ 생성 중…" : p.status === "error" ? `❌ 실패 · ${p.error?.slice(0, 60) || ""}` : "⏳ 대기"}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
