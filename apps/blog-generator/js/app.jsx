@@ -1,6 +1,42 @@
 const { useState, useRef, useEffect } = React;
 
-const STORAGE_KEY = "anthropic_api_key";
+const STORAGE_KEYS = {
+  claude: "anthropic_api_key",
+  gemini: "gemini_api_key",
+};
+const PROVIDER_STORAGE = "blog_provider";
+
+const PROVIDERS = {
+  gemini: {
+    id: "gemini",
+    label: "Gemini 2.5 Pro (무료)",
+    short: "Gemini",
+    keyPrefix: "AIza",
+    keyLabel: "Google AI Studio API Key",
+    keyPlaceholder: "AIza...로 시작하는 Gemini API 키",
+    docUrl: "https://aistudio.google.com/apikey",
+    docLabel: "aistudio.google.com/apikey",
+    note: "무료 티어: gemini-2.5-pro는 하루 50회 · 분당 5회. 쿼타 초과 시 flash로 자동 전환.",
+  },
+  claude: {
+    id: "claude",
+    label: "Claude Sonnet 4 (유료)",
+    short: "Claude",
+    keyPrefix: "sk-ant",
+    keyLabel: "Anthropic API Key",
+    keyPlaceholder: "sk-ant-api03-...",
+    docUrl: "https://console.anthropic.com/settings/keys",
+    docLabel: "console.anthropic.com",
+    note: "건당 약 $0.03~0.10. API 사용량만큼 과금.",
+  },
+};
+
+function detectProviderFromKey(key) {
+  if (!key) return null;
+  if (key.startsWith(PROVIDERS.claude.keyPrefix)) return "claude";
+  if (key.startsWith(PROVIDERS.gemini.keyPrefix)) return "gemini";
+  return null;
+}
 
 const STYLE_ITEMS = [
   "도입부: 논문 주제에 맞게 AI가 패턴 자동 선택",
@@ -107,8 +143,8 @@ ${extra ? `[추가 지시]\n${extra}` : ""}
 - AI가 직접 인용할 수 있도록 각 답변은 단독으로 읽어도 이해되는 완결형 문장으로 구성`;
 }
 
-/** URL 해시 또는 localStorage에서 API 키 읽어오기. 둘 다 체크. */
-function readKeyFromUrlOrStorage() {
+/** URL 해시 또는 localStorage에서 API 키 읽어오기. 키 접두사로 provider 자동 판별. */
+function readKeyFromUrlOrStorage(preferredProvider) {
   const tryParse = (s, name) => {
     if (!s) return "";
     const re = new RegExp(`[?&#]${name}=([^&]+)`);
@@ -124,25 +160,120 @@ function readKeyFromUrlOrStorage() {
     tryParse(window.location.search, "key") ||
     tryParse(window.location.search, "apiKey");
   const fromUrl = fromHash || fromQuery;
-  if (fromUrl && fromUrl.startsWith("sk-ant")) {
-    try { localStorage.setItem(STORAGE_KEY, fromUrl); } catch (e) {}
-    return fromUrl;
+  if (fromUrl) {
+    const detected = detectProviderFromKey(fromUrl);
+    if (detected) {
+      try {
+        localStorage.setItem(STORAGE_KEYS[detected], fromUrl);
+        localStorage.setItem(PROVIDER_STORAGE, detected);
+      } catch (e) {}
+      return { key: fromUrl, provider: detected };
+    }
   }
-  return localStorage.getItem(STORAGE_KEY) || "";
+  const p = preferredProvider || localStorage.getItem(PROVIDER_STORAGE) || "gemini";
+  return { key: localStorage.getItem(STORAGE_KEYS[p]) || "", provider: p };
+}
+
+/** Claude Messages API 호출 */
+async function callClaude({ apiKey, systemPrompt, userPrompt, pdfBase64 }) {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true",
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 8000,
+      system: systemPrompt,
+      messages: [{
+        role: "user",
+        content: [
+          { type: "document", source: { type: "base64", media_type: "application/pdf", data: pdfBase64 } },
+          { type: "text", text: userPrompt },
+        ],
+      }],
+    }),
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+  return (data.content || []).map((i) => i.text || "").join("");
+}
+
+/** Gemini generateContent API 호출. 2.5-pro 먼저 시도, 쿼터 초과 시 2.5-flash 자동 fallback. */
+async function callGemini({ apiKey, systemPrompt, userPrompt, pdfBase64 }) {
+  const models = ["gemini-2.5-pro", "gemini-2.5-flash"];
+  const body = JSON.stringify({
+    systemInstruction: { parts: [{ text: systemPrompt }] },
+    contents: [{
+      role: "user",
+      parts: [
+        { inline_data: { mime_type: "application/pdf", data: pdfBase64 } },
+        { text: userPrompt },
+      ],
+    }],
+    generationConfig: { maxOutputTokens: 8000, temperature: 0.7 },
+  });
+
+  let lastErr = null;
+  for (const model of models) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+      const data = await res.json();
+      if (data.error) {
+        const msg = data.error.message || JSON.stringify(data.error);
+        // Quota/rate error? try next model
+        if (/quota|rate|resource_exhausted|429/i.test(msg) && model !== models[models.length - 1]) {
+          lastErr = new Error(`${model}: ${msg}`);
+          continue;
+        }
+        throw new Error(msg);
+      }
+      const cand = (data.candidates || [])[0];
+      if (!cand) throw new Error("Gemini가 응답을 생성하지 못했습니다.");
+      if (cand.finishReason === "SAFETY") throw new Error("Gemini 안전 필터에 의해 차단됨");
+      return ((cand.content || {}).parts || []).map((p) => p.text || "").join("");
+    } catch (e) {
+      lastErr = e;
+      // If it's not a quota error and we've only tried one model, rethrow
+      if (!/quota|rate|resource_exhausted|429/i.test(e.message)) throw e;
+    }
+  }
+  throw lastErr || new Error("Gemini 호출 실패");
 }
 
 function BlogGenerator() {
+  const [provider, setProvider] = useState(() => localStorage.getItem(PROVIDER_STORAGE) || "gemini");
   const [apiKey, setApiKey] = useState("");
   const [apiKeySaved, setApiKeySaved] = useState(false);
   const [apiKeyLoading, setApiKeyLoading] = useState(true);
   const [bookmarkUrl, setBookmarkUrl] = useState("");
   const [bookmarkCopied, setBookmarkCopied] = useState(false);
 
+  // Initial mount: check URL hash/query first, fall back to storage for current provider
   useEffect(() => {
-    const key = readKeyFromUrlOrStorage();
+    const { key, provider: detected } = readKeyFromUrlOrStorage(provider);
+    if (detected !== provider) setProvider(detected);
     if (key) { setApiKey(key); setApiKeySaved(true); }
     setApiKeyLoading(false);
   }, []);
+
+  // When provider toggles, load that provider's saved key
+  function switchProvider(next) {
+    if (next === provider) return;
+    localStorage.setItem(PROVIDER_STORAGE, next);
+    setProvider(next);
+    const saved = localStorage.getItem(STORAGE_KEYS[next]) || "";
+    setApiKey(saved);
+    setApiKeySaved(!!saved);
+  }
 
   useEffect(() => {
     if (apiKey && apiKeySaved) {
@@ -196,38 +327,27 @@ function BlogGenerator() {
   }
 
   async function generate() {
-    if (!apiKey.trim()) { alert("Anthropic API 키를 먼저 입력해주세요."); return; }
+    const pInfo = PROVIDERS[provider];
+    if (!apiKey.trim()) { alert(`${pInfo.keyLabel}를 먼저 입력해주세요.`); return; }
     if (!file) { alert("논문 PDF를 먼저 업로드해주세요."); return; }
+    if (file.size > 18 * 1024 * 1024) {
+      alert("PDF 용량이 너무 큽니다 (최대 18MB). 이미지 해상도를 낮춰 재저장해주세요.");
+      return;
+    }
     setStatus("loading"); setStepIdx(0); setErrorMsg("");
     const timer = setInterval(() => setStepIdx((p) => Math.min(p + 1, 3)), 2800);
     try {
       const base64 = await toBase64(file);
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey.trim(),
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-access": "true",
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 8000,
-          system: SYSTEM_PROMPT,
-          messages: [{
-            role: "user",
-            content: [
-              { type: "document", source: { type: "base64", media_type: "application/pdf", data: base64 } },
-              { type: "text", text: buildPrompt(extraStyle, length, sections, disease, cta) },
-            ],
-          }],
-        }),
+      const userPrompt = buildPrompt(extraStyle, length, sections, disease, cta);
+      const caller = provider === "claude" ? callClaude : callGemini;
+      const raw = await caller({
+        apiKey: apiKey.trim(),
+        systemPrompt: SYSTEM_PROMPT,
+        userPrompt,
+        pdfBase64: base64,
       });
       clearInterval(timer);
       setStepIdx(4);
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      const raw = data.content.map((i) => i.text || "").join("");
       setRawDebug(raw);
 
       const metaM = raw.match(/===META_JSON===([\s\S]*?)===END_META===/);
@@ -344,10 +464,10 @@ function BlogGenerator() {
         <div>
           <div style={s.panel}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.6rem" }}>
-              <div style={s.ptitle}>🔑 Anthropic API 키</div>
+              <div style={s.ptitle}>🔑 AI 제공자 · API 키</div>
               {apiKeySaved && (
                 <button style={{ ...s.btnSm, fontSize: "0.66rem", color: "#c0392b" }} onClick={async () => {
-                  try { await window.storage.delete(STORAGE_KEY); } catch (e) {}
+                  try { await window.storage.delete(STORAGE_KEYS[provider]); } catch (e) {}
                   if (window.location.hash.includes("k=") || window.location.hash.includes("key=")) {
                     history.replaceState(null, "", window.location.pathname + window.location.search);
                   }
@@ -355,20 +475,44 @@ function BlogGenerator() {
                 }}>삭제</button>
               )}
             </div>
+
+            {/* Provider toggle */}
+            <div style={{ display: "flex", gap: "0.3rem", marginBottom: "0.6rem" }}>
+              {Object.values(PROVIDERS).map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => switchProvider(p.id)}
+                  style={{
+                    flex: 1, padding: "0.45rem 0.5rem", borderRadius: 7,
+                    border: `1px solid ${provider === p.id ? accent : border}`,
+                    background: provider === p.id ? accent : "white",
+                    color: provider === p.id ? "white" : muted,
+                    fontSize: "0.7rem", fontWeight: 600, cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  {p.short}
+                </button>
+              ))}
+            </div>
+
             {apiKeyLoading ? (
               <div style={{ fontSize: "0.75rem", color: muted, padding: "0.5rem 0" }}>🔄 저장된 키 불러오는 중…</div>
             ) : apiKeySaved ? (
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#eaf2e0", border: `1px solid #b8d4a0`, borderRadius: 7, padding: "0.5rem 0.75rem" }}>
                   <span style={{ fontSize: "0.85rem" }}>✅</span>
-                  <span style={{ fontSize: "0.75rem", color: green, fontWeight: 600 }}>API 키 등록됨</span>
+                  <span style={{ fontSize: "0.75rem", color: green, fontWeight: 600 }}>{PROVIDERS[provider].short} 키 등록됨</span>
                   <span style={{ fontSize: "0.72rem", color: muted, marginLeft: "auto", fontFamily: "monospace" }}>{apiKey.slice(0, 10)}…</span>
+                </div>
+                <div style={{ fontSize: "0.66rem", color: muted, marginTop: "0.4rem", lineHeight: 1.5 }}>
+                  {PROVIDERS[provider].note}
                 </div>
                 {bookmarkUrl && (
                   <div style={{ marginTop: "0.5rem", padding: "0.55rem 0.7rem", background: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 7 }}>
                     <div style={{ fontSize: "0.68rem", fontWeight: 700, color: "#0c4a6e", marginBottom: "0.25rem" }}>🔖 영구 북마크 URL</div>
                     <div style={{ fontSize: "0.65rem", color: "#075985", lineHeight: 1.5, marginBottom: "0.35rem" }}>
-                      브라우저 저장소가 지워져도 이 URL로 접속하면 키가 자동 복원됩니다.
+                      브라우저 저장소가 지워져도 이 URL로 접속하면 키가 자동 복원됩니다. (접두사로 provider 자동 판별)
                     </div>
                     <div style={{ display: "flex", gap: "0.3rem" }}>
                       <input type="text" value={bookmarkUrl} readOnly onFocus={(e) => e.target.select()}
@@ -382,26 +526,38 @@ function BlogGenerator() {
               </>
             ) : (
               <>
+                <label style={{ display: "block", fontSize: "0.68rem", fontWeight: 600, color: muted, marginBottom: "0.3rem" }}>
+                  {PROVIDERS[provider].keyLabel}
+                </label>
                 <input
                   type="password"
                   value={apiKey}
                   onChange={(e) => { setApiKey(e.target.value); setApiKeySaved(false); }}
-                  placeholder="sk-ant-api03-..."
+                  placeholder={PROVIDERS[provider].keyPlaceholder}
                   style={{ width: "100%", padding: "0.45rem 0.55rem", border: `1px solid ${apiKey ? green : border}`, borderRadius: 7, fontFamily: "monospace", fontSize: "0.73rem", background: paper, color: "#1a1410", boxSizing: "border-box" }}
                 />
                 <button
                   onClick={async () => {
                     const trimmed = apiKey.trim();
+                    const expected = PROVIDERS[provider].keyPrefix;
                     if (!trimmed) { alert("API 키를 입력해주세요."); return; }
-                    if (!trimmed.startsWith("sk-ant")) { alert("Anthropic API 키는 sk-ant-로 시작합니다."); return; }
-                    try { await window.storage.set(STORAGE_KEY, trimmed); } catch (e) {}
+                    if (!trimmed.startsWith(expected)) {
+                      alert(`${PROVIDERS[provider].short} API 키는 ${expected}로 시작합니다. 제공자를 잘못 선택했다면 위 탭에서 전환해주세요.`);
+                      return;
+                    }
+                    try {
+                      await window.storage.set(STORAGE_KEYS[provider], trimmed);
+                      localStorage.setItem(PROVIDER_STORAGE, provider);
+                    } catch (e) {}
                     setApiKey(trimmed);
                     setApiKeySaved(true);
                   }}
                   style={{ ...s.genBtn(false), marginTop: "0.45rem", padding: "0.5rem", fontSize: "0.78rem" }}
                 >저장</button>
                 <div style={{ fontSize: "0.67rem", color: "#a89880", marginTop: "0.35rem", lineHeight: 1.6 }}>
-                  키 발급 → <a href="https://console.anthropic.com" target="_blank" rel="noreferrer" style={{ color: accent }}>console.anthropic.com</a>
+                  키 발급 → <a href={PROVIDERS[provider].docUrl} target="_blank" rel="noreferrer" style={{ color: accent }}>{PROVIDERS[provider].docLabel}</a>
+                  <br/>
+                  <span style={{ color: muted }}>{PROVIDERS[provider].note}</span>
                 </div>
               </>
             )}
@@ -471,7 +627,7 @@ function BlogGenerator() {
           </div>
 
           <button style={s.genBtn(status === "loading")} disabled={status === "loading"} onClick={generate}>
-            {status === "loading" ? "⏳ 생성 중…" : "✨ 블로그 글 생성하기"}
+            {status === "loading" ? "⏳ 생성 중…" : `✨ ${PROVIDERS[provider].short}로 블로그 생성`}
           </button>
         </div>
 
