@@ -244,12 +244,13 @@ function toGeminiContents(messages) {
   }));
 }
 
-async function callGemini({ apiKey, messages }) {
+async function callGemini({ apiKey, messages, tools }) {
   const models = ["gemini-2.5-pro", "gemini-2.5-flash"];
   const body = JSON.stringify({
     systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents: toGeminiContents(messages),
     generationConfig: { maxOutputTokens: 8000, temperature: 0.7 },
+    ...(tools && tools.length ? { tools } : {}),
   });
   let lastErr = null;
   for (const model of models) {
@@ -776,6 +777,9 @@ function BlogWriter() {
   const [subtopicTarget, setSubtopicTarget] = useState("5");
   const [extraInstruction, setExtraInstruction] = useState("");
   const [paperFile, setPaperFile] = useState(null);
+  const [referenceMode, setReferenceMode] = useState("url"); // "url" | "text"
+  const [referenceUrl, setReferenceUrl] = useState("");
+  const [referenceText, setReferenceText] = useState("");
   const [paperText, setPaperText] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState("");
@@ -1146,11 +1150,38 @@ function BlogWriter() {
     if (!finalDisease.trim()) { setError("질환명을 입력해주세요."); return; }
     setError(""); setResult(null); setRawDebug(""); setLoading(true);
 
+    const hasPaper = !!(paperFile || paperText);
+    const useRefUrl = referenceMode === "url" && referenceUrl.trim();
+    const useRefText = referenceMode === "text" && referenceText.trim();
+    const hasReference = useRefUrl || useRefText;
+
+    // 참고 블로그가 있으면 Gemini URL Context 도구 활성화 (Claude는 직접 fetch 불가 → 텍스트 모드만 지원)
+    const geminiTools = useRefUrl && provider === "gemini" ? [{ urlContext: {} }] : undefined;
+    if (useRefUrl && provider === "claude") {
+      setError("참고 블로그 URL 가져오기는 Gemini에서만 지원됩니다. Claude 사용 시 글 본문을 복사해서 '텍스트' 탭에 붙여넣어주세요.");
+      setLoading(false);
+      return;
+    }
+
+    let sourceBlock = "";
+    if (hasPaper) {
+      sourceBlock += "\n[소스1 · 논문 PDF/텍스트] 첨부된 논문을 꼼꼼히 읽고, 실제 데이터(연구 대상자 수, 통계 수치, OR/HR, P값, %)를 정확히 추출하여 반영해 주세요.";
+    }
+    if (useRefUrl) {
+      sourceBlock += `\n\n[소스2 · 참고할 기존 블로그 URL]\n${referenceUrl.trim()}\n위 URL에 접속해서 글을 꼼꼼히 읽은 뒤, 원본의 핵심 정보·흐름·사례는 유지하되 이레한의원 브랜드 보이스 DNA로 완전히 **새롭게 재작성**해주세요. 단순 복사·요약·번역이 아니라 4막 구조와 어조에 맞게 전면 재구성.`;
+    }
+    if (useRefText) {
+      sourceBlock += `\n\n[소스2 · 참고할 기존 블로그 원문]\n${referenceText.trim()}\n\n위 기존 글의 핵심 정보·흐름·사례는 유지하되, 이레한의원 브랜드 보이스 DNA로 완전히 **새롭게 재작성**해주세요. 단순 복사·요약이 아니라 4막 구조와 어조에 맞게 전면 재구성.`;
+    }
+    if (!hasPaper && !hasReference) {
+      sourceBlock = "\n[소스 없음] 첨부 논문이나 참고 블로그 없이 질환명·주제·키워드 정보만으로 작성합니다. 일반적 사실관계를 유지하되 출처 단언은 피하세요.";
+    }
+
     const userPrompt = `질환명: ${finalDisease}
 블로그 주제/핵심 증상: ${topic}
 추가 타겟 키워드: ${keywords || "자동 선정"}
+${sourceBlock}
 
-첨부된 논문을 꼼꼼히 읽고, 실제 데이터(연구 대상자 수, 통계 수치, OR/HR, P값, %)를 정확히 추출하여 반영해 주세요.
 소주제(H2)를 **정확히 ${subtopicTarget}개** 구성하고, 공백 제외 한글 2,000~2,500자로 작성해 주세요.
 4막 구조를 따르고, Q&A 3개 포함, 마무리는 "그 과정에 이레한의원이 동행하겠습니다."로 끝내주세요.
 본문에 ** (굵게) 나 --- (구분선) 표시는 절대 사용하지 마세요.
@@ -1176,7 +1207,7 @@ ${extraInstruction.trim()}` : ""}`;
       // 1차 생성
       setLoadingMsg(`1단계: ${PROVIDERS[provider].short}로 블로그 초안 생성 중...`);
       const call = caller();
-      const raw1 = await call({ apiKey: apiKey.trim(), messages: [{ role: "user", content: msgContent }] });
+      const raw1 = await call({ apiKey: apiKey.trim(), messages: [{ role: "user", content: msgContent }], tools: geminiTools });
       setRawDebug(raw1);
       let { meta, content } = parseRaw(raw1);
       let charCount = countKorean(content);
@@ -1486,6 +1517,51 @@ ${raw1}`;
                 </div>
               </div>
               <button onClick={removePaper} style={{ background: "none", border: "none", color: "#aaa", cursor: "pointer", fontSize: 18 }}>✕</button>
+            </div>
+          )}
+        </div>
+
+        <div style={{ marginBottom: 18, padding: 12, background: "#fefce8", border: "1px dashed #eab308", borderRadius: 10 }}>
+          <label style={{ ...s.label, color: "#713f12", marginBottom: 8 }}>📝 참고할 기존 블로그 글 (선택)</label>
+          <div style={{ fontSize: 11, color: "#78350f", marginBottom: 8, lineHeight: 1.5 }}>
+            이미 쓰신 블로그 글(본인 글 or 참고용 타 블로그)을 넣으면, AI가 그 글을 읽고 이레한의원 브랜드 보이스로 <strong>완전히 새롭게 재작성</strong>합니다. 논문과 함께 써도 되고 단독으로 써도 됩니다.
+          </div>
+          <div style={{ display: "flex", gap: 4, marginBottom: 8 }}>
+            <button onClick={() => setReferenceMode("url")}
+              style={{ flex: 1, padding: "6px 10px", fontSize: 12, fontWeight: 600, border: `1.5px solid ${referenceMode === "url" ? "#ca8a04" : "#fde68a"}`, background: referenceMode === "url" ? "#ca8a04" : "#fff", color: referenceMode === "url" ? "#fff" : "#78350f", borderRadius: 6, cursor: "pointer" }}>
+              🔗 URL (Gemini 전용)
+            </button>
+            <button onClick={() => setReferenceMode("text")}
+              style={{ flex: 1, padding: "6px 10px", fontSize: 12, fontWeight: 600, border: `1.5px solid ${referenceMode === "text" ? "#ca8a04" : "#fde68a"}`, background: referenceMode === "text" ? "#ca8a04" : "#fff", color: referenceMode === "text" ? "#fff" : "#78350f", borderRadius: 6, cursor: "pointer" }}>
+              📋 텍스트 붙여넣기
+            </button>
+          </div>
+          {referenceMode === "url" ? (
+            <>
+              <input
+                type="url"
+                value={referenceUrl}
+                onChange={e => setReferenceUrl(e.target.value)}
+                placeholder="https://blog.naver.com/dlfpomd2/... 또는 다른 블로그 URL"
+                style={{ ...s.input, background: "#fff", fontSize: 13 }}
+              />
+              <div style={{ fontSize: 10, color: "#78350f", marginTop: 4, lineHeight: 1.5 }}>
+                💡 Gemini가 직접 URL을 열어 내용을 읽습니다. 네이버 블로그는 모바일 URL(<code>m.blog.naver.com</code>)이 더 잘 읽힙니다. Claude 쓰시는 경우엔 텍스트 탭으로 붙여넣어주세요.
+              </div>
+            </>
+          ) : (
+            <textarea
+              value={referenceText}
+              onChange={e => setReferenceText(e.target.value)}
+              placeholder="기존 블로그 글 전체를 복사해서 여기에 붙여넣으세요..."
+              style={{ ...s.input, background: "#fff", height: 120, resize: "vertical", fontSize: 13, lineHeight: 1.5, fontFamily: "inherit" }}
+            />
+          )}
+          {((referenceMode === "url" && referenceUrl) || (referenceMode === "text" && referenceText)) && (
+            <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 8, fontSize: 11, color: "#166534" }}>
+              <span>✅</span>
+              <span>참고 블로그 {referenceMode === "url" ? "URL" : `텍스트 (${referenceText.length.toLocaleString()}자)`}가 다음 생성에 반영됩니다.</span>
+              <button onClick={() => { setReferenceUrl(""); setReferenceText(""); }} style={{ marginLeft: "auto", background: "none", border: "1px solid #fecaca", color: "#dc2626", borderRadius: 4, padding: "2px 8px", fontSize: 11, cursor: "pointer" }}>지우기</button>
             </div>
           )}
         </div>
