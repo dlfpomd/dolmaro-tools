@@ -384,10 +384,106 @@ IMPORTANT: All text within the image (labels, titles, signs) MUST be written in 
   throw new Error("이미지 생성 응답에 이미지 데이터가 없습니다.");
 }
 
-async function downloadImagesAsZip(paragraphs, filenamePrefix = "blog-images") {
+/** 블로그 글을 분석해 AEO 최적 대표 이미지 프롬프트를 작성하고 바로 이미지를 생성. */
+async function generateHeroImage({ apiKey, blogText, title, keywords, aspectRatio = "1:1" }) {
+  // 1) 주제 선택 + 프롬프트 작성 (텍스트 모델)
+  const craftUrl = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_SPLIT_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const craftPrompt = `당신은 한의학 블로그의 대표 이미지(썸네일)를 위한 이미지 생성 프롬프트를 작성하는 전문가입니다.
+
+[대표 이미지 목표 — AEO 최적화]
+- Naver AI, Google Lens, 검색 엔진이 한 장으로 "글의 주제"를 즉시 식별
+- 사실적인(photo-realistic) 실사 사진처럼 보이는 클로즈업
+- 주제와 가장 직접 관련된 신체 부위 또는 현상
+- 이미지 안에 어떤 글자도 없음
+- 의료적·전문적 분위기, 선정적·과도한 병변 묘사 금지
+
+[주제 선택 가이드 — 예시]
+- 구강작열감증후군, 혀 통증, 미각이상 → 사람의 혀 클로즈업 (입 약간 벌린 상태)
+- 쇼그렌증후군 안구건조, 건조성 각결막염 → 사람의 눈 클로즈업 (건조·충혈 시각화)
+- 쇼그렌증후군 구강건조 → 사람의 입·입술 클로즈업
+- 류마티스 관절염, 손/손가락 통증 → 손가락 관절 클로즈업
+- 섬유근육통, 만성통증 → 어깨·목 부위, 통증 표현 자세
+- 루푸스, 자가면역 피부 증상 → 얼굴·피부 클로즈업
+- 하시모토 갑상선염 → 목 앞부분 클로즈업
+- 베체트병, 구강 궤양 → 입술·입 안 클로즈업
+- 신경병증, 말초신경 통증 → 발·손 저림 표현
+- 안면신경마비 → 얼굴 표정 비대칭 클로즈업
+
+[블로그 정보]
+제목: ${title || "(제목 없음)"}
+키워드: ${keywords || "(없음)"}
+본문 요약 (일부):
+${blogText.slice(0, 1800)}
+
+위 정보를 기반으로 가장 적합한 **한 장의 대표 이미지**를 결정하고, 영문 이미지 생성 프롬프트를 작성하세요.
+
+**반드시 아래 형식으로만 출력**하세요. 다른 설명 금지:
+<SUBJECT>한국어로 선택한 주제 (예: "사람의 혀 클로즈업 — 구강작열감 표현")</SUBJECT>
+<PROMPT>Ultra high-resolution photo-realistic close-up photograph ... (영문, 이미지 생성용, 4~6문장)</PROMPT>`;
+
+  const craftRes = await fetch(craftUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts: [{ text: craftPrompt }] }],
+      generationConfig: { temperature: 0.4, maxOutputTokens: 800 },
+    }),
+  });
+  const craftData = await craftRes.json();
+  if (craftData.error) throw new Error(craftData.error.message || "대표 이미지 프롬프트 생성 실패");
+  const craftText = (craftData.candidates || [])[0]?.content?.parts?.map(p => p.text || "").join("") || "";
+  const subjectM = craftText.match(/<SUBJECT>([\s\S]*?)<\/SUBJECT>/);
+  const promptM = craftText.match(/<PROMPT>([\s\S]*?)<\/PROMPT>/);
+  if (!promptM) throw new Error("대표 이미지 프롬프트 파싱 실패. 원본: " + craftText.slice(0, 200));
+  const subject = subjectM ? subjectM[1].trim() : "대표 이미지";
+  const rawImgPrompt = promptM[1].trim();
+
+  // AEO/Naver AI 친화 문구 강제 추가
+  const finalPrompt = `${rawImgPrompt}
+
+CRITICAL: Photo-realistic, ultra high-resolution, sharp focus, professional medical photography quality.
+Subject must be centered, front-facing, instantly recognizable.
+Aspect ratio ${aspectRatio}. Clean composition, no text, no watermarks, no logos.
+Natural lighting, clinically clean environment if any background is visible.`;
+
+  // 2) 이미지 생성
+  const imgUrl = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_GEN_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const imgRes = await fetch(imgUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts: [{ text: finalPrompt }] }],
+      generationConfig: {
+        responseModalities: ["IMAGE", "TEXT"],
+        imageConfig: { aspectRatio },
+      },
+    }),
+  });
+  const imgData = await imgRes.json();
+  if (imgData.error) throw new Error(imgData.error.message || JSON.stringify(imgData.error));
+  for (const part of imgData.candidates?.[0]?.content?.parts || []) {
+    const inline = part.inline_data || part.inlineData;
+    if (inline && inline.data) {
+      return {
+        imageUrl: `data:${inline.mime_type || inline.mimeType || "image/png"};base64,${inline.data}`,
+        subject,
+        prompt: finalPrompt,
+        aspectRatio,
+      };
+    }
+  }
+  throw new Error("대표 이미지 생성 응답에 이미지 데이터 없음");
+}
+
+async function downloadImagesAsZip(paragraphs, filenamePrefix = "blog-images", hero = null) {
   if (!window.JSZip) throw new Error("JSZip 라이브러리가 로드되지 않았습니다.");
   const zip = new window.JSZip();
   const folder = zip.folder(filenamePrefix);
+  if (hero && hero.imageUrl && hero.imageUrl.startsWith("data:")) {
+    const heroB64 = hero.imageUrl.split(",")[1];
+    const aspectTag = (hero.aspectRatio || "1:1").replace(":", "x");
+    folder.file(`00_hero_${aspectTag}.png`, heroB64, { base64: true });
+  }
   paragraphs.forEach((p, i) => {
     if (p.imageUrl && p.imageUrl.startsWith("data:")) {
       const b64 = p.imageUrl.split(",")[1];
@@ -587,6 +683,12 @@ function BlogWriter() {
   const [zipping, setZipping] = useState(false);
   const portraitRef = useRef();
 
+  // ── 대표 이미지 (AEO 썸네일)
+  const [heroAspect, setHeroAspect] = useState("1:1");
+  const [hero, setHero] = useState(null); // { imageUrl, subject, prompt, aspectRatio }
+  const [heroStatus, setHeroStatus] = useState("idle");
+  const [heroError, setHeroError] = useState("");
+
   useEffect(() => {
     const saved = localStorage.getItem("mediblog_portrait");
     if (saved) setPortrait(saved);
@@ -678,6 +780,29 @@ function BlogWriter() {
     if (portraitRef.current) portraitRef.current.value = "";
   }
 
+  async function generateHeroOnly() {
+    if (!result?.content) { setHeroError("먼저 블로그 글을 생성해주세요."); return; }
+    if (!apiKey.trim() || provider !== "gemini") {
+      setHeroError("이미지 생성은 Gemini API 키가 필요합니다.");
+      return;
+    }
+    setHeroError(""); setHeroStatus("generating");
+    try {
+      const h = await generateHeroImage({
+        apiKey: apiKey.trim(),
+        blogText: result.content,
+        title: result.meta?.title,
+        keywords: (result.meta?.keywords || []).join(", "),
+        aspectRatio: heroAspect,
+      });
+      setHero(h);
+      setHeroStatus("done");
+    } catch (err) {
+      setHeroError(err.message);
+      setHeroStatus("error");
+    }
+  }
+
   async function generateAllImages() {
     if (!result?.content) { setImageError("먼저 블로그 글을 생성해주세요."); return; }
     if (!apiKey.trim() || provider !== "gemini") {
@@ -685,12 +810,32 @@ function BlogWriter() {
       return;
     }
     setImageError(""); setImageStatus("generating"); setImageParagraphs([]);
+    setHero(null); setHeroStatus("idle"); setHeroError("");
     try {
       localStorage.setItem("mediblog_clinic", clinicName);
       localStorage.setItem("mediblog_doctor", doctorName);
     } catch (e) {}
 
     try {
+      // 0단계: 대표 이미지 생성 (AEO 썸네일)
+      setImageProgress("0단계: AEO 대표 이미지 생성 중…");
+      setHeroStatus("generating");
+      try {
+        const h = await generateHeroImage({
+          apiKey: apiKey.trim(),
+          blogText: result.content,
+          title: result.meta?.title,
+          keywords: (result.meta?.keywords || []).join(", "),
+          aspectRatio: heroAspect,
+        });
+        setHero(h);
+        setHeroStatus("done");
+      } catch (err) {
+        console.warn("대표 이미지 생성 실패, 단락 이미지로 계속:", err.message);
+        setHeroStatus("error");
+        setHeroError(err.message);
+      }
+
       setImageProgress(`1단계: 블로그를 ${imageParagraphCount}개 단락으로 분할 중…`);
       const split = await splitBlogForImages({
         apiKey: apiKey.trim(),
@@ -752,15 +897,25 @@ function BlogWriter() {
   }
 
   async function handleDownloadZip() {
-    if (imageParagraphs.filter(p => p.status === "completed").length === 0) return;
+    const hasHero = hero && hero.imageUrl;
+    if (!hasHero && imageParagraphs.filter(p => p.status === "completed").length === 0) return;
     setZipping(true);
     try {
       const safeTitle = (result?.meta?.title || "blog-images").replace(/[^\w가-힣]+/g, "-").slice(0, 40);
-      await downloadImagesAsZip(imageParagraphs, safeTitle);
+      await downloadImagesAsZip(imageParagraphs, safeTitle, hasHero ? hero : null);
     } catch (err) {
       alert("ZIP 다운로드 실패: " + err.message);
     }
     setZipping(false);
+  }
+
+  function downloadHeroOnly() {
+    if (!hero?.imageUrl) return;
+    const safeTitle = (result?.meta?.title || "hero").replace(/[^\w가-힣]+/g, "-").slice(0, 40);
+    const a = document.createElement("a");
+    a.href = hero.imageUrl;
+    a.download = `${safeTitle}_hero_${hero.aspectRatio.replace(":", "x")}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
   }
 
   async function copyAsHtml() {
@@ -1239,14 +1394,14 @@ ${raw1}`;
             )}
           </div>
 
-          {/* 원장/한의원 이름 & 단락 갯수 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 100px", gap: 10, marginBottom: 12 }}>
+          {/* 원장/한의원 이름 & 단락 갯수 & hero 비율 */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 90px 110px", gap: 10, marginBottom: 12 }}>
             <div>
               <label style={s.label}>🏥 한의원</label>
               <input value={clinicName} onChange={e => setClinicName(e.target.value)} style={{ ...s.input, fontSize: 13 }} />
             </div>
             <div>
-              <label style={s.label}>👨‍⚕️ 원장 표시 (이름+호칭)</label>
+              <label style={s.label}>👨‍⚕️ 원장 표시</label>
               <input value={doctorName} onChange={e => setDoctorName(e.target.value)} style={{ ...s.input, fontSize: 13 }} />
             </div>
             <div>
@@ -1257,18 +1412,61 @@ ${raw1}`;
                 <option value="8">8개</option>
               </select>
             </div>
+            <div>
+              <label style={s.label}>🖼️ 대표 비율</label>
+              <select value={heroAspect} onChange={e => setHeroAspect(e.target.value)} style={s.select}>
+                <option value="1:1">1:1 (썸네일)</option>
+                <option value="16:9">16:9 (배너)</option>
+                <option value="4:3">4:3</option>
+              </select>
+            </div>
           </div>
 
-          <button onClick={generateAllImages} disabled={imageStatus === "generating"}
+          <button onClick={generateAllImages} disabled={imageStatus === "generating" || heroStatus === "generating"}
             style={{ ...s.btn, background: imageStatus === "generating" ? "#93c5fd" : "#0369a1", opacity: imageStatus === "generating" ? 0.8 : 1, cursor: imageStatus === "generating" ? "wait" : "pointer" }}>
             {imageStatus === "generating"
               ? (imageProgress || "생성 중…")
-              : imageParagraphs.length > 0
-                ? "🔄 이미지 다시 생성"
-                : `🎨 이미지 ${imageParagraphCount}개 생성 시작`}
+              : imageParagraphs.length > 0 || hero
+                ? "🔄 전체 다시 생성"
+                : `🎨 대표 1장 + 단락 ${imageParagraphCount}장 생성 시작`}
           </button>
 
           {imageError && <div style={{ color: "#dc2626", fontSize: 12, marginTop: 10, padding: "8px 12px", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8 }}>⚠️ {imageError}</div>}
+
+          {/* 🖼️ 대표 이미지 (AEO 썸네일) */}
+          {(hero || heroStatus === "generating" || heroStatus === "error") && (
+            <div style={{ marginTop: 16, background: "#fff", border: "1.5px solid #0369a1", borderRadius: 10, overflow: "hidden" }}>
+              <div style={{ padding: "8px 14px", background: "#0369a1", color: "#fff", fontSize: 12, fontWeight: 700, letterSpacing: 0.5, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span>🖼️ 대표 이미지 (AEO 썸네일 · Naver AI 최적화)</span>
+                <span style={{ fontSize: 10, opacity: 0.8 }}>{hero?.aspectRatio || heroAspect}</span>
+              </div>
+              {hero?.subject && (
+                <div style={{ padding: "6px 14px", background: "#e0f2fe", fontSize: 11, color: "#0c4a6e", borderBottom: "1px solid #bae6fd" }}>
+                  <strong>AI 선택 주제:</strong> {hero.subject}
+                </div>
+              )}
+              <div style={{ aspectRatio: (hero?.aspectRatio || heroAspect).replace(":", " / "), background: "#f1f5f9", position: "relative" }}>
+                {hero?.imageUrl ? (
+                  <img src={hero.imageUrl} alt={hero.subject || "대표 이미지"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#64748b", fontSize: 12 }}>
+                    {heroStatus === "generating" ? "⟳ 대표 이미지 생성 중…" : heroStatus === "error" ? `❌ ${heroError?.slice(0, 100)}` : ""}
+                  </div>
+                )}
+              </div>
+              <div style={{ padding: "8px 14px", display: "flex", gap: 8, justifyContent: "flex-end", background: "#f8fafc" }}>
+                {hero?.imageUrl && (
+                  <button onClick={downloadHeroOnly} style={{ padding: "5px 12px", background: "#0369a1", color: "#fff", border: "none", borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
+                    📥 대표만 다운로드
+                  </button>
+                )}
+                <button onClick={generateHeroOnly} disabled={heroStatus === "generating" || imageStatus === "generating"}
+                  style={{ padding: "5px 12px", background: "#fff", color: "#0369a1", border: "1px solid #0369a1", borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: heroStatus === "generating" ? "wait" : "pointer" }}>
+                  {heroStatus === "generating" ? "생성 중…" : "🔄 대표만 다시 생성"}
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* 생성된 이미지 리스트 */}
           {imageParagraphs.length > 0 && (
