@@ -898,9 +898,22 @@ function BlogWriter() {
   }
 
   function clearPortrait() {
+    if (!confirm("저장된 인물 사진을 삭제하시겠습니까?\n삭제 후에도 '📥 백업' 버튼으로 미리 받아둔 파일이 있다면 다시 업로드할 수 있습니다.")) return;
     setPortrait("");
     try { localStorage.removeItem("mediblog_portrait"); } catch (e) {}
     if (portraitRef.current) portraitRef.current.value = "";
+  }
+
+  function backupPortrait() {
+    if (!portrait) return;
+    // data URL 에서 mime type 추출 (data:image/png;base64,... 또는 image/jpeg 등)
+    const mimeMatch = portrait.match(/^data:([^;]+);base64,/);
+    const mime = mimeMatch ? mimeMatch[1] : "image/png";
+    const ext = mime.split("/")[1] || "png";
+    const a = document.createElement("a");
+    a.href = portrait;
+    a.download = `original-portrait-backup.${ext}`;
+    document.body.appendChild(a); a.click(); a.remove();
   }
 
   async function generateHeroOnly() {
@@ -1564,10 +1577,13 @@ ${raw1}`;
               <div style={{ display: "flex", alignItems: "center", gap: 12, background: "#fff", border: "1px solid #cbd5e1", borderRadius: 10, padding: 10 }}>
                 <img src={portrait} alt="portrait" style={{ width: 56, height: 56, borderRadius: "50%", objectFit: "cover", border: "2px solid #1a3a5c" }} />
                 <div style={{ flex: 1, fontSize: 12, color: "#0c4a6e" }}>
-                  <div style={{ fontWeight: 700 }}>✅ 인물 사진 저장됨</div>
-                  <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>첫 단락에서 '{doctorName}'으로 변신 · 다음 글에서도 재사용</div>
+                  <div style={{ fontWeight: 700 }}>✅ 인물 사진 저장됨 (브라우저 localStorage)</div>
+                  <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>이 PC/브라우저에서 쓰는 모든 글의 첫 단락에 자동 재사용됩니다. 다른 기기 동기화는 안 되며, 만약을 위해 📥 백업 파일을 받아두시길 권합니다.</div>
                 </div>
-                <button onClick={clearPortrait} style={{ background: "none", border: "none", color: "#dc2626", cursor: "pointer", fontSize: 18, padding: 4 }}>✕</button>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <button onClick={backupPortrait} title="현재 저장된 사진을 파일로 다운로드. 저장소가 지워져도 이 파일을 다시 업로드하면 복원됩니다." style={{ background: "#0369a1", color: "#fff", border: "none", borderRadius: 4, padding: "4px 10px", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>📥 백업</button>
+                  <button onClick={clearPortrait} title="저장된 사진 삭제" style={{ background: "none", border: "1px solid #fecaca", color: "#dc2626", cursor: "pointer", fontSize: 11, padding: "3px 10px", borderRadius: 4 }}>✕ 삭제</button>
+                </div>
               </div>
             )}
           </div>
