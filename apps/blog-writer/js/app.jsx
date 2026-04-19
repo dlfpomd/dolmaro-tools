@@ -112,15 +112,37 @@ A. (2~3문장, 유보적 어미)
 - 롱테일 키워드 3~5개 삽입
 - E-E-A-T 요소, 출처/근거 명시
 
+[키워드 반복 제한 — 매우 중요]
+아래 항목은 본문 전체에서 각각 **20회 미만**으로만 사용하세요. 반복이 필요할 땐 유사어·지시대명사·우회 표현으로 대체합니다. 네이버 블로그는 동일 키워드 반복을 스팸으로 간주하여 노출에 불이익을 줍니다.
+- 질환명 (쇼그렌증후군, 구강작열감증후군, 자가면역질환, 신경병증 등)
+  → "이 질환", "해당 증후군", "본 자가면역 문제"
+- 핵심 증상어 (구강건조, 안구건조, 작열감, 통증, 염증, 피로)
+  → "이 불편함", "해당 증상", "이러한 변화"
+- 치료·기전어 (면역, 신경, 침치료, 한약, 타액)
+  → "이 접근", "본원의 치료 방법", "해당 기전"
+
 [금지 표현]
 ❌ "반드시 ~하셔야" → ✅ "~할 필요가 있겠습니다"
 ❌ "완치 가능" → ✅ "증상 개선에 도움이 될 수 있겠습니다"
-❌ 획기적, 놀라운, 반드시 등 감정적 수식어
+❌ 획기적, 놀라운, 반드시, 100%, 즉효, 부작용 없음, 가장 좋은 → 의료광고법 위반 위험
 ❌ "치료해드리겠습니다" → ✅ "동행하겠습니다"
 
-[영문 병기]
+[영문 병기 — 현대의학 개념]
 - 질환명: 한글(영문 약어) — 쇼그렌증후군(Sjogren's syndrome, SS)
-- 의학 개념: 한글 먼저 영문 괄호
+- 의학 개념: 한글 먼저, 영문 괄호 병기
+
+[한자 병기 — 한의학 개념 (필수)]
+한의학 고유 용어는 반드시 한자를 괄호로 병기합니다. 한의원 블로그의 전문성 시그널이자 차별점입니다.
+- 음허(陰虛), 양허(陽虛), 기허(氣虛), 혈허(血虛)
+- 조증(燥症), 담음(痰飮), 어혈(瘀血), 풍열(風熱)
+- 비위(脾胃), 간신(肝腎), 심폐(心肺)
+- 기체혈어(氣滯血瘀), 기혈양허(氣血兩虛), 음양실조(陰陽失調)
+- 변증(辨證), 상초(上焦)·중초(中焦)·하초(下焦)
+→ 본문에 **최소 3~4개** 이상의 한자 병기 한의학 용어 자연스럽게 포함
+
+[AEO — AI 답변 최적화]
+- 블록2 마지막 Q&A 3개는 각 답변이 **질문 없이 단독 인용돼도 뜻이 통하는 완결형 문장**으로 작성 (명제형, 3~4줄)
+- 답변은 "~입니다", "~할 수 있습니다" 같은 명확한 서술 (ChatGPT·Perplexity가 그대로 인용 가능하게)
 
 [출력 형식] 반드시 아래 태그 형식으로만 출력. 다른 텍스트 없이.
 <BLOG_META>
@@ -310,12 +332,14 @@ function MetaCard({ result }) {
         <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #e0d8c8" }}>
           <div style={{ fontSize: 11, color: "#999", fontWeight: 700, marginBottom: 6 }}>브랜드 DNA 체크리스트</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
-            <CheckItem ok={checklist.patientCase} label="환자 사례 도입" />
-            <CheckItem ok={checklist.paperCited} label="논문 서지사항 인용" />
-            <CheckItem ok={checklist.statistics} label="통계 수치 포함" />
-            <CheckItem ok={checklist.reservedTone} label="유보적 어미 사용" />
-            <CheckItem ok={checklist.companionEnding} label="동행 마무리" />
-            <CheckItem ok={checklist.faqSection} label="Q&A 3개 포함" />
+            <CheckItem ok={checklist.patientCase} label="환자 사례 도입 (내면 독백)" />
+            <CheckItem ok={checklist.paperCited} label={`논문 서지사항 (연도+저널)`} />
+            <CheckItem ok={checklist.statistics} label="통계 수치 (%·P·OR·HR)" />
+            <CheckItem ok={checklist.reservedTone} label={`유보적 어미 (${checklist._reservedCount ?? 0}회)`} />
+            <CheckItem ok={checklist.companionEnding} label="마지막에 동행 마무리" />
+            <CheckItem ok={checklist.faqSection} label={`Q&A ${checklist._qCount ?? 0}개`} />
+            <CheckItem ok={checklist.hanjaBilingual} label={`한자 병기 (${checklist._hanjaCount ?? 0}자)`} />
+            <CheckItem ok={checklist.keywordRepeat} label={`질환명 반복 ${checklist._diseaseCount ?? 0}회 (<20)`} />
           </div>
         </div>
       )}
@@ -399,6 +423,7 @@ function BlogWriter() {
   const [error, setError] = useState("");
   const [rawDebug, setRawDebug] = useState("");
   const [copied, setCopied] = useState(false);
+  const [htmlCopied, setHtmlCopied] = useState(false);
   const [activeTab, setActiveTab] = useState("preview");
   const fileRef = useRef();
 
@@ -425,6 +450,79 @@ function BlogWriter() {
   };
 
   const caller = () => provider === "claude" ? callClaude : callGemini;
+
+  // 마크다운 → 네이버 블로그 에디터 친화 HTML (붙여넣기 시 서식 보존)
+  function markdownToNaverHtml(md) {
+    const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const lines = md.split("\n");
+    const out = [];
+    let inList = false;
+    const flushList = () => { if (inList) { out.push("</ul>"); inList = false; } };
+
+    for (let raw of lines) {
+      const line = raw.replace(/\r$/, "");
+      if (/^# /.test(line)) {
+        flushList();
+        out.push(`<h2 style="font-size:20px;font-weight:700;margin:24px 0 12px;color:#1a1a1a;">${esc(line.slice(2))}</h2>`);
+      } else if (/^## /.test(line)) {
+        flushList();
+        out.push(`<h3 style="font-size:17px;font-weight:700;color:#1a3a5c;margin:20px 0 8px;border-bottom:2px solid #d4c9a8;padding-bottom:4px;">${esc(line.slice(3))}</h3>`);
+      } else if (/^### /.test(line)) {
+        flushList();
+        out.push(`<h4 style="font-size:15px;font-weight:700;color:#8b6f3e;margin:14px 0 6px;">${esc(line.slice(4))}</h4>`);
+      } else if (/^[-•]\s+/.test(line)) {
+        if (!inList) { out.push(`<ul style="margin:6px 0 10px 0;padding-left:20px;">`); inList = true; }
+        out.push(`<li style="margin:3px 0;line-height:1.8;">${esc(line.replace(/^[-•]\s+/, ""))}</li>`);
+      } else if (/^Q\./.test(line)) {
+        flushList();
+        out.push(`<p style="font-weight:700;color:#1a3a5c;background:#1a3a5c0d;padding:8px 12px;border-left:3px solid #1a3a5c;margin:12px 0 4px;border-radius:4px;">${esc(line)}</p>`);
+      } else if (/^A\./.test(line)) {
+        flushList();
+        out.push(`<p style="color:#444;margin:0 0 10px 14px;line-height:1.8;">${esc(line)}</p>`);
+      } else if (line.trim() === "") {
+        flushList();
+        out.push("<br>");
+      } else {
+        flushList();
+        out.push(`<p style="line-height:1.9;margin:6px 0;color:#333;">${esc(line)}</p>`);
+      }
+    }
+    flushList();
+    return out.join("\n");
+  }
+
+  async function copyAsHtml() {
+    if (!result?.content) return;
+    const html = markdownToNaverHtml(result.content);
+    try {
+      if (navigator.clipboard && window.ClipboardItem) {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/html": new Blob([html], { type: "text/html" }),
+            "text/plain": new Blob([result.content], { type: "text/plain" }),
+          }),
+        ]);
+      } else {
+        // Fallback: 숨김 div에서 선택 후 execCommand
+        const div = document.createElement("div");
+        div.innerHTML = html;
+        div.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none;";
+        document.body.appendChild(div);
+        const range = document.createRange();
+        range.selectNodeContents(div);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        document.execCommand("copy");
+        sel.removeAllRanges();
+        document.body.removeChild(div);
+      }
+      setHtmlCopied(true);
+      setTimeout(() => setHtmlCopied(false), 2500);
+    } catch (e) {
+      alert("HTML 복사 실패: " + e.message);
+    }
+  }
 
   const generate = async () => {
     if (!apiKey.trim()) { setError(`${PROVIDERS[provider].keyLabel}를 먼저 저장해주세요.`); return; }
@@ -481,18 +579,115 @@ ${raw1}`;
         charCount = countKorean(content);
       }
 
-      const subtopicCount = (content.match(/^## /gm) || []).length;
+      const subtopicCount = (content.match(/^#{2}\s+/gm) || []).length;
+
+      // 본문의 시작/끝/중간 구간 분리해서 정확도 높은 체크
+      const head = content.slice(0, 500);
+      const tail = content.slice(-200);
+
+      // 환자 사례: 연령+성별 패턴 또는 "이레한의원에서" + 도입부에 따옴표(내면 독백)
+      const hasQuote = /["'「『"']/.test(head) || /['"].*[.?!]['"]/.test(head);
+      const hasPatientFrame = /(이레한의원에서|\d+대\s*(남|여)|\d+세\s*(남|여)|환자|내원|받고 계신)/.test(head);
+
+      // 논문 서지: 연도 + 저널명(영문/한글) 같은 문단 내 — 정식 인용 패턴
+      const paperPattern = /20\d{2}[^\n]{0,60}(저널|Journal|journal|연구|논문)/;
+      const statsStrict = /[\d.]+\s*%|[\d.]+\s*배|P\s*[=<]\s*0\.\d|OR\s*[=:]?\s*\d|HR\s*[=:]?\s*\d|95%\s*CI|n\s*=\s*\d/;
+
+      // 유보적 어미: 최소 3회 이상 반복되어야 통과 (한두 번만 있으면 전체 톤 아님)
+      const reservedMatches = content.match(/있겠습니다|필요가 있|수 있겠|보입니다|해 보겠습니다|정리할 수 있겠/g) || [];
+
+      // 동행 마무리: 반드시 마지막 200자 내에 있어야 통과
+      const companionInTail = /동행하겠습니다/.test(tail);
+
+      // Q&A: 최소 3개의 Q. 패턴
+      const qMatches = content.match(/^\s*Q\.\s*/gm) || [];
+
+      // 한자 병기: 한자 문자가 본문에 존재하는지 (3자 이상)
+      const hanjaCount = (content.match(/[\u4E00-\u9FFF]/g) || []).length;
+
+      // 키워드 반복 (질환명이 20회 이상이면 스팸 경고)
+      const diseaseMentions = finalDisease
+        ? (content.match(new RegExp(finalDisease.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length
+        : 0;
+
       const checklist = {
-        patientCase: /이레한의원에서/.test(content),
-        paperCited: /년\s*(논문|연구|저널)/.test(content),
-        statistics: /[\d.]+\s*%|배\s*높|P\s*=\s*0\.|OR\s|HR\s/.test(content),
-        reservedTone: /있겠습니다|필요가 있|수 있겠/.test(content),
-        companionEnding: /동행하겠습니다/.test(content),
-        faqSection: /Q\./.test(content),
+        patientCase: hasPatientFrame && hasQuote,
+        paperCited: paperPattern.test(content),
+        statistics: statsStrict.test(content),
+        reservedTone: reservedMatches.length >= 3,
+        companionEnding: companionInTail,
+        faqSection: qMatches.length >= 3,
+        hanjaBilingual: hanjaCount >= 3,
+        keywordRepeat: diseaseMentions < 20,
         subtopicCount,
+        // 디버그용 카운트
+        _reservedCount: reservedMatches.length,
+        _qCount: qMatches.length,
+        _hanjaCount: hanjaCount,
+        _diseaseCount: diseaseMentions,
       };
 
-      meta.charCount = charCount;
+      // 3차 보정: 브랜드 DNA 체크리스트에서 2개 이상 실패하면 자동 재요청
+      const failed = [];
+      if (!checklist.patientCase) failed.push("- 첫 단락에서 반드시 환자 내면 독백을 큰따옴표로 인용하세요. 예: 최근 [질환명]으로 이레한의원에서 치료받고 계신 50대 여성분이 \"…\"라고 말씀하셨습니다.");
+      if (!checklist.paperCited) failed.push("- 논문 서지사항을 '2024년 Journal of Autoimmunity에서 발표된 연구' 형태로 **연도+저널명** 동시에 명시하세요.");
+      if (!checklist.statistics) failed.push("- 통계 수치를 최소 2개 이상 포함하세요 (%, P값, OR, HR 중).");
+      if (!checklist.reservedTone) failed.push("- '있겠습니다', '수 있겠', '필요가 있겠습니다' 같은 유보적 어미를 본문에 3회 이상 사용하세요.");
+      if (!checklist.companionEnding) failed.push("- 본문 맨 마지막 문장은 반드시 '그 과정에 이레한의원이 동행하겠습니다.'로 끝내세요.");
+      if (!checklist.faqSection) failed.push("- 블록2 마지막에 'Q. …' / 'A. …' 형식의 Q&A를 정확히 3개 포함하세요.");
+      if (!checklist.hanjaBilingual) failed.push("- 음허(陰虛), 조증(燥症), 기체혈어(氣滯血瘀) 등 한의학 개념을 한자 병기로 최소 3개 이상 포함하세요.");
+      if (!checklist.keywordRepeat) failed.push(`- 질환명 "${finalDisease}"가 본문에 ${checklist._diseaseCount}회 나타납니다. 20회 미만으로 줄이고 "이 질환", "해당 증후군" 등으로 대체하세요.`);
+
+      if (failed.length >= 2) {
+        setLoadingMsg(`3단계: 브랜드 DNA 보강 (${failed.length}개 항목 재적용)...`);
+        const fixPrompt = `아래는 작성된 블로그 글입니다. 다음 항목이 누락 또는 부족하므로 반드시 보강해서 다시 출력해주세요.
+
+${failed.join("\n")}
+
+위 지시사항을 모두 반영하되, 글자 수(공백 제외 한글 2,000~2,500자)와 4막 구조, Q&A 3개, 금지 표현 규칙은 그대로 유지하세요.
+반드시 동일한 <BLOG_META>...</BLOG_META> <BLOG_CONTENT>...</BLOG_CONTENT> 형식으로만 출력하세요.
+
+${raw1}`;
+        try {
+          const raw3 = await call({ apiKey: apiKey.trim(), messages: [{ role: "user", content: [{ type: "text", text: fixPrompt }] }] });
+          setRawDebug(raw3);
+          const p3 = parseRaw(raw3);
+          if (p3.content) {
+            content = p3.content;
+            if (p3.meta.title) meta = p3.meta;
+            charCount = countKorean(content);
+            meta.charCount = charCount;
+            // 체크리스트 재계산
+            const newSubtopicCount = (content.match(/^#{2}\s+/gm) || []).length;
+            const newHead = content.slice(0, 500);
+            const newTail = content.slice(-200);
+            const newReserved = content.match(/있겠습니다|필요가 있|수 있겠|보입니다|해 보겠습니다|정리할 수 있겠/g) || [];
+            const newQ = content.match(/^\s*Q\.\s*/gm) || [];
+            const newHanja = (content.match(/[\u4E00-\u9FFF]/g) || []).length;
+            const newDiseaseCount = finalDisease
+              ? (content.match(new RegExp(finalDisease.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length
+              : 0;
+            Object.assign(checklist, {
+              patientCase: /["'「『"']/.test(newHead) && /(이레한의원에서|\d+대\s*(남|여)|\d+세\s*(남|여)|환자|받고 계신)/.test(newHead),
+              paperCited: /20\d{2}[^\n]{0,60}(저널|Journal|journal|연구|논문)/.test(content),
+              statistics: /[\d.]+\s*%|[\d.]+\s*배|P\s*[=<]\s*0\.\d|OR\s*[=:]?\s*\d|HR\s*[=:]?\s*\d|95%\s*CI|n\s*=\s*\d/.test(content),
+              reservedTone: newReserved.length >= 3,
+              companionEnding: /동행하겠습니다/.test(newTail),
+              faqSection: newQ.length >= 3,
+              hanjaBilingual: newHanja >= 3,
+              keywordRepeat: newDiseaseCount < 20,
+              subtopicCount: newSubtopicCount,
+              _reservedCount: newReserved.length,
+              _qCount: newQ.length,
+              _hanjaCount: newHanja,
+              _diseaseCount: newDiseaseCount,
+            });
+          }
+        } catch (e) {
+          console.warn("3차 보정 실패, 2차 결과 유지:", e.message);
+        }
+      }
+
       setResult({ meta, checklist, content });
       setActiveTab("preview");
     } catch (e) {
@@ -680,19 +875,25 @@ ${raw1}`;
               <button style={s.tab(activeTab === "raw")} onClick={() => setActiveTab("raw")}>텍스트 원본</button>
               {rawDebug && <button style={s.tab(activeTab === "debug")} onClick={() => setActiveTab("debug")}>🔍 디버그</button>}
             </div>
-            <button onClick={() => {
-              try {
-                const ta = document.createElement("textarea");
-                ta.value = result.content;
-                ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none;";
-                document.body.appendChild(ta); ta.focus(); ta.select();
-                document.execCommand("copy");
-                document.body.removeChild(ta);
-                setCopied(true); setTimeout(() => setCopied(false), 2000);
-              } catch (e) { alert("복사 실패. 텍스트 원본에서 직접 복사하세요."); }
-            }} style={{ padding: "7px 16px", background: copied ? "#27ae60" : "#f0ebe0", color: copied ? "#fff" : "#555", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
-              {copied ? "✅ 복사됨" : "📋 복사하기"}
-            </button>
+            <div style={{ display: "flex", gap: 6 }}>
+              <button onClick={() => {
+                try {
+                  const ta = document.createElement("textarea");
+                  ta.value = result.content;
+                  ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none;";
+                  document.body.appendChild(ta); ta.focus(); ta.select();
+                  document.execCommand("copy");
+                  document.body.removeChild(ta);
+                  setCopied(true); setTimeout(() => setCopied(false), 2000);
+                } catch (e) { alert("복사 실패. 텍스트 원본에서 직접 복사하세요."); }
+              }} style={{ padding: "7px 14px", background: copied ? "#27ae60" : "#f0ebe0", color: copied ? "#fff" : "#555", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+                {copied ? "✅ 복사됨" : "📋 마크다운"}
+              </button>
+              <button onClick={copyAsHtml} title="네이버 블로그 에디터에 붙여넣으면 서식(제목·리스트·Q&A)이 그대로 유지됩니다"
+                style={{ padding: "7px 14px", background: htmlCopied ? "#27ae60" : "#1a3a5c", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+                {htmlCopied ? "✅ HTML 복사됨" : "🎨 네이버용 HTML"}
+              </button>
+            </div>
           </div>
           {activeTab === "preview" && <div style={{ lineHeight: 1.8 }}>{renderMd(result.content)}</div>}
           {activeTab === "raw" && <textarea readOnly value={result.content} style={{ ...s.input, height: 540, resize: "vertical", fontFamily: "monospace", fontSize: 13, lineHeight: 1.7 }} />}
