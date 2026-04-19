@@ -127,6 +127,12 @@ A. (2~3문장, 유보적 어미)
 ❌ 획기적, 놀라운, 반드시, 100%, 즉효, 부작용 없음, 가장 좋은 → 의료광고법 위반 위험
 ❌ "치료해드리겠습니다" → ✅ "동행하겠습니다"
 
+[마크다운 서식 금지]
+본문에는 다음 마크다운을 **절대 사용하지 않습니다** (네이버 블로그 에디터에서 깨짐):
+❌ **굵게** 표시 — 강조는 별도 문단이나 줄바꿈으로 표현
+❌ ---, ***, ___ 구분선 — 섹션 구분은 소제목(## )으로만 처리
+✅ 허용: # ## ### (제목), - • (리스트), Q. A. (Q&A)
+
 [영문 병기 — 현대의학 개념]
 - 질환명: 한글(영문 약어) — 쇼그렌증후군(Sjogren's syndrome, SS)
 - 의학 개념: 한글 먼저, 영문 괄호 병기
@@ -172,6 +178,18 @@ const toBase64 = (f) => new Promise((res, rej) => {
 
 const countKorean = (t) => (t || "").replace(/[^\uAC00-\uD7A3]/g, "").length;
 
+/** 모델이 실수로 삽입한 네이버 블로그 비친화 서식을 제거 */
+function sanitizeContent(c) {
+  if (!c) return "";
+  return c
+    .replace(/\*\*/g, "")             // 굵게 표시 ** 제거 (내용은 보존)
+    .replace(/^\s*-{3,}\s*$/gm, "")   // --- 구분선 라인 삭제
+    .replace(/^\s*\*{3,}\s*$/gm, "")  // *** 구분선
+    .replace(/^\s*_{3,}\s*$/gm, "")   // ___ 구분선
+    .replace(/\n{3,}/g, "\n\n")       // 빈 줄 3개 이상 → 2개로 축약
+    .trim();
+}
+
 function parseRaw(raw) {
   const metaM = raw.match(/<BLOG_META>([\s\S]*?)<\/BLOG_META>/);
   const contentM = raw.match(/<BLOG_CONTENT>([\s\S]*?)<\/BLOG_CONTENT>/);
@@ -184,7 +202,7 @@ function parseRaw(raw) {
     const kw = get("키워드");
     meta.keywords = kw ? kw.split(/[,，]/).map(k => k.trim()).filter(Boolean) : [];
   }
-  const content = contentM ? contentM[1].trim() : raw.trim();
+  const content = sanitizeContent(contentM ? contentM[1].trim() : raw.trim());
   return { meta, content };
 }
 
@@ -415,6 +433,8 @@ function BlogWriter() {
   const [customDisease, setCustomDis] = useState("");
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
+  const [subtopicTarget, setSubtopicTarget] = useState("5");
+  const [extraInstruction, setExtraInstruction] = useState("");
   const [paperFile, setPaperFile] = useState(null);
   const [paperText, setPaperText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -535,8 +555,13 @@ function BlogWriter() {
 추가 타겟 키워드: ${keywords || "자동 선정"}
 
 첨부된 논문을 꼼꼼히 읽고, 실제 데이터(연구 대상자 수, 통계 수치, OR/HR, P값, %)를 정확히 추출하여 반영해 주세요.
-소주제(H2)를 4~5개 구성하고, 공백 제외 한글 2,000~2,500자로 작성해 주세요.
-4막 구조를 따르고, Q&A 3개 포함, 마무리는 "그 과정에 이레한의원이 동행하겠습니다."로 끝내주세요.`;
+소주제(H2)를 **정확히 ${subtopicTarget}개** 구성하고, 공백 제외 한글 2,000~2,500자로 작성해 주세요.
+4막 구조를 따르고, Q&A 3개 포함, 마무리는 "그 과정에 이레한의원이 동행하겠습니다."로 끝내주세요.
+본문에 ** (굵게) 나 --- (구분선) 표시는 절대 사용하지 마세요.
+${extraInstruction.trim() ? `
+
+[이번 글 추가 지침 — 최우선 반영]
+${extraInstruction.trim()}` : ""}`;
 
     try {
       let msgContent;
@@ -820,6 +845,27 @@ ${raw1}`;
         <div style={{ marginBottom: 14 }}>
           <label style={s.label}>🔑 추가 타겟 키워드 <span style={{ fontSize: 11, color: "#999", fontWeight: 400 }}>(선택, 쉼표 구분)</span></label>
           <input style={s.input} value={keywords} onChange={e => setKeywords(e.target.value)} placeholder="예: 비수술 치료, 한의학 자가면역, 인천 한의원" />
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: 14, marginBottom: 14 }}>
+          <div>
+            <label style={s.label}>📑 소주제 갯수</label>
+            <select style={s.select} value={subtopicTarget} onChange={e => setSubtopicTarget(e.target.value)}>
+              <option value="4">4개</option>
+              <option value="5">5개</option>
+              <option value="6">6개</option>
+              <option value="7">7개</option>
+            </select>
+          </div>
+          <div>
+            <label style={s.label}>✏️ 추가 / 제외 지침 <span style={{ fontSize: 11, color: "#999", fontWeight: 400 }}>(선택 — 이번 글에만 적용)</span></label>
+            <textarea
+              value={extraInstruction}
+              onChange={e => setExtraInstruction(e.target.value)}
+              placeholder={`예1) 침치료 관련 내용을 강조해주세요.\n예2) 특정 환자 성별/연령을 사용하지 마세요.\n예3) 블록3 임상 해석을 더 길게 써주세요.`}
+              style={{ ...s.input, height: 68, resize: "vertical", fontSize: 13, lineHeight: 1.5, fontFamily: "inherit" }}
+            />
+          </div>
         </div>
 
         <div style={{ marginBottom: 18 }}>
