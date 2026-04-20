@@ -4,13 +4,13 @@ REM  Dolmaro keyword monitor - auto run + git push
 REM  Called by Windows Task Scheduler at Mon/Fri 10:00 AM
 REM
 REM  Strategy:
-REM  - Python + Selenium (needs Chrome, ~30-40 min, accurate SERP)
-REM  - git commit/push is delegated to WSL (uses WSL credentials)
-REM    because Windows-side git has no identity / credentials set.
+REM  - Python + Selenium on Windows (needs Chrome, ~30-40 min)
+REM    Measures actual first-page SERP exposure.
+REM  - git commit/push delegated to WSL (WSL has the credentials).
 REM
-REM  Naver Open API 버전 (naver_monitor_api.py)은 첫 페이지 노출이
-REM  아니라 "블로그/웹문서 상위 N개 관련도 랭킹"을 측정하므로
-REM  스케줄 용도로는 쓰지 않습니다. Claude가 즉석 확인할 때만 사용.
+REM  Note: naver_monitor_api.py exists for ad-hoc Claude queries,
+REM  but is NOT wired into the schedule because its ranking is
+REM  different from Naver's SERP first-page semantics.
 REM ============================================================
 setlocal
 
@@ -56,7 +56,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM 3) Commit + push via WSL (WSL has the GitHub credentials)
+REM 3) Commit + push via WSL
 echo [3/3] WSL: commit + push >> "%LOG_FILE%"
 wsl.exe -d Ubuntu -u dolmaro --exec /bin/bash -lc "/mnt/c/dolmaro-tools/apps/keyword-analyzer/monitor/commit_and_push.sh" >> "%LOG_FILE%" 2>&1
 set EXIT_CODE=%errorlevel%
