@@ -12,10 +12,15 @@ cd "$REPO_DIR" || exit 1
 git config user.email "dlfpomd@gmail.com"
 git config user.name "dlfpomd"
 
-# Pull latest to avoid non-fast-forward pushes
-git pull --rebase origin main || { echo "[commit_and_push] git pull failed"; exit 2; }
-
+# Stage the monitor's fresh output FIRST so the subsequent rebase/pull
+# sees a clean working tree. (Previously `git pull --rebase` would fail
+# with "You have unstaged changes" because the Python run just modified
+# data/latest.json, data/history.json.)
 git add apps/keyword-analyzer/data
+
+# Pull latest to avoid non-fast-forward pushes. --autostash handles any
+# other non-data uncommitted changes that may be lingering.
+git pull --rebase --autostash origin main || { echo "[commit_and_push] git pull failed"; exit 2; }
 
 if git diff --cached --quiet; then
   echo "[commit_and_push] no changes — skipping commit"

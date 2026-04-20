@@ -74,7 +74,11 @@ BLOG_IDS = ['dlfpomd', 'dlfpomd2', 'xkjbaeakds']
 WEBSITE_DOMAINS = ['irea.co.kr', 'ireaomd.co.kr']
 
 # ---- API 설정 ----
-API_DISPLAY = 100          # 한 호출당 결과 수 (최대 100)
+# display=15: Selenium 버전의 "첫 페이지 노출"과 의미적으로 비슷해지도록
+# 상위 15개만 확인. display=100으로 하면 "상위 100위 안에 있음"이 되어
+# 노출률이 비현실적으로 높게(>90%) 나옵니다. 기존 Selenium 결과와 비교
+# 가능한 수치를 얻으려면 15~20 수준이 적절.
+API_DISPLAY = 15
 API_DELAY_SEC = 0.1        # 호출 간 짧은 지연 (초당 상한 회피)
 API_TIMEOUT = 15
 SOURCE_TAG = 'naver_open_api'
