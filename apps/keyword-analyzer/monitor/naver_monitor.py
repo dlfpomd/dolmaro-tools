@@ -275,6 +275,24 @@ def summarize(results):
 def save_outputs(all_by_disease, keyword_sets, started_at, finished_at):
     os.makedirs(RUNS_DIR, exist_ok=True)
 
+    # 방어: Chrome 세션 초기화 등으로 아무것도 검사 못 했으면 latest.json을
+    # 빈 데이터로 덮어쓰지 않는다. 실패 로그만 남기고 조용히 종료.
+    total_results = sum(len(rs) for rs in all_by_disease.values())
+    if total_results == 0:
+        print('  [!] 검사된 키워드가 0개 — latest.json 덮어쓰지 않고 종료합니다.')
+        fail_path = os.path.join(
+            RUNS_DIR, started_at.strftime('%Y-%m-%d-%H%M') + '-FAILED.json'
+        )
+        with open(fail_path, 'w', encoding='utf-8') as f:
+            json.dump({
+                'started_at': started_at.isoformat(timespec='seconds'),
+                'finished_at': finished_at.isoformat(timespec='seconds'),
+                'failed': True,
+                'reason': 'zero results — likely Chrome/driver error',
+            }, f, ensure_ascii=False, indent=2)
+        print(f'  실패 기록: {fail_path}')
+        return
+
     diseases = {}
     for kset in keyword_sets:
         label = kset['disease']

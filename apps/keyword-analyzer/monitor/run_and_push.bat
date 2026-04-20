@@ -4,11 +4,13 @@ REM  Dolmaro keyword monitor - auto run + git push
 REM  Called by Windows Task Scheduler at Mon/Fri 10:00 AM
 REM
 REM  Strategy:
-REM  - Python + Naver Open API (no browser needed, ~2-3 min)
+REM  - Python + Selenium (needs Chrome, ~30-40 min, accurate SERP)
 REM  - git commit/push is delegated to WSL (uses WSL credentials)
 REM    because Windows-side git has no identity / credentials set.
 REM
-REM  Manual Selenium full-coverage run: run_selenium_manual.bat
+REM  Naver Open API 버전 (naver_monitor_api.py)은 첫 페이지 노출이
+REM  아니라 "블로그/웹문서 상위 N개 관련도 랭킹"을 측정하므로
+REM  스케줄 용도로는 쓰지 않습니다. Claude가 즉석 확인할 때만 사용.
 REM ============================================================
 setlocal
 
@@ -44,9 +46,9 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM 2) Run the monitor (Naver Open API)
-echo [2/3] python naver_monitor_api.py --no-pause >> "%LOG_FILE%"
-python "%REPO_ROOT%\apps\keyword-analyzer\monitor\naver_monitor_api.py" --no-pause >> "%LOG_FILE%" 2>&1
+REM 2) Run the monitor (Windows Python + Selenium)
+echo [2/3] python naver_monitor.py --no-pause >> "%LOG_FILE%"
+python "%REPO_ROOT%\apps\keyword-analyzer\monitor\naver_monitor.py" --no-pause >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
     echo Monitor run failed. >> "%LOG_FILE%"
     echo Monitor run failed.
