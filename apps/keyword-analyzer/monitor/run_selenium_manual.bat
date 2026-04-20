@@ -1,14 +1,9 @@
 @echo off
 REM ============================================================
-REM  Dolmaro keyword monitor - auto run + git push
-REM  Called by Windows Task Scheduler at Mon/Fri 10:00 AM
-REM
-REM  Strategy:
-REM  - Python + Naver Open API (no browser needed, ~2-3 min)
-REM  - git commit/push is delegated to WSL (uses WSL credentials)
-REM    because Windows-side git has no identity / credentials set.
-REM
-REM  Manual Selenium full-coverage run: run_selenium_manual.bat
+REM  Selenium 버전 수동 실행 (유튜브/이미지까지 풀 체크)
+REM  스케줄 실행은 run_and_push.bat (API 버전)에서 담당합니다.
+REM  이 bat은 원장님이 정밀 확인할 때 더블클릭으로 쓰세요.
+REM  소요 시간: 약 30~40분
 REM ============================================================
 setlocal
 
@@ -18,12 +13,10 @@ echo [%date% %time%] REPO_ROOT = %REPO_ROOT%
 
 set "LOG_DIR=%REPO_ROOT%\apps\keyword-analyzer\logs"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
-set "LOG_FILE=%LOG_DIR%\%date:~0,4%-%date:~5,2%-%date:~8,2%.log"
+set "LOG_FILE=%LOG_DIR%\%date:~0,4%-%date:~5,2%-%date:~8,2%-selenium.log"
 
-REM Check Python
 python --version >nul 2>&1
 if errorlevel 1 (
-    echo Python not installed. >> "%LOG_FILE%"
     echo Python not installed.
     pause
     exit /b 1
@@ -31,30 +24,25 @@ if errorlevel 1 (
 
 echo. >> "%LOG_FILE%"
 echo ============================================================ >> "%LOG_FILE%"
-echo  START: %date% %time% >> "%LOG_FILE%"
+echo  START (Selenium manual): %date% %time% >> "%LOG_FILE%"
 echo ============================================================ >> "%LOG_FILE%"
 
-REM 1) Sync via WSL first (pull latest keyword lists + prior data)
 echo [1/3] WSL: git pull --rebase >> "%LOG_FILE%"
 wsl.exe -d Ubuntu -u dolmaro --exec /bin/bash -lc "cd /mnt/c/dolmaro-tools && git pull --rebase origin main" >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
-    echo git pull failed. >> "%LOG_FILE%"
     echo git pull failed.
     popd
     exit /b 1
 )
 
-REM 2) Run the monitor (Naver Open API)
-echo [2/3] python naver_monitor_api.py --no-pause >> "%LOG_FILE%"
-python "%REPO_ROOT%\apps\keyword-analyzer\monitor\naver_monitor_api.py" --no-pause >> "%LOG_FILE%" 2>&1
+echo [2/3] python naver_monitor.py --no-pause >> "%LOG_FILE%"
+python "%REPO_ROOT%\apps\keyword-analyzer\monitor\naver_monitor.py" --no-pause >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
-    echo Monitor run failed. >> "%LOG_FILE%"
     echo Monitor run failed.
     popd
     exit /b 1
 )
 
-REM 3) Commit + push via WSL (WSL has the GitHub credentials)
 echo [3/3] WSL: commit + push >> "%LOG_FILE%"
 wsl.exe -d Ubuntu -u dolmaro --exec /bin/bash -lc "/mnt/c/dolmaro-tools/apps/keyword-analyzer/monitor/commit_and_push.sh" >> "%LOG_FILE%" 2>&1
 set EXIT_CODE=%errorlevel%

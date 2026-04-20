@@ -69,6 +69,22 @@ function render() {
   const { data } = state;
   $('#lastRun').textContent = fmtDate(data.finished_at || data.started_at);
 
+  // 측정 방식 배지
+  const badge = $('#sourceBadge');
+  if (badge) {
+    if (data.source === 'naver_open_api') {
+      badge.hidden = false;
+      badge.textContent = 'API · 블로그·웹문서';
+      badge.title = 'Naver Open API 측정: 블로그(blog.json) + 웹문서(webkr.json) 기준. 유튜브·이미지 채널은 Selenium 수동 실행에서만 집계됩니다.';
+      badge.dataset.source = 'api';
+    } else {
+      badge.hidden = false;
+      badge.textContent = 'Selenium · 풀 체크';
+      badge.title = 'Selenium 측정: 블로그·홈페이지·유튜브·이미지 모두 네이버 실제 SERP에서 확인.';
+      badge.dataset.source = 'selenium';
+    }
+  }
+
   const diseases = Object.entries(data.diseases || {});
   if (!diseases.length) { showEmpty(); return; }
 

@@ -5,3 +5,8 @@ node_modules/
 .vscode/
 .idea/
 *.Zone.Identifier
+
+# Secrets - never commit
+.env
+!.env.example
+apps/keyword-analyzer/logs/

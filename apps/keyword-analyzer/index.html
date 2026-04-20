@@ -24,6 +24,7 @@
         <div class="dash-last-run">
           <span class="last-run-label">마지막 실행</span>
           <span id="lastRun" class="last-run-value">—</span>
+          <span id="sourceBadge" class="source-badge" hidden></span>
         </div>
       </div>
     </div>
@@ -43,24 +44,28 @@
 
           <div class="help-block">
             <h3>🟢 자동 실행 (기본)</h3>
-            <p>매주 <strong>월요일·금요일 오전 10시</strong>에 PC가 자동으로 Chrome을 열어 네이버 검색을 돌고, 결과를 이 페이지에 업로드합니다. 수면모드라도 Windows가 깨워 실행합니다.</p>
+            <p>매주 <strong>월요일·금요일 오전 10시</strong>에 Windows가 <strong>Naver Open API</strong>로 검색을 돌고 결과를 이 페이지에 업로드합니다. 약 2~3분 소요. 수면모드라도 Windows가 깨워 실행합니다.</p>
+            <p class="help-tip">💡 자동 실행은 <strong>블로그·웹문서만</strong> 측정합니다. 유튜브·이미지 포함 풀 체크는 아래 Selenium 수동 실행을 쓰세요 (약 30~40분).</p>
           </div>
 
           <div class="help-block">
             <h3>▶️ 지금 바로 실행하고 싶을 때</h3>
-            <p><strong>방법 A — 탐색기에서 더블클릭 (제일 쉬움):</strong></p>
+            <p><strong>API 빠른 실행 (2~3분, 블로그·웹문서):</strong></p>
             <ol>
               <li>파일 탐색기를 엽니다 (<kbd>Win</kbd> + <kbd>E</kbd>)</li>
               <li>주소창에 이 경로를 붙여넣고 엔터:<br>
                 <code>C:\dolmaro-tools\apps\keyword-analyzer\monitor</code></li>
-              <li><code>run_and_push.bat</code> 을 더블클릭</li>
-              <li>Chrome이 자동으로 열리고 30~40분 뒤 결과가 이 페이지에 자동 반영</li>
+              <li><code>run_and_push.bat</code> 을 더블클릭 → 2~3분 후 자동 반영</li>
             </ol>
-            <p><strong>방법 B — Windows 작업 스케줄러에서 즉시 실행:</strong></p>
+            <p><strong>Selenium 풀 체크 (30~40분, 유튜브·이미지까지):</strong></p>
+            <ol>
+              <li>같은 폴더에서 <code>run_selenium_manual.bat</code> 을 더블클릭</li>
+              <li>Chrome이 자동으로 열립니다 — 중간에 브라우저 건드리지 마세요</li>
+            </ol>
+            <p><strong>작업 스케줄러에서 즉시 실행:</strong></p>
             <ol>
               <li><kbd>Win</kbd> + <kbd>R</kbd> → <code>taskschd.msc</code> 엔터</li>
-              <li>왼쪽 "작업 스케줄러 라이브러리" 클릭</li>
-              <li>목록에서 <code>DolmaroKeywordMonitor</code> 우클릭 → "실행"</li>
+              <li>목록에서 <code>DolmaroKeywordMonitor</code> 우클릭 → "실행" (API 버전 실행)</li>
             </ol>
           </div>
 
@@ -83,11 +88,13 @@
                 <ul>
                   <li>Python 3.10+ (<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>) — 설치 시 "Add Python to PATH" 체크</li>
                   <li>Git for Windows (<a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a>)</li>
-                  <li>Google Chrome</li>
+                  <li>Google Chrome (Selenium 수동 실행용)</li>
                 </ul>
               </li>
               <li><strong>레포 복제</strong> — PowerShell 실행 후:
                 <pre><code>git clone https://github.com/dlfpomd/dolmaro-tools.git C:\dolmaro-tools</code></pre>
+              </li>
+              <li><strong>Naver API 자격증명 설정:</strong> <code>monitor\.env.example</code>을 <code>.env</code>로 복사하고 <a href="https://developers.naver.com/apps/" target="_blank" rel="noopener">Naver Developers</a>에서 발급받은 Client ID/Secret을 채워넣기
               </li>
               <li><strong>스케줄러 등록:</strong>
                 <br><code>C:\dolmaro-tools\apps\keyword-analyzer\monitor\setup_scheduler.bat</code>

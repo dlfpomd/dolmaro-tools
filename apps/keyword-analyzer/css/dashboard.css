@@ -61,6 +61,24 @@ body {
   color: #e2e8f0;
   font-variant-numeric: tabular-nums;
 }
+.source-badge {
+  margin-top: 4px;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(59, 130, 246, 0.18);
+  color: #bfdbfe;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  cursor: help;
+}
+.source-badge[data-source="selenium"] {
+  background: rgba(16, 185, 129, 0.18);
+  color: #a7f3d0;
+  border-color: rgba(16, 185, 129, 0.35);
+}
 
 /* Main */
 .dash-main { flex: 1; padding: 28px 0 56px; }
