@@ -486,6 +486,41 @@ body {
 .ch-cell { text-align: center; color: #cbd5e1; font-weight: 600; }
 .ch-cell.on { color: #059669; }
 
+/* 발행 체크 컬럼 */
+.pub-cell { text-align: center; }
+.pub-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  font-size: 12px;
+  color: #64748b;
+  user-select: none;
+}
+.pub-toggle:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+.pub-checkbox {
+  cursor: pointer;
+  margin: 0;
+  accent-color: #6366f1;
+}
+.pub-checkbox:checked + .pub-label {
+  color: #6366f1;
+  font-weight: 600;
+}
+.keyword-table tbody tr.is-published {
+  opacity: 0.55;
+}
+.keyword-table tbody tr.is-published:hover {
+  opacity: 1;
+}
+
 /* Footer */
 .dash-footer {
   border-top: 1px solid #e2e8f0;

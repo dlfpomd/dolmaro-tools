@@ -7,8 +7,35 @@ const PRIORITY_ORDER = { '최상': 0, '상': 1, '중': 2 };
 const state = {
   data: null,
   activeDisease: null,
-  filters: { priority: 'all', status: 'all', search: '' },
+  filters: { priority: 'all', status: 'all', published: 'all', search: '' },
 };
+
+/* ------------------------------------------------------------------
+ * 발행 체크 상태 — 브라우저 localStorage에 저장.
+ * 키는 "질환::키워드" 조합. 값은 체크한 날짜 문자열(ISO).
+ * 이 브라우저에만 남는 기록이라 다른 PC·다른 브라우저에서는 보이지 않음.
+ * ---------------------------------------------------------------- */
+const PUB_KEY = 'dolmaro-kw-published';
+
+function loadPublished() {
+  try { return JSON.parse(localStorage.getItem(PUB_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function setPublished(disease, keyword, checked) {
+  const data = loadPublished();
+  const k = `${disease}::${keyword}`;
+  if (checked) data[k] = new Date().toISOString();
+  else delete data[k];
+  localStorage.setItem(PUB_KEY, JSON.stringify(data));
+}
+
+function isPublished(disease, keyword) {
+  return !!loadPublished()[`${disease}::${keyword}`];
+}
+function publishedAt(disease, keyword) {
+  return loadPublished()[`${disease}::${keyword}`] || null;
+}
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
@@ -115,7 +142,7 @@ function renderTabs(diseases) {
   $$('.disease-tab').forEach(btn => {
     btn.addEventListener('click', () => {
       state.activeDisease = btn.dataset.disease;
-      state.filters = { priority: 'all', status: 'all', search: '' };
+      state.filters = { priority: 'all', status: 'all', published: 'all', search: '' };
       $('#searchInput').value = '';
       $$('.filter-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.value === 'all');
@@ -186,13 +213,15 @@ function renderRecommend(d) {
   const list = $('#recommendList');
   el.hidden = false;
 
+  // 이미 발행 체크한 키워드는 추천에서 제외
   const missing = (d.results || [])
     .filter(r => r.checked && !r.any_exposed && (r.priority === '최상' || r.priority === '상'))
+    .filter(r => !isPublished(r.disease || state.activeDisease, r.keyword))
     .sort((a, b) => (PRIORITY_ORDER[a.priority] ?? 9) - (PRIORITY_ORDER[b.priority] ?? 9));
 
   if (!missing.length) {
     list.innerHTML = `<div class="recommend-empty">
-      🎉 최상/상 우선순위 키워드가 모두 노출되고 있습니다!
+      🎉 추천할 키워드가 없습니다. 최상/상 우선순위 미노출 키워드를 모두 발행했거나 이미 노출 중입니다.
     </div>`;
     return;
   }
@@ -235,12 +264,15 @@ function renderFilterBar() {
 function renderTable(d) {
   $('#tableSection').hidden = false;
   const tbody = $('#tableBody');
-  const { priority, status, search } = state.filters;
+  const { priority, status, published, search } = state.filters;
+  const disease = state.activeDisease;
 
   let rows = d.results || [];
   if (priority !== 'all') rows = rows.filter(r => r.priority === priority);
   if (status === 'exposed') rows = rows.filter(r => r.any_exposed);
   else if (status === 'not_exposed') rows = rows.filter(r => r.checked && !r.any_exposed);
+  if (published === 'done') rows = rows.filter(r => isPublished(r.disease || disease, r.keyword));
+  else if (published === 'pending') rows = rows.filter(r => !isPublished(r.disease || disease, r.keyword));
   if (search) rows = rows.filter(r => r.keyword.toLowerCase().includes(search));
 
   rows = rows.slice().sort((a, b) => {
@@ -254,7 +286,7 @@ function renderTable(d) {
   $('#resultCount').textContent = `${rows.length}개`;
 
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:40px; color:#94a3b8;">
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:40px; color:#94a3b8;">
       조건에 맞는 키워드가 없습니다.
     </td></tr>`;
     return;
@@ -265,8 +297,14 @@ function renderTable(d) {
     const exp = r.any_exposed ? 'O' : 'X';
     const ch = (v) => v ? `<span class="ch-cell on">●</span>` : `<span class="ch-cell">○</span>`;
     const where = (r.found_where || []).join(', ') || '—';
+    const ds = r.disease || disease;
+    const pub = isPublished(ds, r.keyword);
+    const pubIso = publishedAt(ds, r.keyword);
+    const pubLabel = pubIso ? fmtDate(pubIso).split(' ')[0] : '';
+    const pubTitle = pubIso ? `발행 체크: ${fmtDate(pubIso)}` : '블로그/유튜브 발행 완료하면 체크';
+    const kwAttr = encodeURIComponent(r.keyword);
     return `
-      <tr class="${r.any_exposed ? 'exposed' : ''}">
+      <tr class="${r.any_exposed ? 'exposed' : ''} ${pub ? 'is-published' : ''}">
         <td class="kw-cell"><a href="${searchUrl}" target="_blank" rel="noopener">${escapeHtml(r.keyword)}</a></td>
         <td><span class="pri-cell pri-${r.priority}">${r.priority}</span></td>
         <td class="exp-cell exp-${exp}">${exp}</td>
@@ -275,8 +313,30 @@ function renderTable(d) {
         <td>${ch(r.youtube)}</td>
         <td>${ch(r.image)}</td>
         <td style="color:#64748b; font-size:12px;">${escapeHtml(where)}</td>
+        <td class="pub-cell" title="${escapeHtml(pubTitle)}">
+          <label class="pub-toggle">
+            <input type="checkbox" class="pub-checkbox"
+                   data-disease="${escapeHtml(ds)}" data-keyword="${kwAttr}"
+                   ${pub ? 'checked' : ''}>
+            <span class="pub-label">${pub ? `📝 ${pubLabel}` : '발행 체크'}</span>
+          </label>
+        </td>
       </tr>`;
   }).join('');
+
+  // 체크박스 이벤트 바인딩 (이벤트 위임)
+  if (!tbody.__pubBound) {
+    tbody.__pubBound = true;
+    tbody.addEventListener('change', (e) => {
+      const cb = e.target.closest('.pub-checkbox');
+      if (!cb) return;
+      const ds = cb.dataset.disease;
+      const kw = decodeURIComponent(cb.dataset.keyword);
+      setPublished(ds, kw, cb.checked);
+      // 추천 목록과 필터 결과도 즉시 반영
+      renderDisease();
+    });
+  }
 }
 
 function escapeHtml(s) {

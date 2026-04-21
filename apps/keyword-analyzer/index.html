@@ -48,6 +48,17 @@
           </div>
 
           <div class="help-block">
+            <h3>📝 발행 체크 (수동)</h3>
+            <p>표 맨 오른쪽 <strong>"발행"</strong> 컬럼의 체크박스로 블로그·유튜브를 올린 키워드를 직접 체크할 수 있습니다. 체크된 키워드는:</p>
+            <ul>
+              <li>해당 행이 희미하게 표시됨 + 날짜 배지</li>
+              <li><strong>"📢 다음 발행 추천"</strong> 목록에서 자동 제외됨</li>
+              <li>필터 <strong>"발행 → 미발행"</strong>을 누르면 아직 안 올린 것만 추려볼 수 있음</li>
+            </ul>
+            <p class="help-tip">💡 체크 상태는 <strong>이 브라우저</strong>에만 저장됩니다(localStorage). 다른 PC에서는 보이지 않으니 주 작업 PC 하나에서 관리하세요. 브라우저 데이터 삭제 시 같이 사라집니다.</p>
+          </div>
+
+          <div class="help-block">
             <h3>▶️ 지금 바로 실행하고 싶을 때</h3>
             <p><strong>방법 A — 탐색기에서 더블클릭 (제일 쉬움):</strong></p>
             <ol>
@@ -167,6 +178,12 @@
           <button class="filter-btn" data-filter="status" data-value="exposed">노출 O</button>
           <button class="filter-btn" data-filter="status" data-value="not_exposed">노출 X</button>
         </div>
+        <div class="filter-group">
+          <span class="filter-label">발행</span>
+          <button class="filter-btn active" data-filter="published" data-value="all">전체</button>
+          <button class="filter-btn" data-filter="published" data-value="done">발행함</button>
+          <button class="filter-btn" data-filter="published" data-value="pending">미발행</button>
+        </div>
         <div class="filter-group search-group">
           <input type="text" id="searchInput" placeholder="키워드 검색..." class="search-input">
           <span id="resultCount" class="result-count"></span>
@@ -178,14 +195,15 @@
           <table class="keyword-table">
             <thead>
               <tr>
-                <th style="width:38%;">키워드</th>
-                <th style="width:8%;">우선순위</th>
-                <th style="width:7%;">노출</th>
-                <th style="width:7%;">블로그</th>
-                <th style="width:8%;">홈페이지</th>
-                <th style="width:7%;">유튜브</th>
-                <th style="width:7%;">이미지</th>
-                <th style="width:18%;">발견 위치</th>
+                <th style="width:32%;">키워드</th>
+                <th style="width:7%;">우선순위</th>
+                <th style="width:6%;">노출</th>
+                <th style="width:6%;">블로그</th>
+                <th style="width:7%;">홈페이지</th>
+                <th style="width:6%;">유튜브</th>
+                <th style="width:6%;">이미지</th>
+                <th style="width:16%;">발견 위치</th>
+                <th style="width:14%;" title="내가 이 키워드로 블로그/유튜브에 글을 올렸는지 체크. 이 브라우저에만 저장됩니다.">발행</th>
               </tr>
             </thead>
             <tbody id="tableBody"></tbody>
