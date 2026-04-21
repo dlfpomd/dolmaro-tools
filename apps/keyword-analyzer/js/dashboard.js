@@ -307,12 +307,6 @@ function renderTable(d) {
       <tr class="${r.any_exposed ? 'exposed' : ''} ${pub ? 'is-published' : ''}">
         <td class="kw-cell"><a href="${searchUrl}" target="_blank" rel="noopener">${escapeHtml(r.keyword)}</a></td>
         <td><span class="pri-cell pri-${r.priority}">${r.priority}</span></td>
-        <td class="exp-cell exp-${exp}">${exp}</td>
-        <td>${ch(r.blog)}</td>
-        <td>${ch(r.website)}</td>
-        <td>${ch(r.youtube)}</td>
-        <td>${ch(r.image)}</td>
-        <td style="color:#64748b; font-size:12px;">${escapeHtml(where)}</td>
         <td class="pub-cell" title="${escapeHtml(pubTitle)}">
           <label class="pub-toggle">
             <input type="checkbox" class="pub-checkbox"
@@ -321,6 +315,12 @@ function renderTable(d) {
             <span class="pub-label">${pub ? `📝 ${pubLabel}` : '발행 체크'}</span>
           </label>
         </td>
+        <td class="exp-cell exp-${exp}">${exp}</td>
+        <td>${ch(r.blog)}</td>
+        <td>${ch(r.website)}</td>
+        <td>${ch(r.youtube)}</td>
+        <td>${ch(r.image)}</td>
+        <td style="color:#64748b; font-size:12px;">${escapeHtml(where)}</td>
       </tr>`;
   }).join('');
 
