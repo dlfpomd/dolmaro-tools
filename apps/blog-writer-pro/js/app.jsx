@@ -1129,6 +1129,8 @@ function BlogWriterPro() {
 
   // Claude.ai 복붙 워크플로우 state
   const [projectMode, setProjectMode] = useState(() => localStorage.getItem("bwp_project_mode") === "true");
+  const [projectUrl, setProjectUrl] = useState(() => localStorage.getItem("bwp_project_url") || "");
+  const [willAttachPdf, setWillAttachPdf] = useState(false); // Claude.ai 모드에서 PDF를 실제로 첨부할 예정인지
   const [pastedResponse, setPastedResponse] = useState("");
   const [webCopied, setWebCopied] = useState(false);
   const [projectPromptCopied, setProjectPromptCopied] = useState(false);
@@ -1164,6 +1166,10 @@ function BlogWriterPro() {
   useEffect(() => {
     try { localStorage.setItem("bwp_project_mode", String(projectMode)); } catch (e) {}
   }, [projectMode]);
+
+  useEffect(() => {
+    try { localStorage.setItem("bwp_project_url", projectUrl); } catch (e) {}
+  }, [projectUrl]);
 
   function switchPlatform(next) {
     if (next === platform) return;
@@ -1601,7 +1607,9 @@ function BlogWriterPro() {
     if (provider !== "claude-web") { setResult(null); setRawDebug(""); }
     if (provider === "claude-web") { /* 기존 결과 유지 */ } else { setLoading(true); }
 
-    const hasPaper = !!(paperFile || paperText);
+    const hasPaperLocal = !!(paperFile || paperText);
+    // Claude.ai 모드에서는 도구가 파일 자동 전송 못 하므로 "PDF 첨부 예정" 체크 시에만 실제 소스로 인정
+    const hasPaper = provider === "claude-web" ? (hasPaperLocal && willAttachPdf) : hasPaperLocal;
     const useRefUrl = referenceMode === "url" && referenceUrl.trim();
     const useRefText = referenceMode === "text" && referenceText.trim();
     const hasReference = useRefUrl || useRefText;
@@ -1616,7 +1624,13 @@ function BlogWriterPro() {
     const pf = PLATFORMS[platform];
 
     let sourceBlock = "";
-    if (hasPaper) sourceBlock += "\n[소스1 · 논문 PDF/텍스트] 첨부된 논문을 꼼꼼히 읽고, 실제 데이터(연구 대상자 수, 통계 수치, OR/HR, P값, %)를 정확히 추출하여 반영해 주세요.";
+    if (hasPaper) {
+      if (provider === "claude-web") {
+        sourceBlock += "\n[소스1 · 논문 PDF] 이 대화창에 직접 첨부된 논문 PDF를 꼼꼼히 읽고, 실제 데이터(연구 대상자 수, 통계 수치, OR/HR, P값, %)를 정확히 추출하여 반영해 주세요. PDF가 첨부되지 않았다면 작업을 중단하고 안내해 주세요.";
+      } else {
+        sourceBlock += "\n[소스1 · 논문 PDF/텍스트] 첨부된 논문을 꼼꼼히 읽고, 실제 데이터(연구 대상자 수, 통계 수치, OR/HR, P값, %)를 정확히 추출하여 반영해 주세요.";
+      }
+    }
     if (useRefUrl) sourceBlock += `\n\n[소스2 · 참고할 기존 블로그 URL]\n${referenceUrl.trim()}\n위 URL에 접속해서 글을 꼼꼼히 읽은 뒤, 원본의 핵심 정보·흐름·사례는 유지하되 이레한의원 브랜드 보이스 DNA로 완전히 **새롭게 재작성**해주세요.`;
     if (useRefText) sourceBlock += `\n\n[소스2 · 참고할 기존 블로그 원문]\n${referenceText.trim()}\n\n위 기존 글의 핵심 정보·흐름·사례는 유지하되, 이레한의원 브랜드 보이스 DNA로 완전히 **새롭게 재작성**해주세요.`;
     if (!hasVerifiedSource) sourceBlock = "\n[소스 없음 — 환각 방지 모드] 첨부 논문이나 참고 블로그 없이 질환명·주제·키워드 정보만으로 작성합니다. 구체적 저널명/권호/DOI/저자명/수치는 **절대** 지어내지 말고 익명 인용만 사용하세요.";
@@ -1637,6 +1651,11 @@ ${extraInstruction.trim()}` : ""}`;
 
     // ═══ Claude.ai 복붙 경로 ═══
     if (provider === "claude-web") {
+      // PDF가 도구에 첨부돼 있지만 Claude.ai에 수동 첨부하지 않을 예정이면 경고
+      if (hasPaperLocal && !willAttachPdf) {
+        const ok = confirm("도구에 PDF가 첨부돼 있는데 Claude.ai 모드에서는 그 파일을 자동 전송할 수 없습니다.\n\n• [확인] : PDF 없이 '소스 없음' 모드로 작성 (가짜 인용 방지됨)\n• [취소] : 일단 멈추고, PDF를 Claude.ai 대화창에 직접 올릴 예정이면 아래 체크박스를 먼저 켜주세요.");
+        if (!ok) return;
+      }
       const toCopy = buildClaudeWebPrompt({ systemPrompt, userPrompt, projectMode });
       try {
         await navigator.clipboard.writeText(toCopy);
@@ -1652,8 +1671,11 @@ ${extraInstruction.trim()}` : ""}`;
         document.body.removeChild(ta);
       }
       setPendingWebPrompt(toCopy);
-      // 새 탭 열기
-      window.open("https://claude.ai/new", "_blank", "noopener");
+      // Project URL이 있으면 그 URL, Project 모드면 projects 목록, 아니면 새 대화
+      const target = (projectMode && projectUrl.trim())
+        ? projectUrl.trim()
+        : (projectMode ? "https://claude.ai/projects" : "https://claude.ai/new");
+      window.open(target, "_blank", "noopener");
       return;
     }
 
@@ -1889,6 +1911,19 @@ ${raw1}`;
                 <button onClick={copyProjectSystemPrompt} style={{ marginTop: 10, padding: "7px 12px", background: projectPromptCopied ? "#16a34a" : "#0369a1", color: "#fff", border: "none", borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
                   {projectPromptCopied ? "✅ 복사됨 · Claude.ai 열림" : "📋 시스템 프롬프트 복사 + Project 페이지 열기"}
                 </button>
+                <div style={{ marginTop: 10 }}>
+                  <label style={{ fontSize: 11, fontWeight: 700, color: "#0c4a6e", display: "block", marginBottom: 4 }}>
+                    🔗 내 Project URL (선택 · 저장 시 도구가 바로 이 Project로 열어줌)
+                  </label>
+                  <input type="url" value={projectUrl} onChange={e => setProjectUrl(e.target.value)}
+                    placeholder="https://claude.ai/project/abc-123-xyz (Claude.ai Project 주소창에서 복사)"
+                    style={{ width: "100%", padding: "6px 10px", border: "1px solid #bae6fd", borderRadius: 6, fontSize: 11, fontFamily: "monospace", boxSizing: "border-box", background: "#fff" }} />
+                  {projectUrl && (
+                    <div style={{ marginTop: 4, fontSize: 10, color: "#16a34a", lineHeight: 1.5 }}>
+                      ✅ 저장됨 — 생성 시 이 URL로 새 탭이 열립니다. 그 화면에서 "새 대화" 버튼을 눌러 붙여넣기 하세요.
+                    </div>
+                  )}
+                </div>
                 <div style={{ marginTop: 8, padding: "6px 10px", background: "#fff", border: "1px dashed #bae6fd", borderRadius: 6, fontSize: 10, color: "#64748b" }}>
                   ⚠️ 플랫폼(네이버/홈페이지) 또는 논문 첨부 유무가 바뀌면 시스템 프롬프트도 살짝 달라집니다. 플랫폼 바꿀 때마다 Project instructions 갱신 권장.
                 </div>
@@ -1909,11 +1944,21 @@ ${raw1}`;
               </div>
             </label>
 
-            {/* 논문 첨부 안내 */}
+            {/* 논문 첨부 토글 — PDF를 Claude.ai에 실제로 올릴 예정인지 */}
             {(paperFile || paperText) && (
-              <div style={{ marginTop: 10, padding: "8px 12px", background: "#fef3c7", border: "1px dashed #fbbf24", borderRadius: 6, fontSize: 11, color: "#78350f", lineHeight: 1.6 }}>
-                📄 논문이 첨부돼 있네요. Claude.ai 모드에서는 <strong>Claude.ai 대화창에 PDF를 직접 업로드</strong>하셔야 합니다 (도구는 파일을 자동 전송할 수 없음). 프롬프트 복사 후 Claude.ai에서 📎 첨부 아이콘으로 PDF 올려주세요.
-              </div>
+              <label style={{ display: "flex", alignItems: "flex-start", gap: 8, marginTop: 10, padding: "10px 12px", background: willAttachPdf ? "#dcfce7" : "#fef3c7", border: `1px dashed ${willAttachPdf ? "#86efac" : "#fbbf24"}`, borderRadius: 6, cursor: "pointer" }}>
+                <input type="checkbox" checked={willAttachPdf} onChange={e => setWillAttachPdf(e.target.checked)} style={{ marginTop: 2 }} />
+                <div style={{ flex: 1, fontSize: 11, color: willAttachPdf ? "#14532d" : "#78350f", lineHeight: 1.6 }}>
+                  <div style={{ fontWeight: 700, marginBottom: 2 }}>
+                    {willAttachPdf ? "✅ Claude.ai 대화창에 PDF를 직접 올릴 예정" : "📄 논문 PDF 첨부 예정 체크 필요"}
+                  </div>
+                  <div>
+                    {willAttachPdf
+                      ? "프롬프트에 '[소스1 · 논문 PDF]' 블록이 포함됩니다. Claude.ai 대화창에서 📎 아이콘으로 해당 PDF를 반드시 업로드하세요. 안 올리면 Claude가 '파일 확인 안 됨' 응답을 줍니다."
+                      : "미체크 시 — 도구가 PDF를 자동 전송할 수 없으므로 '소스 없음 · 환각 방지 모드'로 작성됩니다. 체크하면 Claude.ai에 PDF를 직접 올릴 책임이 사용자에게 있음을 전제로 [소스1] 블록이 포함됩니다."}
+                  </div>
+                </div>
+              </label>
             )}
           </div>
         )}
