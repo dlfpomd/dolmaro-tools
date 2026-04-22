@@ -29,6 +29,7 @@ const PROVIDERS = {
   gemini: {
     id: "gemini",
     short: "Gemini",
+    needsKey: true,
     keyPrefix: "AIza",
     keyLabel: "Google AI Studio API Key",
     keyPlaceholder: "AIza...로 시작하는 Gemini API 키",
@@ -38,13 +39,20 @@ const PROVIDERS = {
   },
   claude: {
     id: "claude",
-    short: "Claude",
+    short: "Claude API",
+    needsKey: true,
     keyPrefix: "sk-ant",
     keyLabel: "Anthropic API Key",
     keyPlaceholder: "sk-ant-api03-...",
     docUrl: "https://console.anthropic.com/settings/keys",
     docLabel: "console.anthropic.com",
-    note: "건당 약 $0.02~0.10. API 사용량만큼 과금. 모델은 아래에서 선택.",
+    note: "건당 약 $0.02~0.10. API Tier별 rate limit 있음. 모델은 아래에서 선택.",
+  },
+  "claude-web": {
+    id: "claude-web",
+    short: "Claude.ai",
+    needsKey: false,
+    note: "Max $200 구독을 100% 활용 · Rate limit 없음 · Opus 4.7 품질. 복사→Claude.ai에 붙여넣기→응답 복사→도구에 붙여넣기 워크플로우.",
   },
 };
 
@@ -92,7 +100,27 @@ function readKeyFromUrlOrStorage(preferred) {
     }
   }
   const p = preferred || localStorage.getItem(PROVIDER_STORAGE) || "gemini";
+  // claude-web은 키 불필요
+  if (p === "claude-web") return { key: "", provider: p };
   return { key: localStorage.getItem(STORAGE_KEYS[p]) || "", provider: p };
+}
+
+// ────────────────────────────────────────────────
+// Claude.ai 전체 프롬프트 조립 (복붙 워크플로우)
+// ────────────────────────────────────────────────
+function buildClaudeWebPrompt({ systemPrompt, userPrompt, projectMode }) {
+  if (projectMode) {
+    // Project에 시스템 프롬프트를 이미 등록한 경우, 유저 프롬프트만
+    return userPrompt;
+  }
+  // Project 미사용 — 시스템 프롬프트 포함
+  return `[시스템 지시 — 반드시 준수]
+${systemPrompt}
+
+─────────────────────────────
+
+[작성 요청]
+${userPrompt}`;
 }
 
 // ────────────────────────────────────────────────
@@ -830,6 +858,95 @@ function detectFakeReferences(content) {
 }
 
 // ────────────────────────────────────────────────
+// 체크리스트 계산 (generate + Claude.ai 복붙 경로 공용)
+// ────────────────────────────────────────────────
+function computeBlogChecklist({ content, meta, finalDisease, subtopicTarget, hasVerifiedSource }) {
+  const subtopicMatches = (content.match(/^#{2}\s+(.+)$/gm) || []);
+  const bodySubtopics = subtopicMatches.filter(h => !/핵심\s*요약|TL.?DR|자주\s*묻는|많이\s*여쭤|이\s*글에서\s*다루는/i.test(h)).length;
+  const subtopicNum = parseInt(subtopicTarget, 10);
+  const head = content.slice(0, 600);
+  const tail = content.slice(-200);
+
+  const tldrPresent = /^##\s*핵심\s*요약/m.test(content) && /^>\s/m.test(content);
+  const titleLen = (meta.title || "").length;
+  const titleLengthOk = titleLen >= 20 && titleLen <= 40;
+  const mainKw = (meta.keywords?.[0] || finalDisease || "").trim();
+  const titleHasKeyword = !!(mainKw && meta.title && meta.title.includes(mainKw.split(/\s+/)[0]));
+  const metaDescHasKeyword = !!(mainKw && meta.metaDescription && meta.metaDescription.includes(mainKw.split(/\s+/)[0]));
+  const fakeHits = hasVerifiedSource ? [] : detectFakeReferences(content);
+  const noFakeReference = fakeHits.length === 0;
+  const currentYr = new Date().getFullYear();
+  const currencyStamp = new RegExp(`${currentYr}|${currentYr - 1}|최근|올해|요즘`).test(content);
+  const hasQuote = /["'「『"']/.test(head);
+  const hasPatientFrame = /(이레한의원에서|\d+대\s*(남|여)|\d+세\s*(남|여)|환자|내원|받고 계신)/.test(head);
+  const paperPattern = /20\d{2}[^\n]{0,60}(저널|Journal|journal|연구|논문)/;
+  const statsStrict = /[\d.]+\s*%|[\d.]+\s*배|P\s*[=<]\s*0\.\d|OR\s*[=:]?\s*\d|HR\s*[=:]?\s*\d|95%\s*CI|n\s*=\s*\d/;
+  const reservedMatches = content.match(/있겠습니다|필요가 있|수 있겠|보입니다|해 보겠습니다|정리할 수 있겠/g) || [];
+  const companionInTail = /동행하겠습니다/.test(tail);
+  const qMatches = content.match(/^\s*Q\.\s*/gm) || [];
+  const aLines = content.match(/^\s*A\.\s*(.+)$/gm) || [];
+  const answerFirst = aLines.length >= 3 && aLines.filter(a => {
+    const first = a.replace(/^\s*A\.\s*/, "").split(/[.?!]/)[0];
+    return first && first.length > 5 && /(입니다|습니다|않습니다|맞습니다|아닙니다|그렇지는|가능합니다)/.test(first);
+  }).length >= 2;
+  const hanjaCount = (content.match(/[一-鿿]/g) || []).length;
+  const diseaseMentions = finalDisease
+    ? (content.match(new RegExp(finalDisease.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length
+    : 0;
+
+  return {
+    tldrPresent, titleLengthOk, titleHasKeyword, metaDescHasKeyword,
+    noFakeReference, currencyStamp,
+    patientCase: hasPatientFrame && hasQuote,
+    paperCited: paperPattern.test(content),
+    statistics: statsStrict.test(content),
+    reservedTone: reservedMatches.length >= 3,
+    companionEnding: companionInTail,
+    faqSection: qMatches.length >= 3,
+    answerFirst,
+    hanjaBilingual: hanjaCount >= 3,
+    keywordRepeat: diseaseMentions < 20,
+    subtopicCount: bodySubtopics,
+    subtopicTarget: subtopicNum,
+    subtopicExact: bodySubtopics === subtopicNum,
+    _reservedCount: reservedMatches.length,
+    _qCount: qMatches.length,
+    _hanjaCount: hanjaCount,
+    _diseaseCount: diseaseMentions,
+    _fakeHits: fakeHits,
+    _needsStats: hasVerifiedSource,
+  };
+}
+
+// 체크리스트 → 재작성 지시 문구 (Claude.ai에 수동 전달용)
+function checklistToFixInstructions(checklist, { finalDisease, subtopicTarget, minChars, maxChars }) {
+  const failed = [];
+  if (!checklist.tldrPresent) failed.push("- 글 맨 앞에 `## 핵심 요약` H2 + 바로 `> ` 인용 블록으로 2~3문장 TL;DR을 반드시 배치.");
+  if (!checklist.titleLengthOk) failed.push(`- 제목을 25~35자 내외로 조정 (현재 체크리스트 기준 벗어남).`);
+  if (!checklist.titleHasKeyword) failed.push("- 제목에 메인 키워드 포함.");
+  if (!checklist.metaDescHasKeyword) failed.push("- 메타 디스크립션에 메인 키워드 포함.");
+  if (!checklist.noFakeReference) failed.push(`- 가짜 논문 인용 의심 (${checklist._fakeHits.join(", ")}). 구체적 저널명·권호·DOI·저자명 모두 삭제하고 익명 인용으로 교체.`);
+  if (!checklist.currencyStamp) failed.push(`- 본문 어딘가에 "${new Date().getFullYear()}년" 또는 "최근" 같은 최신성 신호 1회 삽입.`);
+  if (!checklist.patientCase) failed.push("- 블록1에서 환자 내면 독백을 큰따옴표로 인용.");
+  if (checklist._needsStats && !checklist.statistics) failed.push("- 통계 수치(%, P, OR, HR)를 최소 2개 포함 (논문에 실제 있는 값만).");
+  if (!checklist.reservedTone) failed.push("- '있겠습니다', '수 있겠', '필요가 있겠습니다' 같은 유보적 어미를 3회 이상 사용.");
+  if (!checklist.companionEnding) failed.push("- 마지막 문장은 '그 과정에 이레한의원이 동행하겠습니다.'");
+  if (!checklist.faqSection) failed.push("- 맨 마지막 블록에 Q./A. Q&A를 정확히 3개 포함.");
+  if (!checklist.answerFirst) failed.push("- Q&A 답변은 첫 문장에 완결형 명제로 시작 ('반드시 그렇지는 않습니다', '치료 기간은 ~입니다' 등).");
+  if (!checklist.hanjaBilingual) failed.push("- 음허(陰虛), 조증(燥症) 등 한자 병기 한의학 용어를 최소 3개 포함.");
+  if (!checklist.keywordRepeat) failed.push(`- 질환명 "${finalDisease}" 반복 ${checklist._diseaseCount}회 → 20회 미만으로 축소.`);
+  if (!checklist.subtopicExact) failed.push(`- 본론 소주제 H2 ${checklist.subtopicCount}개 → 목표 ${subtopicTarget}개 (TL;DR·Q&A 제외).`);
+
+  if (failed.length === 0) return null;
+  return `앞서 작성하신 블로그 글에서 아래 항목이 누락·부족합니다. 반드시 보강해서 전체 글을 다시 출력해주세요.
+
+${failed.join("\n")}
+
+글자 수(공백 제외 한글 ${minChars}~${maxChars}자), 블록 구조, TL;DR, Q&A 3개, 동행 마무리는 유지.
+반드시 동일한 <BLOG_META>...</BLOG_META> <BLOG_CONTENT>...</BLOG_CONTENT> <SCHEMA_HINTS>...</SCHEMA_HINTS> 형식으로만 출력하세요.`;
+}
+
+// ────────────────────────────────────────────────
 // WordPress 관련 글 검색 (ireaomd.co.kr)
 // ────────────────────────────────────────────────
 async function fetchRelatedPosts({ keywords, max = 5 }) {
@@ -1010,6 +1127,14 @@ function BlogWriterPro() {
   // 플랫폼 분기
   const [platform, setPlatform] = useState(() => localStorage.getItem(PLATFORM_STORAGE) || "naver");
 
+  // Claude.ai 복붙 워크플로우 state
+  const [projectMode, setProjectMode] = useState(() => localStorage.getItem("bwp_project_mode") === "true");
+  const [pastedResponse, setPastedResponse] = useState("");
+  const [webCopied, setWebCopied] = useState(false);
+  const [projectPromptCopied, setProjectPromptCopied] = useState(false);
+  const [pendingWebPrompt, setPendingWebPrompt] = useState(""); // 복사된 프롬프트 미리보기
+  const [webParsing, setWebParsing] = useState(false);
+
   useEffect(() => {
     const { key, provider: det } = readKeyFromUrlOrStorage(provider);
     if (det !== provider) setProvider(det);
@@ -1027,10 +1152,18 @@ function BlogWriterPro() {
     if (next === provider) return;
     localStorage.setItem(PROVIDER_STORAGE, next);
     setProvider(next);
-    const saved = localStorage.getItem(STORAGE_KEYS[next]) || "";
-    setApiKey(saved);
-    setApiKeySaved(!!saved);
+    if (next === "claude-web") {
+      setApiKey(""); setApiKeySaved(false);
+    } else {
+      const saved = localStorage.getItem(STORAGE_KEYS[next]) || "";
+      setApiKey(saved);
+      setApiKeySaved(!!saved);
+    }
   }
+
+  useEffect(() => {
+    try { localStorage.setItem("bwp_project_mode", String(projectMode)); } catch (e) {}
+  }, [projectMode]);
 
   function switchPlatform(next) {
     if (next === platform) return;
@@ -1403,14 +1536,70 @@ function BlogWriterPro() {
   }
 
   // ═══════════════════════════════════════════════
+  //  Claude.ai 응답 붙여넣기 → 파싱 & 체크리스트
+  // ═══════════════════════════════════════════════
+  async function parsePastedResponse() {
+    if (!pastedResponse.trim()) { alert("Claude.ai 응답을 먼저 붙여넣어주세요."); return; }
+    setWebParsing(true); setError("");
+    try {
+      // 원본 raw 그대로 저장 (debug용)
+      setRawDebug(pastedResponse);
+      let parsed = parseRaw(pastedResponse);
+      // 태그가 없을 수도 있음 — 그 경우 pastedResponse 자체를 본문으로
+      if (!parsed.content && pastedResponse.trim()) parsed.content = pastedResponse.trim();
+      parsed.content = sanitizeContent(parsed.content, { keepBold: platform === "homepage" });
+      const hasPaper = !!(paperFile || paperText);
+      const useRefUrl = referenceMode === "url" && referenceUrl.trim();
+      const useRefText = referenceMode === "text" && referenceText.trim();
+      const hasVerifiedSource = hasPaper || useRefUrl || useRefText;
+      const checklist = computeBlogChecklist({ content: parsed.content, meta: parsed.meta, finalDisease, subtopicTarget, hasVerifiedSource });
+      parsed.meta.charCount = countKorean(parsed.content);
+      if (!parsed.schema.faqItems?.length) parsed.schema.faqItems = extractFaqFromContent(parsed.content);
+      setResult({ meta: parsed.meta, checklist, content: parsed.content, schema: parsed.schema });
+      setActiveTab("preview");
+    } catch (e) {
+      setError(`응답 파싱 실패: ${e.message}`);
+    } finally { setWebParsing(false); }
+  }
+
+  async function copyFixInstructions() {
+    if (!result?.checklist) return;
+    const pf = PLATFORMS[platform];
+    const fix = checklistToFixInstructions(result.checklist, {
+      finalDisease, subtopicTarget,
+      minChars: pf.minChars, maxChars: pf.maxChars,
+    });
+    if (!fix) { alert("모든 체크 통과 — 보정할 항목이 없습니다."); return; }
+    try {
+      await navigator.clipboard.writeText(fix);
+      alert("✅ 보정 지시를 복사했습니다. Claude.ai 대화창에 붙여넣어 재작성 요청하세요. 새 응답이 나오면 다시 도구에 붙여넣으시면 됩니다.");
+    } catch (e) { alert("복사 실패: " + e.message); }
+  }
+
+  async function copyProjectSystemPrompt() {
+    const currentYear = new Date().getFullYear();
+    const hasPaper = !!(paperFile || paperText);
+    const useRefUrl = referenceMode === "url" && referenceUrl.trim();
+    const useRefText = referenceMode === "text" && referenceText.trim();
+    const hasVerifiedSource = hasPaper || useRefUrl || useRefText;
+    const sp = buildSystemPrompt({ platform, currentYear, hasVerifiedSource });
+    try {
+      await navigator.clipboard.writeText(sp);
+      setProjectPromptCopied(true); setTimeout(() => setProjectPromptCopied(false), 3500);
+    } catch (e) { alert("복사 실패: " + e.message); }
+    window.open("https://claude.ai/projects", "_blank", "noopener");
+  }
+
+  // ═══════════════════════════════════════════════
   //  GENERATE — 메인 생성 함수
   // ═══════════════════════════════════════════════
   const generate = async () => {
-    if (!apiKey.trim()) { setError(`${PROVIDERS[provider].keyLabel}를 먼저 저장해주세요.`); return; }
+    if (PROVIDERS[provider].needsKey && !apiKey.trim()) { setError(`${PROVIDERS[provider].keyLabel}를 먼저 저장해주세요.`); return; }
     if (!topic.trim()) { setError("블로그 주제를 입력해주세요."); return; }
     if (!finalDisease.trim()) { setError("질환명을 입력해주세요."); return; }
-    setError(""); setResult(null); setRawDebug(""); setLoading(true);
-    setRelatedPosts([]); setRelatedError("");
+    setError(""); setRelatedPosts([]); setRelatedError("");
+    if (provider !== "claude-web") { setResult(null); setRawDebug(""); }
+    if (provider === "claude-web") { /* 기존 결과 유지 */ } else { setLoading(true); }
 
     const hasPaper = !!(paperFile || paperText);
     const useRefUrl = referenceMode === "url" && referenceUrl.trim();
@@ -1445,6 +1634,28 @@ ${sourceBlock}
 ${extraInstruction.trim() ? `
 [이번 글 추가 지침 — 최우선 반영]
 ${extraInstruction.trim()}` : ""}`;
+
+    // ═══ Claude.ai 복붙 경로 ═══
+    if (provider === "claude-web") {
+      const toCopy = buildClaudeWebPrompt({ systemPrompt, userPrompt, projectMode });
+      try {
+        await navigator.clipboard.writeText(toCopy);
+        setWebCopied(true); setTimeout(() => setWebCopied(false), 3500);
+      } catch (e) {
+        // 폴백: textarea execCommand
+        const ta = document.createElement("textarea");
+        ta.value = toCopy; ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); setWebCopied(true); setTimeout(() => setWebCopied(false), 3500); } catch (e2) {
+          alert("클립보드 복사 실패 — 아래 미리보기에서 수동 복사해주세요.");
+        }
+        document.body.removeChild(ta);
+      }
+      setPendingWebPrompt(toCopy);
+      // 새 탭 열기
+      window.open("https://claude.ai/new", "_blank", "noopener");
+      return;
+    }
 
     try {
       let msgContent;
@@ -1505,67 +1716,7 @@ ${raw1}`;
         charCount = countKorean(content);
       }
 
-      const subtopicNum = parseInt(subtopicTarget, 10);
-      const subtopicMatches = (content.match(/^#{2}\s+(.+)$/gm) || []);
-      const bodySubtopics = subtopicMatches.filter(h => !/핵심\s*요약|TL.?DR|자주\s*묻는|많이\s*여쭤|이\s*글에서\s*다루는/i.test(h)).length;
-
-      const head = content.slice(0, 500);
-      const tail = content.slice(-200);
-
-      // 체크리스트 계산
-      const compute = (txt) => {
-        const h = txt.slice(0, 600);
-        const t = txt.slice(-200);
-        const tldrPresent = /^##\s*핵심\s*요약/m.test(txt) && /^>\s/m.test(txt);
-        const titleLen = (meta.title || "").length;
-        const titleLengthOk = titleLen >= 20 && titleLen <= 40;
-        const mainKw = (meta.keywords?.[0] || finalDisease || topic || "").trim();
-        const titleHasKeyword = !!(mainKw && meta.title && meta.title.includes(mainKw.split(/\s+/)[0]));
-        const metaDescHasKeyword = !!(mainKw && meta.metaDescription && meta.metaDescription.includes(mainKw.split(/\s+/)[0]));
-        const fakeHits = hasVerifiedSource ? [] : detectFakeReferences(txt);
-        const noFakeReference = fakeHits.length === 0;
-        const currentYr = new Date().getFullYear();
-        const currencyStamp = new RegExp(`${currentYr}|${currentYr - 1}|최근|올해|요즘`).test(txt);
-        const hasQuote = /["'「『"']/.test(h);
-        const hasPatientFrame = /(이레한의원에서|\d+대\s*(남|여)|\d+세\s*(남|여)|환자|내원|받고 계신)/.test(h);
-        const paperPattern = /20\d{2}[^\n]{0,60}(저널|Journal|journal|연구|논문)/;
-        const statsStrict = /[\d.]+\s*%|[\d.]+\s*배|P\s*[=<]\s*0\.\d|OR\s*[=:]?\s*\d|HR\s*[=:]?\s*\d|95%\s*CI|n\s*=\s*\d/;
-        const reservedMatches = txt.match(/있겠습니다|필요가 있|수 있겠|보입니다|해 보겠습니다|정리할 수 있겠/g) || [];
-        const companionInTail = /동행하겠습니다/.test(t);
-        const qMatches = txt.match(/^\s*Q\.\s*/gm) || [];
-        // Answer-first: A. 다음 첫 문장이 "반드시", "네", "아닙니다", "~입니다" 같은 서술형으로 시작
-        const aLines = txt.match(/^\s*A\.\s*(.+)$/gm) || [];
-        const answerFirst = aLines.length >= 3 && aLines.filter(a => {
-          const first = a.replace(/^\s*A\.\s*/, "").split(/[.?!]/)[0];
-          return first && first.length > 5 && /(입니다|습니다|않습니다|맞습니다|아닙니다|그렇지는|가능합니다)/.test(first);
-        }).length >= 2;
-        const hanjaCount = (txt.match(/[一-鿿]/g) || []).length;
-        const diseaseMentions = finalDisease ? (txt.match(new RegExp(finalDisease.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length : 0;
-        return {
-          tldrPresent, titleLengthOk, titleHasKeyword, metaDescHasKeyword,
-          noFakeReference, currencyStamp,
-          patientCase: hasPatientFrame && hasQuote,
-          paperCited: paperPattern.test(txt),
-          statistics: statsStrict.test(txt),
-          reservedTone: reservedMatches.length >= 3,
-          companionEnding: companionInTail,
-          faqSection: qMatches.length >= 3,
-          answerFirst,
-          hanjaBilingual: hanjaCount >= 3,
-          keywordRepeat: diseaseMentions < 20,
-          subtopicCount: bodySubtopics,
-          subtopicTarget: subtopicNum,
-          subtopicExact: bodySubtopics === subtopicNum,
-          _reservedCount: reservedMatches.length,
-          _qCount: qMatches.length,
-          _hanjaCount: hanjaCount,
-          _diseaseCount: diseaseMentions,
-          _fakeHits: fakeHits,
-          _needsStats: hasVerifiedSource,
-        };
-      };
-
-      let checklist = compute(content);
+      let checklist = computeBlogChecklist({ content, meta, finalDisease, subtopicTarget, hasVerifiedSource });
 
       // 3차 보정: 실패 2개 이상 또는 가짜 논문 감지 시
       const failed = [];
@@ -1606,7 +1757,7 @@ ${raw1}`;
             if (p3.meta.title) meta = p3.meta;
             if (p3.schema?.faqItems?.length || p3.schema?.entities?.length) schema = p3.schema;
             charCount = countKorean(content);
-            checklist = compute(content);
+            checklist = computeBlogChecklist({ content, meta, finalDisease, subtopicTarget, hasVerifiedSource });
           }
         } catch (e) { console.warn("3차 보정 실패, 2차 결과 유지:", e.message); }
       }
@@ -1671,11 +1822,11 @@ ${raw1}`;
         </div>
       </div>
 
-      {/* API Key */}
+      {/* AI 제공자 / API 키 / Claude.ai 가이드 */}
       <div style={s.card}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#555" }}>🔑 AI 제공자 · API 키</div>
-          {apiKeySaved && (
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#555" }}>🔑 AI 제공자</div>
+          {apiKeySaved && PROVIDERS[provider].needsKey && (
             <button style={{ padding: "5px 10px", background: "none", border: "1px solid #ddd", borderRadius: 6, color: "#c0392b", fontSize: 11, cursor: "pointer" }} onClick={async () => {
               try { await window.storage.delete(STORAGE_KEYS[provider]); } catch (e) {}
               if (window.location.hash.includes("k=")) history.replaceState(null, "", window.location.pathname + window.location.search);
@@ -1686,12 +1837,17 @@ ${raw1}`;
         <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
           {Object.values(PROVIDERS).map(p => (
             <button key={p.id} onClick={() => switchProvider(p.id)} style={{
-              flex: 1, padding: "8px 10px", borderRadius: 8,
+              flex: 1, padding: "10px 8px", borderRadius: 8,
               border: `1.5px solid ${provider === p.id ? "#0b3d5c" : "#ddd"}`,
               background: provider === p.id ? "#0b3d5c" : "#fff",
               color: provider === p.id ? "#fff" : "#666",
-              fontSize: 13, fontWeight: 600, cursor: "pointer",
-            }}>{p.short}</button>
+              fontSize: 12, fontWeight: 600, cursor: "pointer", lineHeight: 1.3,
+            }}>
+              <div>{p.short}</div>
+              {p.id === "claude-web" && <div style={{ fontSize: 9, opacity: 0.85, marginTop: 2, fontWeight: 400 }}>Max 구독 · 무제한</div>}
+              {p.id === "claude" && <div style={{ fontSize: 9, opacity: 0.85, marginTop: 2, fontWeight: 400 }}>sk-ant 키 · 종량제</div>}
+              {p.id === "gemini" && <div style={{ fontSize: 9, opacity: 0.85, marginTop: 2, fontWeight: 400 }}>AIza 키 · 무료</div>}
+            </button>
           ))}
         </div>
         {provider === "claude" && (
@@ -1705,7 +1861,64 @@ ${raw1}`;
             </div>
           </div>
         )}
-        {apiKeyLoading ? (
+
+        {/* ═══ Claude.ai 가이드 (Max 구독 연동) ═══ */}
+        {provider === "claude-web" && (
+          <div>
+            <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, padding: "12px 14px", marginBottom: 12 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#9a3412", marginBottom: 6 }}>
+                💡 Max $200 구독 한도 그대로 사용 · Rate Limit 없음
+              </div>
+              <div style={{ fontSize: 11, color: "#7c2d12", lineHeight: 1.7 }}>
+                이 모드는 API를 쓰지 않습니다. 도구가 프롬프트를 만들어 <strong>Claude.ai</strong>에 복사→붙여넣기 하고, 응답을 다시 도구에 붙여넣으면 체크리스트·스키마·이미지 생성 등 모든 후처리가 자동 실행됩니다. Opus 4.7 품질을 그대로.
+              </div>
+            </div>
+
+            {/* Project 설정 섹션 */}
+            <details style={{ background: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 10, padding: "10px 14px", marginBottom: 12 }}>
+              <summary style={{ cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#0c4a6e" }}>
+                🔧 Project 설정 (권장 · 한 번만 하면 이후 매번 간편)
+              </summary>
+              <div style={{ marginTop: 10, fontSize: 11, color: "#0c4a6e", lineHeight: 1.7 }}>
+                <ol style={{ paddingLeft: 18, margin: 0 }}>
+                  <li>아래 버튼을 누르면 <strong>시스템 프롬프트가 복사</strong>되고 Claude.ai Projects 페이지가 새 탭에서 열립니다.</li>
+                  <li>새 Project 만들기 → 이름: "<strong>이레 블로그 PRO</strong>" → Custom instructions / System Prompt 칸에 <strong>붙여넣기</strong>.</li>
+                  <li>Project 저장. 이후 생성할 때 <strong>이 Project에서 새 대화</strong>를 시작하면 시스템 프롬프트 자동 적용됨.</li>
+                  <li>도구에서 아래 <strong>"Project 모드"</strong>를 체크 → 생성 시 사용자 프롬프트(주제·질환)만 복사되어 간결해집니다.</li>
+                </ol>
+                <button onClick={copyProjectSystemPrompt} style={{ marginTop: 10, padding: "7px 12px", background: projectPromptCopied ? "#16a34a" : "#0369a1", color: "#fff", border: "none", borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                  {projectPromptCopied ? "✅ 복사됨 · Claude.ai 열림" : "📋 시스템 프롬프트 복사 + Project 페이지 열기"}
+                </button>
+                <div style={{ marginTop: 8, padding: "6px 10px", background: "#fff", border: "1px dashed #bae6fd", borderRadius: 6, fontSize: 10, color: "#64748b" }}>
+                  ⚠️ 플랫폼(네이버/홈페이지) 또는 논문 첨부 유무가 바뀌면 시스템 프롬프트도 살짝 달라집니다. 플랫폼 바꿀 때마다 Project instructions 갱신 권장.
+                </div>
+              </div>
+            </details>
+
+            <label style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", background: projectMode ? "#dcfce7" : "#f8fafc", border: `1px solid ${projectMode ? "#86efac" : "#cbd5e1"}`, borderRadius: 8, cursor: "pointer" }}>
+              <input type="checkbox" checked={projectMode} onChange={e => setProjectMode(e.target.checked)} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: projectMode ? "#14532d" : "#334155" }}>
+                  Project 모드 — 시스템 프롬프트는 Claude.ai Project에 등록 완료
+                </div>
+                <div style={{ fontSize: 10, color: projectMode ? "#14532d" : "#64748b", marginTop: 3, lineHeight: 1.5 }}>
+                  {projectMode
+                    ? "✅ 생성 시 사용자 프롬프트(주제·질환·키워드)만 복사됩니다. Claude.ai에서 등록된 Project로 들어가 새 대화 시작 후 붙여넣기."
+                    : "미체크 시 시스템 프롬프트 + 사용자 프롬프트 전체가 복사됩니다. Project 미사용 — Claude.ai 일반 새 대화에 한 번에 붙여넣기."}
+                </div>
+              </div>
+            </label>
+
+            {/* 논문 첨부 안내 */}
+            {(paperFile || paperText) && (
+              <div style={{ marginTop: 10, padding: "8px 12px", background: "#fef3c7", border: "1px dashed #fbbf24", borderRadius: 6, fontSize: 11, color: "#78350f", lineHeight: 1.6 }}>
+                📄 논문이 첨부돼 있네요. Claude.ai 모드에서는 <strong>Claude.ai 대화창에 PDF를 직접 업로드</strong>하셔야 합니다 (도구는 파일을 자동 전송할 수 없음). 프롬프트 복사 후 Claude.ai에서 📎 첨부 아이콘으로 PDF 올려주세요.
+              </div>
+            )}
+          </div>
+        )}
+
+        {provider !== "claude-web" && (apiKeyLoading ? (
           <div style={{ fontSize: 13, color: "#999" }}>🔄 저장된 키 불러오는 중…</div>
         ) : apiKeySaved ? (
           <>
@@ -1746,7 +1959,7 @@ ${raw1}`;
               <br />{PROVIDERS[provider].note}
             </div>
           </>
-        )}
+        ))}
       </div>
 
       {/* Form */}
@@ -1861,13 +2074,58 @@ ${raw1}`;
           </div>
         )}
         <button style={{ ...s.btn, opacity: loading ? 0.7 : 1 }} onClick={generate} disabled={loading}>
-          {loading ? "작성 중..." : `✍️ ${PROVIDERS[provider].short}${provider === "claude" ? ` (${claudeModel.replace("claude-", "").replace("-20251001", "")})` : ""}로 이레 PRO 생성`}
+          {loading
+            ? "작성 중..."
+            : provider === "claude-web"
+              ? (webCopied ? "✅ 복사됨 · Claude.ai 열림" : "📋 프롬프트 복사 & Claude.ai 열기")
+              : `✍️ ${PROVIDERS[provider].short}${provider === "claude" ? ` (${claudeModel.replace("claude-", "").replace("-20251001", "")})` : ""}로 이레 PRO 생성`}
         </button>
       </div>
 
       {loading && (
         <div style={{ ...s.card, display: "flex", justifyContent: "center", padding: "32px 24px" }}>
           <Spinner msg={loadingMsg} />
+        </div>
+      )}
+
+      {/* Claude.ai 응답 붙여넣기 영역 (claude-web 모드일 때만) */}
+      {provider === "claude-web" && (pendingWebPrompt || pastedResponse || webCopied) && (
+        <div style={{ ...s.card, background: "#f0f9ff", borderColor: "#bae6fd" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+            <span style={{ fontSize: 18 }}>📥</span>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "#0c4a6e" }}>Claude.ai 응답 붙여넣기</div>
+          </div>
+          <div style={{ fontSize: 11, color: "#0c4a6e", marginBottom: 10, lineHeight: 1.7 }}>
+            Claude.ai에서 생성된 전체 응답(&lt;BLOG_META&gt; ~ &lt;/SCHEMA_HINTS&gt; 태그 포함)을 아래에 그대로 붙여넣고 <strong>파싱</strong>을 눌러주세요. 태그가 없어도 본문은 잡힙니다.
+          </div>
+          <textarea value={pastedResponse} onChange={e => setPastedResponse(e.target.value)}
+            placeholder="Claude.ai에서 복사한 응답을 여기에 붙여넣기…"
+            style={{ ...s.input, height: 220, resize: "vertical", fontFamily: "monospace", fontSize: 12, lineHeight: 1.6, background: "#fff" }} />
+          <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+            <button onClick={parsePastedResponse} disabled={webParsing || !pastedResponse.trim()}
+              style={{ flex: 1, minWidth: 200, padding: "11px 14px", background: webParsing ? "#94a3b8" : "#0369a1", color: "#fff", border: "none", borderRadius: 8, cursor: webParsing ? "wait" : "pointer", fontSize: 13, fontWeight: 700 }}>
+              {webParsing ? "파싱 중…" : "🔍 파싱 & 체크리스트 실행"}
+            </button>
+            {result && (
+              <button onClick={copyFixInstructions}
+                style={{ padding: "11px 14px", background: "#dc2626", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 12, fontWeight: 700 }}
+                title="체크리스트 실패 항목을 재작성 지시문으로 복사. Claude.ai 대화창에 붙여넣기.">
+                🔧 보정 지시 복사
+              </button>
+            )}
+            {pendingWebPrompt && (
+              <details style={{ flexBasis: "100%", background: "#fff", border: "1px solid #cbd5e1", borderRadius: 8, padding: "8px 12px", marginTop: 6 }}>
+                <summary style={{ cursor: "pointer", fontSize: 11, fontWeight: 700, color: "#64748b" }}>
+                  📄 방금 복사된 프롬프트 미리보기 ({pendingWebPrompt.length.toLocaleString()}자)
+                </summary>
+                <textarea readOnly value={pendingWebPrompt}
+                  style={{ width: "100%", height: 180, marginTop: 6, padding: 8, border: "1px solid #e2e8f0", borderRadius: 6, fontFamily: "monospace", fontSize: 11, lineHeight: 1.5, background: "#f8fafc", color: "#334155", resize: "vertical", boxSizing: "border-box" }} />
+                <div style={{ marginTop: 6, fontSize: 10, color: "#64748b" }}>
+                  복사가 실패했다면 위 영역을 전체 선택(Ctrl+A) → 복사(Ctrl+C) → Claude.ai에 붙여넣기.
+                </div>
+              </details>
+            )}
+          </div>
         </div>
       )}
 
