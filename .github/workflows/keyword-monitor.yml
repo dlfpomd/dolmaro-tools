@@ -1,0 +1,90 @@
+name: Keyword Monitor (Naver SERP)
+
+# 실행 시각:
+#   - 매주 월요일 KST 10:00 (= UTC 01:00) — Windows Task Scheduler 대체
+#   - 수동 실행 (Run workflow 버튼)
+#
+# 동작:
+#   1. ubuntu-latest + Python 3.11 + Chrome
+#   2. apps/keyword-analyzer/monitor/naver_monitor.py --headless --no-pause 실행
+#   3. apps/keyword-analyzer/data/* 변경분 자동 commit & push
+#
+# Selenium이 Naver SERP 첫 페이지에 차단당하면 결과가 0으로 나옴.
+# 그럴 경우 monitor/naver_monitor_api.py로 전환 검토 (Naver Open API).
+
+on:
+  schedule:
+    - cron: "0 1 * * 1"  # 매주 월요일 UTC 01:00 (KST 10:00)
+  workflow_dispatch:      # 수동 실행 허용
+
+permissions:
+  contents: write         # commit/push 권한
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60   # 최대 1시간 (Selenium은 약 30-40분 예상)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: apps/keyword-analyzer/monitor/requirements.txt
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Install Python dependencies
+        working-directory: apps/keyword-analyzer/monitor
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run keyword monitor
+        working-directory: apps/keyword-analyzer/monitor
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python naver_monitor.py --headless --no-pause
+
+      - name: Show changed files
+        run: |
+          git status --short
+          echo "---"
+          git diff --stat apps/keyword-analyzer/data || true
+
+      - name: Commit & push results
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add apps/keyword-analyzer/data
+
+          if git diff --cached --quiet; then
+            echo "No data changes — skipping commit"
+            exit 0
+          fi
+
+          STAMP=$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M KST')
+          git commit -m "keyword monitor: ${STAMP}"
+          git push origin HEAD:main
+
+      - name: Upload run artifacts (failure debugging)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitor-debug-${{ github.run_id }}
+          path: |
+            apps/keyword-analyzer/data/
+            apps/keyword-analyzer/logs/
+          retention-days: 7
