@@ -17,6 +17,13 @@ import glob
 from datetime import datetime
 from urllib.parse import quote
 
+# Windows 콘솔 cp949 인코딩 에러 방지 (한글 — 같은 문자 출력 시 crash)
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except Exception:
+    pass
+
 
 def install(pkg, import_name=None):
     try:
@@ -87,11 +94,42 @@ def create_driver(headless=False):
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
 
+    # ─────────────────────────────────────────────────────────
+    # 드라이버 자동 매칭 — 3단계 fallback
+    # 1) Selenium Manager (4.6+ 내장) — Chrome 버전 자동 감지·매칭 (가장 안정적)
+    # 2) webdriver-manager — Selenium Manager 실패 시 백업
+    # 3) 시스템 PATH의 chromedriver
+    # 이전 버그: webdriver-manager가 캐시한 구버전 ChromeDriver (146-148)와
+    # Chrome 자동 업데이트본의 메이저 버전 불일치 → "session not created" 에러.
+    # 2026-04-20 이후 모든 자동 실행 실패의 원인.
+    # ─────────────────────────────────────────────────────────
+    last_err = None
+    driver = None
+
+    # 1) Selenium Manager 우선 (built-in, 캐시 안 함, 항상 최신 매칭)
     try:
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=options)
-    except Exception:
         driver = webdriver.Chrome(options=options)
+        print('  ✓ Selenium Manager로 드라이버 매칭 완료')
+    except Exception as e:
+        last_err = e
+        print(f'  Selenium Manager 실패: {e}')
+
+    # 2) webdriver-manager 시도 (캐시 깨도 강제 새로 다운로드)
+    if driver is None:
+        try:
+            # 캐시 무시하고 새로 다운로드
+            os.environ['WDM_LOCAL'] = '0'
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
+            print('  ✓ webdriver-manager로 드라이버 다운로드 완료')
+        except Exception as e:
+            last_err = e
+            print(f'  webdriver-manager 실패: {e}')
+
+    if driver is None:
+        raise RuntimeError(f'Chrome 드라이버 매칭 실패. 마지막 에러: {last_err}\n'
+                           f'해결: 1) Chrome을 최신으로 업데이트  '
+                           f'2) C:/Users/user/.wdm 폴더 삭제 후 재실행')
 
     driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
         'source': 'Object.defineProperty(navigator, "webdriver", {get: () => undefined})'

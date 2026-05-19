@@ -1,18 +1,22 @@
 @echo off
 REM ============================================================
 REM  Dolmaro keyword monitor - auto run + git push
-REM  Called by Windows Task Scheduler at Mon/Fri 10:00 AM
+REM  Called by Windows Task Scheduler at Mon 10:00 AM (KST)
 REM
 REM  Strategy:
 REM  - Python + Selenium on Windows (needs Chrome, ~30-40 min)
 REM    Measures actual first-page SERP exposure.
 REM  - git commit/push delegated to WSL (WSL has the credentials).
 REM
-REM  Note: naver_monitor_api.py exists for ad-hoc Claude queries,
-REM  but is NOT wired into the schedule because its ranking is
-REM  different from Naver's SERP first-page semantics.
+REM  Fixes (2026-05-19):
+REM  - chcp 65001 + PYTHONIOENCODING=utf-8: 한글 출력 cp949 crash 해결
+REM  - Selenium Manager 사용: ChromeDriver 버전 불일치 자동 해결
+REM    (이전 4월 20일 이후 모든 실행 실패 원인)
 REM ============================================================
+chcp 65001 >nul
 setlocal
+set "PYTHONIOENCODING=utf-8"
+set "PYTHONUTF8=1"
 
 pushd "%~dp0..\..\.."
 set "REPO_ROOT=%cd%"
