@@ -320,6 +320,100 @@ body {
   margin-bottom: 28px;
   border-left: 4px solid var(--disease-color, #4338ca);
 }
+
+/* ─── 이전 회차 대비 변화 (delta) ─────────────────────── */
+.delta-section {
+  margin-bottom: 28px;
+}
+.delta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 768px) {
+  .delta-grid { grid-template-columns: 1fr; }
+}
+.delta-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px 22px;
+  border-left: 4px solid #94a3b8;
+}
+.delta-card--gain { border-left-color: #10b981; }
+.delta-card--loss { border-left-color: #ef4444; }
+.delta-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.delta-icon { font-size: 18px; }
+.delta-label {
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f172a;
+  flex: 1;
+}
+.delta-count {
+  font-weight: 800;
+  font-size: 20px;
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #0f172a;
+  min-width: 44px;
+  text-align: center;
+}
+.delta-card--gain .delta-count { background: #d1fae5; color: #065f46; }
+.delta-card--loss .delta-count { background: #fee2e2; color: #991b1b; }
+.delta-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.delta-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.delta-prio {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #475569;
+  flex-shrink: 0;
+}
+.delta-prio--최상 { background: #fef3c7; color: #92400e; }
+.delta-prio--상 { background: #dbeafe; color: #1e40af; }
+.delta-prio--중 { background: #e0e7ff; color: #3730a3; }
+.delta-keyword {
+  flex: 1;
+  color: #0f172a;
+  font-weight: 500;
+}
+.delta-where {
+  font-size: 12px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+.delta-empty {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+  padding: 20px 0;
+}
 .section-head { margin-bottom: 16px; }
 .section-title {
   font-size: 16px;

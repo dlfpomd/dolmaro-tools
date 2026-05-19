@@ -310,6 +310,81 @@ def summarize(results):
     }
 
 
+def _load_previous_run():
+    """현재 run을 제외한 가장 최근 runs/*.json 로드."""
+    try:
+        files = sorted(glob.glob(os.path.join(RUNS_DIR, '*.json')))
+        files = [f for f in files if 'FAILED' not in os.path.basename(f)]
+        if not files:
+            return None
+        with open(files[-1], 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f'  이전 회차 로드 실패: {e}')
+        return None
+
+
+def _compute_delta(prev_payload, current_diseases):
+    """이전 회차와 비교해 키워드별 신규 노출 / 노출 손실 추출.
+
+    반환: (per_disease, overall)
+      per_disease: { label: { 'newly_exposed': [...], 'newly_lost': [...] } }
+      overall:     { 'newly_exposed_count': N, 'newly_lost_count': M }
+    """
+    per_disease = {}
+    overall_new = 0
+    overall_lost = 0
+
+    if not prev_payload:
+        return per_disease, {'newly_exposed_count': 0, 'newly_lost_count': 0}
+
+    prev_diseases = prev_payload.get('diseases', {})
+
+    for label, cur in current_diseases.items():
+        prev = prev_diseases.get(label)
+        newly_exposed = []
+        newly_lost = []
+
+        if prev:
+            prev_map = {r['keyword']: r for r in prev.get('results', [])}
+            for r in cur['results']:
+                kw = r.get('keyword')
+                prev_r = prev_map.get(kw)
+                if not prev_r:
+                    continue  # 이전엔 없던 신규 키워드 (delta 계산 대상 외)
+                cur_exposed = bool(r.get('any_exposed'))
+                prev_exposed = bool(prev_r.get('any_exposed'))
+                if cur_exposed and not prev_exposed:
+                    newly_exposed.append({
+                        'keyword': kw,
+                        'priority': r.get('priority'),
+                        'found_where': r.get('found_where', []),
+                    })
+                elif prev_exposed and not cur_exposed:
+                    newly_lost.append({
+                        'keyword': kw,
+                        'priority': r.get('priority'),
+                        'previously_where': prev_r.get('found_where', []),
+                    })
+
+        # 우선순위 정렬: 최상 → 상 → 중
+        prio_rank = {'최상': 0, '상': 1, '중': 2}
+        newly_exposed.sort(key=lambda x: (prio_rank.get(x.get('priority'), 99), x['keyword']))
+        newly_lost.sort(key=lambda x: (prio_rank.get(x.get('priority'), 99), x['keyword']))
+
+        per_disease[label] = {
+            'newly_exposed': newly_exposed,
+            'newly_lost': newly_lost,
+        }
+        overall_new += len(newly_exposed)
+        overall_lost += len(newly_lost)
+
+    return per_disease, {
+        'newly_exposed_count': overall_new,
+        'newly_lost_count': overall_lost,
+    }
+
+
 def save_outputs(all_by_disease, keyword_sets, started_at, finished_at):
     os.makedirs(RUNS_DIR, exist_ok=True)
 
@@ -343,16 +418,34 @@ def save_outputs(all_by_disease, keyword_sets, started_at, finished_at):
             'results': results,
         }
 
+    # ─────────────────────────────────────────────────────────
+    # Delta 계산 — 이전 회차 대비 신규 노출/노출 손실 키워드
+    # ─────────────────────────────────────────────────────────
+    prev_payload = _load_previous_run()
+    delta_per_disease, delta_overall = _compute_delta(prev_payload, diseases)
+    for label in diseases:
+        diseases[label]['delta'] = delta_per_disease.get(label, {
+            'newly_exposed': [], 'newly_lost': []
+        })
+
     payload = {
         'version': 1,
         'started_at': started_at.isoformat(timespec='seconds'),
         'finished_at': finished_at.isoformat(timespec='seconds'),
         'diseases': diseases,
+        'delta_baseline': prev_payload.get('started_at') if prev_payload else None,
+        'delta_overall': delta_overall,
     }
 
     with open(LATEST_PATH, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
     print(f'  저장: {LATEST_PATH}')
+
+    # delta 요약 출력
+    if prev_payload:
+        print(f'  이전 회차 대비 변화 (기준: {prev_payload.get("started_at","?")[:10]}):')
+        print(f'    🟢 신규 노출: {delta_overall["newly_exposed_count"]}개')
+        print(f'    🔴 노출 손실: {delta_overall["newly_lost_count"]}개')
 
     run_name = started_at.strftime('%Y-%m-%d-%H%M') + '.json'
     run_path = os.path.join(RUNS_DIR, run_name)

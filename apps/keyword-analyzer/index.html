@@ -156,6 +156,33 @@
 
       <section id="summarySection" class="summary-grid" hidden></section>
 
+      <section id="deltaSection" class="delta-section" hidden>
+        <div class="section-head">
+          <h2 class="section-title">📊 이전 회차 대비 변화</h2>
+          <p id="deltaBaseline" class="section-desc"></p>
+        </div>
+        <div class="delta-grid">
+          <div class="delta-card delta-card--gain">
+            <div class="delta-card-head">
+              <span class="delta-icon">🟢</span>
+              <span class="delta-label">새로 노출된 키워드</span>
+              <span id="deltaGainCount" class="delta-count">0</span>
+            </div>
+            <ul id="deltaGainList" class="delta-list"></ul>
+            <p id="deltaGainEmpty" class="delta-empty" hidden>변화 없음</p>
+          </div>
+          <div class="delta-card delta-card--loss">
+            <div class="delta-card-head">
+              <span class="delta-icon">🔴</span>
+              <span class="delta-label">노출이 사라진 키워드</span>
+              <span id="deltaLossCount" class="delta-count">0</span>
+            </div>
+            <ul id="deltaLossList" class="delta-list"></ul>
+            <p id="deltaLossEmpty" class="delta-empty" hidden>변화 없음</p>
+          </div>
+        </div>
+      </section>
+
       <section id="recommendSection" class="recommend-section" hidden>
         <div class="section-head">
           <h2 class="section-title">📢 다음 블로그/유튜브 발행 추천</h2>

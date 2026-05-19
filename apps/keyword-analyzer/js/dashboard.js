@@ -161,6 +161,7 @@ function renderDisease() {
   document.body.style.setProperty('--disease-rgb', rgb);
 
   renderSummary(d);
+  renderDelta(d);
   renderRecommend(d);
   renderFilterBar();
   renderTable(d);
@@ -206,6 +207,57 @@ function renderSummary(d) {
       <div class="sub">우선순위별: ${priLine}</div>
     </div>
   `;
+}
+
+function renderDelta(d) {
+  const el = $('#deltaSection');
+  const delta = d.delta;
+  const baseline = state.data.delta_baseline;
+
+  if (!delta || !baseline) {
+    el.hidden = true;
+    return;
+  }
+
+  el.hidden = false;
+
+  // 기준 회차 안내
+  const baselineStr = fmtDate(baseline);
+  $('#deltaBaseline').innerHTML =
+    `이전 회차(<strong>${baselineStr}</strong>) 대비 이번 회차에서 노출 상태가 바뀐 키워드입니다.`;
+
+  const renderList = (items, listEl, emptyEl, countEl, isGain) => {
+    countEl.textContent = items.length;
+    if (items.length === 0) {
+      listEl.innerHTML = '';
+      emptyEl.hidden = false;
+      return;
+    }
+    emptyEl.hidden = true;
+    listEl.innerHTML = items.map(item => {
+      const prio = item.priority || '';
+      const where = isGain ? (item.found_where || []) : (item.previously_where || []);
+      const whereStr = where.length > 0
+        ? where.slice(0, 3).join(', ') + (where.length > 3 ? ` +${where.length - 3}` : '')
+        : '—';
+      return `
+        <li class="delta-item">
+          <span class="delta-prio delta-prio--${prio}">${prio}</span>
+          <span class="delta-keyword">${escapeHtml(item.keyword)}</span>
+          <span class="delta-where" title="${escapeHtml(where.join(', '))}">${escapeHtml(whereStr)}</span>
+        </li>
+      `;
+    }).join('');
+  };
+
+  renderList(
+    delta.newly_exposed || [],
+    $('#deltaGainList'), $('#deltaGainEmpty'), $('#deltaGainCount'), true
+  );
+  renderList(
+    delta.newly_lost || [],
+    $('#deltaLossList'), $('#deltaLossEmpty'), $('#deltaLossCount'), false
+  );
 }
 
 function renderRecommend(d) {
