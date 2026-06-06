@@ -1,0 +1,3111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xkjbaeakds 쇼츠 분류 + 홈페이지 이관 리포트</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #d9dee8;
+      --accent: #0f766e;
+      --accent-soft: #dff7f3;
+      --danger: #b42318;
+      --danger-soft: #fde8e8;
+      --warn: #9a6700;
+      --warn-soft: #fff3cd;
+      --blue: #1d4ed8;
+      --blue-soft: #dbeafe;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px;
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+    .header, .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    }
+    .header { margin-bottom: 20px; }
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.2;
+    }
+    p { margin: 0; }
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .muted + .muted {
+      margin-top: 6px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .metric {
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 6px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+    .side-stack {
+      display: grid;
+      gap: 20px;
+    }
+    .controls {
+      display: grid;
+      gap: 12px;
+    }
+    input[type="search"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 15px;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button.active,
+    button.active-import {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      color: var(--muted);
+      background: #fbfcfe;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .table-wrap {
+      max-height: 78vh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .title-cell {
+      min-width: 380px;
+    }
+    .state-pill, .import-pill {
+      font-weight: 700;
+      white-space: nowrap;
+      text-align: center;
+      border-radius: 999px;
+    }
+    .is-reflected {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .is-unreflected {
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+    .is-imported {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+    .is-not-imported {
+      color: var(--warn);
+      background: var(--warn-soft);
+    }
+    .footer-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .hidden-row {
+      display: none;
+    }
+    a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 1200px) {
+      body { padding: 16px; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .title-cell {
+        min-width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="header">
+      <h1>xkjbaeakds 쇼츠 분류 + 홈페이지 이관 리포트</h1>
+      <p class="muted">쇼츠 반영 여부와 홈페이지 이관 여부를 함께 표시</p>
+      <p class="muted">기준일: 2026-06-06</p>
+      <p class="muted">기준: 쇼츠의 2키워드 조합 중 2개 모두 제목에 있으면 반영, 1개만 맞으면 미반영</p>
+      <p class="muted">블로그: <a href="https://blog.naver.com/xkjbaeakds" target="_blank" rel="noreferrer">https://blog.naver.com/xkjbaeakds</a> / 쇼츠: <a href="https://www.youtube.com/@ireakmd/shorts" target="_blank" rel="noreferrer">https://www.youtube.com/@ireakmd/shorts</a></p>
+      <div class="summary">
+        <div class="metric"><span class="muted">2020년 이후 전체 글</span><strong>325</strong></div>
+        <div class="metric"><span class="muted">분류 대상 글</span><strong>192</strong></div>
+        <div class="metric"><span class="muted">반영</span><strong>18</strong></div>
+        <div class="metric"><span class="muted">미반영</span><strong>174</strong></div>
+        <div class="metric"><span class="muted">홈페이지 이관</span><strong>12</strong></div>
+        <div class="metric"><span class="muted">홈페이지 미이관</span><strong>180</strong></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="side-stack">
+        <div class="card controls">
+          <h2>필터</h2>
+          <input id="searchInput" type="search" placeholder="제목 또는 그룹 검색">
+          <div class="btn-row">
+            <button data-filter="all" class="active">전체</button>
+            <button data-filter="reflected">반영만</button>
+            <button data-filter="unreflected">미반영만</button>
+          </div>
+          <div class="btn-row"><button data-import-filter="all" class="active-import">이관 전체</button>
+            <button data-import-filter="imported">이관됨만</button>
+            <button data-import-filter="not-imported">미이관만</button></div>
+          <p id="visibleCount" class="muted"></p>
+        </div>
+
+        <div class="card">
+          <h2>그룹별 요약</h2>
+          <div class="table-wrap" style="max-height: none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>그룹</th>
+                  <th>전체</th>
+                  <th>반영</th>
+                  <th>미반영</th>
+                  <th>이관</th><th>미이관</th>
+                </tr>
+              </thead>
+              <tbody>
+<tr>
+  <td>쇼그렌증후군</td>
+  <td>83</td>
+  <td>12</td>
+  <td>71</td>
+  <td>5</td><td>78</td>
+</tr>
+<tr>
+  <td>혀통증</td>
+  <td>36</td>
+  <td>2</td>
+  <td>34</td>
+  <td>2</td><td>34</td>
+</tr>
+<tr>
+  <td>구강작열감증후군</td>
+  <td>24</td>
+  <td>2</td>
+  <td>22</td>
+  <td>2</td><td>22</td>
+</tr>
+<tr>
+  <td>루푸스</td>
+  <td>14</td>
+  <td>1</td>
+  <td>13</td>
+  <td>0</td><td>14</td>
+</tr>
+<tr>
+  <td>자가면역질환</td>
+  <td>17</td>
+  <td>0</td>
+  <td>17</td>
+  <td>2</td><td>15</td>
+</tr>
+<tr>
+  <td>류마티스 관절염</td>
+  <td>10</td>
+  <td>0</td>
+  <td>10</td>
+  <td>1</td><td>9</td>
+</tr>
+<tr>
+  <td>안구건조증</td>
+  <td>3</td>
+  <td>0</td>
+  <td>3</td>
+  <td>0</td><td>3</td>
+</tr>
+<tr>
+  <td>건선</td>
+  <td>3</td>
+  <td>1</td>
+  <td>2</td>
+  <td>0</td><td>3</td>
+</tr>
+<tr>
+  <td>하시모토갑상선염</td>
+  <td>2</td>
+  <td>0</td>
+  <td>2</td>
+  <td>0</td><td>2</td>
+</tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>전체 분류표 + 홈페이지 이관 컬럼</h2>
+        <div class="table-wrap">
+          <table id="reportTable">
+            <thead>
+              <tr>
+                <th>분류</th>
+                <th>날짜</th>
+                <th>그룹</th>
+                <th>큐 상태</th>
+                <th>일치 키워드</th>
+                <th>블로그 제목</th>
+                <th>블로그</th>
+                <th>홈페이지</th><th>홈페이지 날짜</th><th>홈페이지 링크</th>
+                <th>제작</th>
+                <th>업로드</th>
+              </tr>
+            </thead>
+            <tbody>
+<tr data-state="unreflected" data-title="쇼그렌증후군구강관련증상은?" data-group="쇼그렌증후군" data-imported="imported" data-log-no="221765906954">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-01-09</td>
+  <td>쇼그렌증후군</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 구강관련 증상은?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221765906954" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/쇼그렌증후군-구강관련-증상은-221765906954" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221765906954" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221765906954" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="할록신(옥시크로린)은쇼그렌증후군으로인한건조증개선에효과가있을까요" data-group="쇼그렌증후군" data-imported="imported" data-log-no="221787024640">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-01-27</td>
+  <td>쇼그렌증후군</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">할록신(옥시크로린)은 쇼그렌증후군으로 인한 건조증 개선에 효과가 있을까요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221787024640" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/할록신옥시크로린은-쇼그렌증후군으로-인한-건조증-개선에-효과가-있을까요-221787024640" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221787024640" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221787024640" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증,건조증이먼저발생할수있습니다." data-group="혀통증" data-imported="imported" data-log-no="221799006734">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-02-06</td>
+  <td>혀통증</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 , 건조증이 먼저 발생할 수 있습니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221799006734" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/혀통증-건조증이-먼저-발생할-수-있습니다-221799006734" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221799006734" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221799006734" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="류마티스관절염,뇌졸중발생위험을줄이는한의학" data-group="류마티스관절염" data-imported="imported" data-log-no="221828261913">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-02-27</td>
+  <td>류마티스 관절염</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">류마티스 관절염, 뇌졸중 발생 위험을 줄이는 한의학</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221828261913" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/류마티스-관절염-뇌졸중-발생-위험을-줄이는-한의학-221828261913" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221828261913" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221828261913" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="류마티스관절염진행하면쇼그렌증후군의발생위험이높아집니다." data-group="쇼그렌증후군" data-imported="imported" data-log-no="221885874563">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2020-04-01</td>
+  <td>쇼그렌증후군</td>
+  <td>done</td>
+  <td>류마티스관절염</td>
+  <td class="title-cell">류마티스 관절염 진행하면 쇼그렌증후군의 발생 위험이 높아집니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221885874563" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/류마티스-관절염-진행하면-쇼그렌증후군의-발생-위험이-높아집니다-221885874563" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221885874563" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221885874563" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="포도막염,자가면역질환과관련될수있습니다." data-group="자가면역질환" data-imported="imported" data-log-no="221900171118">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-04-09</td>
+  <td>자가면역질환</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">포도막염, 자가면역 질환과 관련될 수 있습니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221900171118" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/포도막염-자가면역-질환과-관련될-수-있습니다-221900171118" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221900171118" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221900171118" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="안구건조증과여성건강(자가면역질환과의관련성)" data-group="자가면역질환" data-imported="imported" data-log-no="221911308702">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-04-16</td>
+  <td>자가면역질환</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">안구건조증과 여성 건강 (자가면역질환과의 관련성)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221911308702" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/안구건조증과-여성-건강-자가면역질환과의-관련성-221911308702" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221911308702" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221911308702" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군-폐경기와구강건강" data-group="구강작열감증후군" data-imported="imported" data-log-no="221943680563">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-05-03</td>
+  <td>구강작열감증후군</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감 증후군 - 폐경기와 구강건강</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221943680563" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/구강작열감-증후군-폐경기와-구강건강-221943680563" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221943680563" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221943680563" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군환자분들의삶의질은어느정도일까요?" data-group="쇼그렌증후군" data-imported="imported" data-log-no="221973796897">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-05-21</td>
+  <td>쇼그렌증후군</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 환자분들의 삶의 질은 어느정도 일까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221973796897" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/쇼그렌증후군-환자분들의-삶의-질은-어느정도-일까요-221973796897" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221973796897" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221973796897" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증삶의질을떨어트리는매우힘든질환입니다" data-group="혀통증" data-imported="imported" data-log-no="221984689350">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-05-30</td>
+  <td>혀통증</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">혀통증  삶의 질을 떨어트리는 매우 힘든 질환입니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/221984689350" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/혀통증-삶의-질을-떨어트리는-매우-힘든-질환입니다-221984689350" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="221984689350" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="221984689350" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="비정형안면통증구강작열감증후군의공통점은?정신신체질환" data-group="구강작열감증후군" data-imported="imported" data-log-no="222029108795">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-07-12</td>
+  <td>구강작열감증후군</td>
+  <td>done</td>
+  <td>-</td>
+  <td class="title-cell">비정형안면통증 구강작열감증후군의 공통점은? 정신신체질환</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222029108795" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/비정형안면통증-구강작열감증후군의-공통점은-정신신체질환-222029108795" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222029108795" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222029108795" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군과갑상선기능저하증(하시모토갑상선염)" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222044679949">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-07-28</td>
+  <td>쇼그렌증후군</td>
+  <td>failed</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군과 갑상선기능 저하증(하시모토 갑상선염)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222044679949" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222044679949" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222044679949" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="만성두드러기-자가면역질환과의연관성은" data-group="자가면역질환" data-imported="not-imported" data-log-no="222064822462">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-08-19</td>
+  <td>자가면역질환</td>
+  <td>failed</td>
+  <td>-</td>
+  <td class="title-cell">만성 두드러기 - 자가면역질환과의 연관성은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222064822462" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222064822462" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222064822462" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구함증입에서짠맛나는이유중구강작열감증후군" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="222066350459">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-08-20</td>
+  <td>구강작열감증후군</td>
+  <td>failed</td>
+  <td>-</td>
+  <td class="title-cell">구함증 입에서 짠맛 나는 이유 중 구강작열감증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222066350459" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222066350459" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222066350459" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군,셀리악병이동반될수있습니다." data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222122395328">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-10-21</td>
+  <td>쇼그렌증후군</td>
+  <td>failed</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 , 셀리악병이 동반될 수 있습니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222122395328" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222122395328" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222122395328" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군-구강편평태선으로혀가아픈이유" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="222127390702">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-10-26</td>
+  <td>구강작열감증후군</td>
+  <td>failed</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감 증후군 - 구강 편평태선으로 혀가 아픈 이유</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222127390702" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222127390702" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222127390702" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="섬유근육통환자들에게나타나는구강증상혀통증작열감" data-group="혀통증" data-imported="not-imported" data-log-no="222161666548">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-12-03</td>
+  <td>혀통증</td>
+  <td>failed</td>
+  <td>-</td>
+  <td class="title-cell">섬유근육통 환자들에게 나타나는 구강 증상 혀 통증 작열감</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222161666548" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222161666548" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222161666548" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군-사지무력증을동반한말초신경병증이초기증상일수있습니다." data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222167424992">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-12-08</td>
+  <td>쇼그렌증후군</td>
+  <td>failed</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 - 사지무력증을 동반한 말초신경병증이 초기증상일 수 있습니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222167424992" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222167424992" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222167424992" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증-강박증(obsessive-compulsive)은악화요인이될수있습니다." data-group="혀통증" data-imported="not-imported" data-log-no="222171709960">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-12-12</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 - 강박증(obsessive-compulsive)은 악화 요인이 될 수 있습니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222171709960" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222171709960" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222171709960" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="파킨슨병환자분에게혀통증구강작열감증후군" data-group="혀통증" data-imported="not-imported" data-log-no="222180200479">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-12-20</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">파킨슨병 환자분에게 혀통증 구강작열감 증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222180200479" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222180200479" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222180200479" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="루푸스환자혈액검사에서ana가정상으로돌아온다면?" data-group="루푸스" data-imported="not-imported" data-log-no="222186559420">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2020-12-26</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">루푸스 환자 혈액검사에서 ANA가 정상으로 돌아온다면?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222186559420" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222186559420" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222186559420" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군의원인-오랜기간지속된스트레스" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222237104879">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-02-08</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군의 원인 - 오랜 기간 지속된 스트레스</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222237104879" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222237104879" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222237104879" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군예방접종(vaccine)어떻게해야할까요?" data-group="쇼그렌증후군" data-imported="imported" data-log-no="222242599482">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-02-13</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 예방접종(vaccine) 어떻게 해야 할까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222242599482" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-imported">이관됨</td>
+  <td>2026-05-27</td>
+  <td><a href="https://ireaomd.co.kr/blog/쇼그렌증후군-예방접종vaccine-어떻게-해야-할까요-222242599482" target="_blank" rel="noreferrer">홈페이지 링크</a></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222242599482" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222242599482" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="저보체혈증(hypocomplementemia)와쇼그렌증후군활성" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222265192430">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-03-05</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">저보체혈증(hypocomplementemia)와 쇼그렌증후군 활성</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222265192430" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222265192430" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222265192430" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="마스크사용이안구건조증악화요인이될까요?" data-group="안구건조증" data-imported="not-imported" data-log-no="222290297702">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-03-28</td>
+  <td>안구건조증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">마스크 사용이 안구건조증 악화 요인이 될까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222290297702" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222290297702" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222290297702" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군혀통증치약사용도주의해야합니다" data-group="혀통증" data-imported="not-imported" data-log-no="222292824687">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-03-30</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감 증후군 혀 통증 치약 사용도 주의해야 합니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222292824687" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222292824687" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222292824687" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군과근골격계증상-인천송도이레한의원" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222309777744">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-04-14</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군과 근골격계 증상 - 인천 송도 이레한의원</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222309777744" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222309777744" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222309777744" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="특발성혈소판감소성자반증(itp)자가면역질환으로루푸스발생위험이높아집니다." data-group="루푸스" data-imported="not-imported" data-log-no="222349463277">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-05-13</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">특발성 혈소판 감소성 자반증(ITP) 자가면역질환으로 루푸스 발생 위험이 높아집니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222349463277" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222349463277" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222349463277" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="자가면역질환과covid-19(코로나)감염관련성은" data-group="자가면역질환" data-imported="not-imported" data-log-no="222370448886">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-05-27</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">자가면역질환과 covid-19 (코로나) 감염 관련성은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222370448886" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222370448886" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222370448886" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상-혈관염(vasculitis)" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222386917289">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-06-06</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상 - 혈관염(vasculitis)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222386917289" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222386917289" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222386917289" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="당뇨환자에게나타나는혀통증,구강작열감증후군일수있습니다" data-group="혀통증" data-imported="not-imported" data-log-no="222407998314">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-06-23</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">당뇨 환자에게 나타나는 혀 통증, 구강작열감 증후군일 수 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222407998314" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222407998314" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222407998314" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="잇몸이물감이빨이물감낀느낌은구강작열감증후군때문일수도" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="222476251438">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-08-19</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">잇몸 이물감 이빨 이물감 낀 느낌은 구강작열감증후군 때문일 수도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222476251438" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222476251438" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222476251438" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군치료약은어느정도효과가있을까요" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="222496149170">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-09-05</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감 증후군 치료약은 어느정도 효과가 있을까요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222496149170" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222496149170" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222496149170" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="늑막염(pleuritis)쇼그렌증후군의초기증상일수있습니다" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222508267546">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-09-16</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">늑막염(pleuritis) 쇼그렌증후군의 초기 증상 일 수 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222508267546" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222508267546" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222508267546" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증환자에게나타나는인지기능저하,머리가멍한증상" data-group="혀통증" data-imported="not-imported" data-log-no="222517782485">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-09-26</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 환자에게 나타나는 인지기능 저하, 머리가 멍한 증상</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222517782485" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222517782485" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222517782485" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="전신홍반루푸스환자에게나타나는안구건조증과이차성쇼그렌증후군" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222525592437">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-10-03</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">전신 홍반 루푸스 환자에게 나타나는 안구건조증과 이차성 쇼그렌증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222525592437" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222525592437" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222525592437" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="코로나백신접종후유증으로발생한경피증신위기(renalcrisis),루푸스신증,사구체신염" data-group="루푸스" data-imported="not-imported" data-log-no="222531367941">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-10-08</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">코로나 백신 접종 후유증으로 발생한 경피증 신위기(renal crisis), 루푸스신증, 사구체신염</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222531367941" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222531367941" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222531367941" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="하시모토갑상선염과parkinson&#39;sdisease-자가면역질환의관련성인천파킨슨병치료한의원" data-group="자가면역질환" data-imported="not-imported" data-log-no="222558603503">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-11-04</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">하시모토갑상선염과 Parkinson&#39;s disease - 자가면역질환의 관련성 인천 파킨슨병 치료 한의원</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222558603503" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222558603503" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222558603503" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="전신홍반루푸스(lupus)여성의임신과출산은" data-group="루푸스" data-imported="not-imported" data-log-no="222562070934">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-11-08</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">전신 홍반 루푸스(lupus) 여성의 임신과 출산은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222562070934" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222562070934" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222562070934" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="인천편두통이레한의원-migraine은자가면역질환의특징이있습니다" data-group="자가면역질환" data-imported="not-imported" data-log-no="222574952918">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-11-21</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">인천 편두통 이레 한의원 - Migraine은 자가면역질환의 특징이 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222574952918" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222574952918" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222574952918" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="원형탈모와자가면역성갑상선질환(그레이브스병,하시모토갑상선염)관련성은" data-group="하시모토갑상선염" data-imported="not-imported" data-log-no="222577414029">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-11-24</td>
+  <td>하시모토갑상선염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">원형탈모와 자가면역성 갑상선질환 (그레이브스병, 하시모토 갑상선염) 관련성은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222577414029" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222577414029" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222577414029" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군산모에게발생한혈전성혈소판감소성자반증(ttp)" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222591557795">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-12-09</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 산모에게 발생한 혈전성 혈소판감소성 자반증(TTP)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222591557795" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222591557795" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222591557795" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증원인이되는구강작열감증후군-불안증우울증스트레스관련성은" data-group="혀통증" data-imported="not-imported" data-log-no="222593680899">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-12-12</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 원인이 되는 구강작열감증후군 - 불안증 우울증 스트레스 관련성은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222593680899" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222593680899" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222593680899" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="만성포도막염예후와자가면역질환관련성" data-group="자가면역질환" data-imported="not-imported" data-log-no="222607498710">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2021-12-29</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">만성 포도막염 예후와 자가면역질환 관련성</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222607498710" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222607498710" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222607498710" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군환자가코로나감염이된다면" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222616541710">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-01-08</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 환자가 코로나 감염이 된다면</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222616541710" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222616541710" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222616541710" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="전신경화증환자와보호자의삶의질에큰영향을주는자가면역질환입니다" data-group="자가면역질환" data-imported="not-imported" data-log-no="222621146811">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-01-13</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">전신경화증 환자와 보호자의 삶의 질에 큰 영향을 주는 자가면역질환입니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222621146811" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222621146811" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222621146811" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군등자가면역질환에발생하는조기관상동맥질환" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222634612385">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-01-29</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 등 자가면역질환에 발생하는 조기 관상동맥 질환</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222634612385" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222634612385" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222634612385" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군호흡기증상폐질환-만성기침의원인" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222643209668">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-02-09</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 호흡기 증상 폐질환 - 만성 기침의 원인</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222643209668" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222643209668" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222643209668" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="mrna백신접종이후발생할수있는자가면역질환" data-group="자가면역질환" data-imported="not-imported" data-log-no="222647151536">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-02-14</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">mRNA 백신 접종 이후 발생할 수 있는 자가면역질환</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222647151536" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222647151536" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222647151536" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="회귀성류머티즘재발성류마티즘-류마티스관절염의전단계일까요?" data-group="류마티스관절염" data-imported="not-imported" data-log-no="222650329334">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-02-17</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">회귀성 류머티즘 재발성 류마티즘 - 류마티스 관절염의 전단계 일까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222650329334" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222650329334" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222650329334" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군등자가면역질환에나타날수있는약물알러지(알레르기)" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222663852695">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-03-04</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 등 자가면역질환에 나타날 수 있는 약물 알러지(알레르기)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222663852695" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222663852695" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222663852695" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="백신접종이후발생한혀통증과구내염구강건조증" data-group="혀통증" data-imported="not-imported" data-log-no="222668008600">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-03-09</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">백신 접종 이후 발생한 혀통증과 구내염 구강건조증</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222668008600" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222668008600" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222668008600" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증주요원인구강작열감증후군:불안우울건강염려증관련이높습니다" data-group="혀통증" data-imported="not-imported" data-log-no="222673707381">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-03-15</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 주요 원인 구강작열감 증후군 : 불안 우울 건강염려증 관련이 높습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222673707381" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222673707381" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222673707381" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="류마티스관절염증상-어떤것이나타나면주의해야할까요" data-group="류마티스관절염" data-imported="not-imported" data-log-no="222677947768">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-03-20</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">류마티스 관절염 증상 - 어떤 것이 나타나면 주의해야 할까요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222677947768" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222677947768" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222677947768" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="인후두이물감-혀통증원인이되는구강작열감증후군에동반" data-group="혀통증" data-imported="not-imported" data-log-no="222683790198">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-03-26</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">인후두 이물감 - 혀통증 원인이 되는 구강작열감 증후군에 동반</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222683790198" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222683790198" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222683790198" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="루푸스관해와재발관련된위험요소는" data-group="루푸스" data-imported="not-imported" data-log-no="222693757456">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-04-06</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">루푸스 관해와 재발 관련된 위험 요소는</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222693757456" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222693757456" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222693757456" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군과민성방광간질성방광염이나타나기쉽습니다" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222709963209">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-04-24</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 과민성 방광 간질성 방광염이 나타나기 쉽습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222709963209" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222709963209" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222709963209" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="류마티스관절염환자가코로나감염되면혈소판감소증,혈관염이생길수있습니다" data-group="류마티스관절염" data-imported="not-imported" data-log-no="222714889304">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-04-28</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">류마티스 관절염 환자가 코로나 감염되면 혈소판감소증, 혈관염이 생길 수 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222714889304" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222714889304" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222714889304" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혓바닥통증화끈거림의원인은구강작열감증후군" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="222720949202">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-05-04</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혓바닥 통증 화끈거림의 원인은 구강작열감증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222720949202" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222720949202" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222720949202" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="레이노병과자가면역질환(전신경화증루푸스쇼그렌증후군등)" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222726614909">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-05-09</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">레이노병과 자가면역질환 (전신경화증 루푸스 쇼그렌증후군 등)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222726614909" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222726614909" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222726614909" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="루푸스산모에게나타날수있는자간전증(preeclampsia)" data-group="루푸스" data-imported="not-imported" data-log-no="222733519603">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-05-15</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">루푸스 산모에게 나타날 수 있는 자간전증(preeclampsia)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222733519603" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222733519603" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222733519603" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군호르몬이상(부신피로)과dhea관련성은" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222761605706">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-06-06</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 호르몬 이상(부신피로)과 DHEA 관련성은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222761605706" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222761605706" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222761605706" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="불면증은혀통증구강작열감증후군의발생원인이될수있습니다." data-group="혀통증" data-imported="not-imported" data-log-no="222762161445">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-06-06</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">불면증은 혀통증 구강작열감 증후군의 발생 원인이 될 수 있습니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222762161445" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222762161445" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222762161445" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군환자에나타날수있는피부근염" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222767460024">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-06-10</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 환자에 나타날 수 있는 피부근염</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222767460024" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222767460024" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222767460024" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="원발성담즙성담관염(경변증,간경화증)과자가면역질환종양위험은" data-group="자가면역질환" data-imported="not-imported" data-log-no="222771821224">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-06-13</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">원발성 담즙성 담관염 (경변증, 간경화증)과 자가면역질환 종양 위험은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222771821224" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222771821224" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222771821224" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="자가면역질환에발생할수있는부정맥(arrhythmias)" data-group="자가면역질환" data-imported="not-imported" data-log-no="222795606489">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-06-30</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">자가면역질환에 발생할 수 있는 부정맥(Arrhythmias)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222795606489" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222795606489" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222795606489" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="근감소증과전신홍반루푸스관련성그리고영양보충의의미는" data-group="루푸스" data-imported="not-imported" data-log-no="222809133514">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-07-12</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">근감소증과 전신홍반 루푸스 관련성 그리고 영양보충의 의미는</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222809133514" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222809133514" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222809133514" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="신경과약복용중에발생할수있는구강내증상(건조증,구내염,혀통증)" data-group="혀통증" data-imported="not-imported" data-log-no="222819003076">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-07-19</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">신경과약 복용 중에 발생할 수 있는 구강내 증상 (건조증, 구내염, 혀통증)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222819003076" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222819003076" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222819003076" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="재발성구내염혀통증-코로나감염이후에나타날수있습니다." data-group="혀통증" data-imported="not-imported" data-log-no="222836590171">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-08-01</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">재발성 구내염 혀통증 - 코로나 감염 이후에 나타날 수 있습니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222836590171" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222836590171" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222836590171" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="입에서쇠맛금속맛이나는이유는?구강작열감증후군" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="222842016091">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-08-07</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">입에서 쇠맛 금속맛이 나는 이유는? 구강작열감 증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222842016091" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222842016091" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222842016091" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="anca연관혈관염과쇼그렌증후군과의관련성은어느정도" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222858770231">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-08-26</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">ANCA 연관 혈관염과 쇼그렌증후군과의 관련성은 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222858770231" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222858770231" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222858770231" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="갑상선저하증과혀통증구강작열감증후군관련성은어느정도" data-group="혀통증" data-imported="not-imported" data-log-no="222865378763">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-09-02</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">갑상선 저하증과 혀통증 구강작열감 증후군 관련성은 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222865378763" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222865378763" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222865378763" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="다운증후군아이들의혀통증과균열설구순염은흔한증상입니다." data-group="혀통증" data-imported="not-imported" data-log-no="222878206579">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-09-18</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">다운증후군 아이들의 혀통증과 균열설 구순염은 흔한 증상입니다.</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222878206579" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222878206579" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222878206579" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="청소년기에시작된쇼그렌증후군-피부증상은" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222884816129">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-09-26</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">청소년기에 시작된 쇼그렌증후군 - 피부 증상은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222884816129" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222884816129" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222884816129" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증불면증관련성이높기때문에같이치료해야" data-group="혀통증" data-imported="not-imported" data-log-no="222908441894">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-10-23</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 불면증 관련성이 높기 때문에 같이 치료해야</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222908441894" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222908441894" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222908441894" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="전신홍반루푸스-진단(확진,임상적)을위한증상과검사" data-group="루푸스" data-imported="not-imported" data-log-no="222919140057">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-11-03</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">전신 홍반 루푸스 - 진단 (확진, 임상적)을 위한 증상과 검사</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222919140057" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222919140057" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222919140057" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="하시모토갑상선염과안구건조증관련성은" data-group="안구건조증" data-imported="not-imported" data-log-no="222923817144">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-11-08</td>
+  <td>안구건조증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">하시모토 갑상선염과 안구건조증 관련성은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222923817144" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222923817144" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222923817144" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="항인지질항체는양성이지만자가면역질환확진이안되었을때예후는어떨까요" data-group="자가면역질환" data-imported="not-imported" data-log-no="222927130153">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-11-12</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">항인지질 항체는 양성이지만 자가면역질환 확진이 안되었을 때 예후는 어떨까요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222927130153" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222927130153" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222927130153" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="심한안구건조증-전신질환과의관련성은어느정도" data-group="안구건조증" data-imported="not-imported" data-log-no="222930432046">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-11-16</td>
+  <td>안구건조증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">심한 안구건조증 - 전신 질환과의 관련성은 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222930432046" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222930432046" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222930432046" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군자가면역질환발생의환경적인위험인자-비스페놀a" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222940789712">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-11-28</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 자가면역질환 발생의 환경적인 위험인자 - 비스페놀 A</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222940789712" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222940789712" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222940789712" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군치료언제심해지는지확인해야이레한의원" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="222945560745">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-12-04</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감증후군 치료 언제 심해지는지 확인해야 이레 한의원</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222945560745" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222945560745" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222945560745" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상-30%이상환자분들이경험하는36종류" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="222949090289">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-12-07</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상 - 30% 이상 환자분들이 경험하는 36종류</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222949090289" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222949090289" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222949090289" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="류마티스관절염운동의효과는어느정도" data-group="류마티스관절염" data-imported="not-imported" data-log-no="222957016236">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-12-15</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">류마티스 관절염 운동의 효과는 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222957016236" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222957016236" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222957016236" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="전신홍반성낭창(sle)진단기준과루푸스의증" data-group="루푸스" data-imported="not-imported" data-log-no="222968322177">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2022-12-28</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">전신 홍반성 낭창 (SLE) 진단 기준과 루푸스 의증</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222968322177" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222968322177" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222968322177" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="건선관절염류마티스관절염환자의심혈관질환발생위험과나이에따른차이" data-group="류마티스관절염" data-imported="not-imported" data-log-no="222979530625">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-01-09</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">건선 관절염 류마티스 관절염 환자의 심혈관 질환 발생 위험과 나이에 따른 차이</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/222979530625" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="222979530625" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="222979530625" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군관련관절염관절통증조조강직은어느정도" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223012661504">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2023-02-11</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>관절통</td>
+  <td class="title-cell">쇼그렌증후군 관련 관절염 관절통증 조조강직은 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223012661504" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223012661504" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223012661504" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="임플란트이후에생긴혀통증화끈거림은구강작열감증후군혹은알레르기" data-group="혀통증" data-imported="not-imported" data-log-no="223029301484">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2023-02-27</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>임플란트</td>
+  <td class="title-cell">임플란트 이후에 생긴 혀통증 화끈거림은 구강작열감증후군 혹은 알레르기</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223029301484" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223029301484" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223029301484" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="입천장통증의원인이되는구강작열감증후군인천송도혀통증치료한의원" data-group="혀통증" data-imported="not-imported" data-log-no="223035724023">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-03-05</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">입천장 통증의 원인이 되는 구강작열감증후군  인천 송도 혀통증 치료 한의원</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223035724023" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223035724023" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223035724023" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="섬유근육통구강증상-심한갈증,혀통증ㅣ인천송도이레한의원" data-group="혀통증" data-imported="not-imported" data-log-no="223039275109">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-03-09</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">섬유근육통 구강 증상 - 심한 갈증, 혀통증 ㅣ 인천 송도 이레 한의원</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223039275109" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223039275109" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223039275109" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증원인인구강작열감증후군진단은어려운편입니다" data-group="혀통증" data-imported="not-imported" data-log-no="223047276922">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-03-17</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 원인인 구강작열감증후군 진단은 어려운 편입니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223047276922" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223047276922" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223047276922" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군저리고시리고화끈거리고가렵고아프다면?신경병증" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223062794685">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-04-02</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 저리고 시리고 화끈거리고 가렵고 아프다면? 신경병증</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223062794685" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223062794685" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223062794685" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증병원통계를통해알아본우울증불안증양극성장애관련성요약정리해보기" data-group="혀통증" data-imported="not-imported" data-log-no="223088166862">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-04-28</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 병원 통계를 통해 알아본 우울증 불안증 양극성장애 관련성 요약정리해 보기</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223088166862" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223088166862" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223088166862" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군피부증상아밀로이드증자세히알아보기" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223095247466">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-05-06</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 피부 증상 아밀로이드증 자세히 알아보기</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223095247466" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223095247466" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223095247466" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군약면역억제제할록신살라겐처방비율을알아보기" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223104879887">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-05-17</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 약 면역억제제 할록신 살라겐 처방 비율을 알아보기</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223104879887" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223104879887" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223104879887" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증증상미각장애(입맛변화,맛을못느낌,입맛없음)종류와특징요약정리" data-group="혀통증" data-imported="not-imported" data-log-no="223120238685">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-06-04</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 증상 미각장애 (입맛 변화, 맛을 못 느낌, 입맛 없음) 종류와 특징 요약정리</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223120238685" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223120238685" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223120238685" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀옆통증혀끝통증3개월이상지속된다면원인은구강작열감증후군알아보기" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223121433917">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-06-06</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀옆통증 혀끝통증 3개월 이상 지속된다면 원인은 구강작열감증후군 알아보기</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223121433917" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223121433917" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223121433917" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상안구눈안과질환관련성요약정리" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223135166744">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-06-21</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상  안구 눈 안과질환 관련성 요약정리</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223135166744" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223135166744" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223135166744" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증치료방법선택할때꼭고려해야할중요한2가지증상정리" data-group="혀통증" data-imported="not-imported" data-log-no="223141215626">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-06-28</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 치료 방법 선택할 때 꼭 고려해야 할 중요한 2가지 증상 정리</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223141215626" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223141215626" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223141215626" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군진단방법과실제환자중진단되는비율알아보기" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223143237755">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-06-30</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 진단 방법과 실제 환자 중 진단되는 비율 알아보기</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223143237755" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223143237755" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223143237755" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀뿌리통증백태화끈거림-설인신경통혹은구강작열감증후군이원인" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223147859789">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-07-05</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀 뿌리 통증 백태 화끈거림 - 설인신경통 혹은 구강작열감 증후군이 원인</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223147859789" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223147859789" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223147859789" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증스트레스관련성이높다면구강작열감증후군이원인일수" data-group="혀통증" data-imported="not-imported" data-log-no="223150623426">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-07-08</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 스트레스 관련성이 높다면 구강작열감 증후군이 원인일 수</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223150623426" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223150623426" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223150623426" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증이계속되면설암구강암일까요?차이점요약정리" data-group="혀통증" data-imported="not-imported" data-log-no="223156606310">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-07-14</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증이 계속되면 설암 구강암일까요? 차이점 요약정리</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223156606310" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223156606310" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223156606310" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="자가면역질환증상원인불명열(발열,fever)은어느정도" data-group="자가면역질환" data-imported="not-imported" data-log-no="223172374826">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-08-01</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">자가면역질환 증상 원인 불명열 (발열, fever)은 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223172374826" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223172374826" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223172374826" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증원인중갑상선기능항진증과저하증이있습니다" data-group="혀통증" data-imported="not-imported" data-log-no="223181434709">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-08-11</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀 통증 원인 중 갑상선 기능 항진증과 저하증이 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223181434709" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223181434709" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223181434709" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군중증근무력증동시에발생한다면안검하수안검부종가능" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223203869685">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-09-06</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 중증근무력증 동시에 발생한다면 안검하수 안검부종 가능</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223203869685" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223203869685" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223203869685" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증신경쓰면심해진다면원인은구강작열감증후군" data-group="혀통증" data-imported="not-imported" data-log-no="223208191840">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-09-11</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 신경 쓰면 심해진다면 원인은 구강작열감 증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223208191840" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223208191840" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223208191840" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상-소화기에발생하는경우와간질환" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223229722141">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-10-06</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상 - 소화기에 발생하는 경우와 간질환</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223229722141" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223229722141" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223229722141" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군치료약듀록정할록신옥시크로린작용원리와부작용상호작용의주의할점" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223243579416">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-10-22</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 치료 약 듀록정 할록신 옥시크로린 작용 원리와 부작용 상호작용의 주의할 점</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223243579416" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223243579416" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223243579416" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="자가면역질환증상신경정신적인요소들은임상에서간과되기쉽지만많은분들에게나타납니다" data-group="자가면역질환" data-imported="not-imported" data-log-no="223250650430">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-10-30</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">자가면역질환 증상 신경정신적인 요소들은 임상에서 간과되기 쉽지만 많은 분들에게 나타납니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223250650430" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223250650430" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223250650430" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군피부증상중지방층염(panniculitis)" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223259633683">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2023-11-08</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 피부 증상 중 지방층염(panniculitis)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223259633683" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223259633683" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223259633683" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군안구건조증원인과특징그리고기타안과증상들" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223291750331">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2023-12-13</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>특징</td>
+  <td class="title-cell">쇼그렌증후군 안구건조증 원인과 특징 그리고 기타 안과 증상들</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223291750331" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223291750331" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223291750331" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="자궁내막증과쇼그렌증후군관련성은어느정도(유전적통찰)" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223314548224">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-01-06</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">자궁 내막증과 쇼그렌증후군 관련성은 어느정도 (유전적 통찰)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223314548224" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223314548224" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223314548224" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군원인중nociplasticpain(침해가소성통증)" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223322507749">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-01-14</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감증후군 원인 중 nociplastic pain (침해가소성 통증)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223322507749" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223322507749" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223322507749" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="갑상선기능저하증환자의갑상선수치가정상인데도증상이계속된다면그이유는?하시모토갑상선염때문" data-group="하시모토갑상선염" data-imported="not-imported" data-log-no="223344199559">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-02-04</td>
+  <td>하시모토갑상선염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">갑상선 기능저하증 환자의 갑상선 수치가 정상인데도 증상이 계속된다면 그 이유는? 하시모토 갑상선염 때문</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223344199559" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223344199559" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223344199559" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군치료병원선택시주의할점한가지" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223357834034">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-02-18</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감증후군 치료 병원 선택 시 주의할 점 한 가지</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223357834034" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223357834034" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223357834034" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군치료시고려해야할필수사항은바로00감염,인천송도이레한의원" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223365048803">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-02-25</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 치료 시 고려해야 할 필 수 사항은 바로 00감염, 인천 송도 이레 한의원</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223365048803" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223365048803" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223365048803" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="오른쪽왼쪽혀통증,한쪽만아픈경우그원인은?" data-group="혀통증" data-imported="not-imported" data-log-no="223394886663">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-03-25</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">오른쪽 왼쪽 혀 통증, 한쪽만 아픈 경우 그 원인은?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223394886663" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223394886663" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223394886663" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상-귀에서발생하는이명난청현훈은어느정도" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223401441069">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-03-31</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상 - 귀에서 발생하는 이명 난청 현훈은 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223401441069" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223401441069" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223401441069" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군진단시자가항체음성(혈청음성)인그리고조직검사양성(focusscore1점이상)이라면" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223420019961">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2024-04-18</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>자가항체</td>
+  <td class="title-cell">쇼그렌증후군 진단시 자가항체 음성(혈청 음성)인 그리고 조직 검사 양성(Focus score 1점 이상)이라면</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223420019961" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223420019961" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223420019961" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상-안구눈에발생하는질환요약정리" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223439965095">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-05-08</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상 - 안구 눈에 발생하는 질환 요약 정리</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223439965095" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223439965095" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223439965095" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="루푸스여성모유수유할때약복용문제없을까요?" data-group="루푸스" data-imported="not-imported" data-log-no="223463946481">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-05-30</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">루푸스 여성 모유 수유할 때 약 복용 문제없을까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223463946481" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223463946481" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223463946481" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="인천루푸스치료한의원송도이레에서알려드리는한약의효과" data-group="루푸스" data-imported="not-imported" data-log-no="223473827395">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-06-09</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">인천 루푸스 치료 한의원 송도 이레에서 알려드리는 한약의 효과</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223473827395" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223473827395" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223473827395" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혓바닥통증입술입천장잇몸으로번진다면구강작열감증후군이원인" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223516139272">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-07-17</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혓바닥 통증 입술 입천장 잇몸으로 번진다면 구강작열감 증후군이 원인</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223516139272" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223516139272" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223516139272" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="오일풀링방법과효과-치은염개선과건조증혀통증완화까지" data-group="혀통증" data-imported="not-imported" data-log-no="223516238949">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-07-18</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">오일 풀링 방법과 효과 - 치은염 개선과 건조증 혀통증 완화까지</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223516238949" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223516238949" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223516238949" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상과치료방법건조증을제외한주요병변" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223531786128">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-07-31</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상과 치료 방법 건조증을 제외한 주요 병변</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223531786128" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223531786128" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223531786128" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="인천류마티스관절염증상중심장혈관질환-부정맥과염증관련성을고려해서치료해야" data-group="류마티스관절염" data-imported="not-imported" data-log-no="223541266466">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-08-08</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">인천 류마티스 관절염 증상 중 심장 혈관 질환 - 부정맥과 염증 관련성을 고려해서 치료해야</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223541266466" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223541266466" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223541266466" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="간질성폐질환치료한약의효과는어느정도?쇼그렌증후군류마티스관절염에동반위험높아요" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223573919748">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2024-09-05</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>간질성폐질환, 류마티스관절염</td>
+  <td class="title-cell">간질성 폐질환 치료 한약의 효과는 어느 정도? 쇼그렌증후군 류마티스 관절염에 동반 위험 높아요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223573919748" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223573919748" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223573919748" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군치료약중하나인살라겐이해하기" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223597723927">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-09-26</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 치료 약 중 하나인 살라겐 이해하기</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223597723927" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223597723927" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223597723927" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="심한갈증원인과쇼그렌증후군진단언제해야하는지알아볼게요" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223610077663">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-10-07</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">심한 갈증 원인과 쇼그렌증후군 진단 언제 해야 하는지 알아볼게요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223610077663" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223610077663" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223610077663" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="심한안구건조증원인과쇼그렌증후군관련성" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223611681088">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-10-08</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">심한 안구건조증 원인과 쇼그렌증후군 관련성</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223611681088" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223611681088" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223611681088" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="전신경화증환자에게2차성쇼그렌증후군발생한다면" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223612420505">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-10-09</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">전신경화증 환자에게 2차성 쇼그렌증후군 발생한다면</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223612420505" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223612420505" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223612420505" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="재발성이하선염원인과쇼그렌증후군관련성" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223618142789">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2024-10-14</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>이하선염</td>
+  <td class="title-cell">재발성 이하선염 원인과 쇼그렌증후군 관련성</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223618142789" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223618142789" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223618142789" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군치료증상관리에사용하는자일리톨주의사항" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223644952638">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-11-03</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 치료 증상 관리에 사용하는 자일리톨 주의사항</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223644952638" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223644952638" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223644952638" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="입에서쓴맛쇠맛나는이유와구강작열감증후군" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223654869690">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-11-10</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">입에서 쓴맛 쇠맛 나는 이유와 구강작열감 증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223654869690" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223654869690" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223654869690" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군종양발생위험도가높은자가면역질환" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223661796858">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2024-11-15</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 종양 발생 위험도가 높은 자가면역질환</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223661796858" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223661796858" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223661796858" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군증상중혈소판감소증있을때특징과치료방법" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223741269281">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2025-01-28</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>특징</td>
+  <td class="title-cell">쇼그렌증후군 증상 중 혈소판감소증 있을 때 특징과 치료 방법</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223741269281" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223741269281" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223741269281" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군치료시불안증이심할때해결할수있는방법은" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223753953176">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-02-09</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감 증후군 치료 시 불안증이 심할 때 해결할 수 있는 방법은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223753953176" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223753953176" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223753953176" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군치료중겨울이되었을때안구건조에영향을주는요소는" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223759683563">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-02-13</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 치료 중 겨울이 되었을 때 안구건조에 영향을 주는 요소는</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223759683563" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223759683563" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223759683563" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군증상이스트레스받으면심해진다면?인지행동치료가유효" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223780597027">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-03-02</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감 증후군 증상이 스트레스받으면 심해진다면? 인지행동 치료가 유효</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223780597027" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223780597027" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223780597027" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군치료약복용비율-이탈리아의케이스" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223828860993">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-04-10</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 치료 약 복용 비율 - 이탈리아의 케이스</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223828860993" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223828860993" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223828860993" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀측면통증의원인중구강작열감증후군은강박증과관련있어요" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="223852116561">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-05-01</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀 측면 통증의 원인 중 구강작열감 증후군은 강박증과 관련 있어요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223852116561" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223852116561" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223852116561" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="류마티스관절염관절외증상이나타나는비율과위험성은어느정도" data-group="류마티스관절염" data-imported="not-imported" data-log-no="223856649209">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-05-06</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">류마티스관절염 관절외 증상이 나타나는 비율과 위험성은 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223856649209" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223856649209" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223856649209" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군과혈청대사체와의관련성최근지견" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223875182322">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-05-23</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군과 혈청 대사체와의 관련성 최근 지견</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223875182322" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223875182322" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223875182322" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군검사중초음파어떤의미가있는지" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223878811173">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-05-26</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 검사 중 초음파 어떤 의미가 있는지</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223878811173" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223878811173" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223878811173" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="원발성담즙성간경변과쇼그렌증후군의관련성은" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223886664588">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-06-02</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">원발성 담즙성 간경변과 쇼그렌증후군의 관련성은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223886664588" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223886664588" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223886664588" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군혈액검사에서감마gtp(ggt)수치가높다면" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223895880009">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-06-11</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 혈액검사에서 감마GTP (GGT)수치가 높다면</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223895880009" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223895880009" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223895880009" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군안구건조증원인과병인" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223915907501">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-06-29</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 안구건조증 원인과 병인</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223915907501" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223915907501" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223915907501" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상중대변을본후에도남아있는듯한불편함이드는이급후증" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223923112772">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-07-05</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상 중 대변을 본 후에도 남아 있는 듯한 불편함이 드는 이급후증</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223923112772" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223923112772" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223923112772" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="rnp자가항체와루푸스혼합결합조직질환관련성" data-group="루푸스" data-imported="not-imported" data-log-no="223940671802">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-07-20</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">RNP 자가항체와 루푸스 혼합결합조직 질환 관련성</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223940671802" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223940671802" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223940671802" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="루푸스초기증상과조기진단의중요성에대한최근지견리뷰" data-group="루푸스" data-imported="not-imported" data-log-no="223949197992">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2025-07-27</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>초기증상</td>
+  <td class="title-cell">루푸스 초기 증상과 조기 진단의 중요성에 대한 최근 지견 리뷰</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223949197992" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223949197992" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223949197992" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군과같이진단될수있는항합성효소증후군" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223957186649">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-08-03</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군과 같이 진단 될 수 있는 항합성효소증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223957186649" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223957186649" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223957186649" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군의처음증상으로나타날수있는중심성장액성맥락망막병증" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223959923063">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-08-05</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군의 처음 증상으로 나타날 수 있는 중심성 장액성 맥락망막병증</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223959923063" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223959923063" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223959923063" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군루푸스와함께진단되는사례가있습니다" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223971954002">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-08-15</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 루푸스와 함께 진단되는 사례가 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223971954002" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223971954002" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223971954002" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="신경섬유종1형유전과진단그리고자가면역질환의관련성" data-group="자가면역질환" data-imported="not-imported" data-log-no="223978527019">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-08-21</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">신경섬유종 1형 유전과 진단 그리고 자가면역질환의 관련성</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223978527019" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223978527019" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223978527019" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군치과증상과예방을위한한의학치료효과" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="223995706491">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2025-09-04</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>치과</td>
+  <td class="title-cell">쇼그렌증후군 치과 증상과 예방을 위한 한의학 치료 효과</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/223995706491" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="223995706491" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="223995706491" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="구강작열감증후군한의원에서치료받는이유와진단이늦어지는원인" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="224011932665">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2025-09-17</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>진단</td>
+  <td class="title-cell">구강작열감증후군 한의원에서 치료받는 이유와 진단이 늦어지는 원인</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224011932665" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224011932665" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224011932665" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="구강작열감증후군치료법중한가지인마음챙김(mindfullness)" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="224021943209">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2025-09-25</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>마음챙김</td>
+  <td class="title-cell">구강작열감증후군 치료법 중 한 가지인 마음 챙김(mindfullness)</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224021943209" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224021943209" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224021943209" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군증상골다공증-비타민d호르몬면역의교차점" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224034722030">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2025-10-08</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>골다공증</td>
+  <td class="title-cell">쇼그렌증후군 증상 골다공증 - 비타민D 호르몬 면역의 교차점</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224034722030" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224034722030" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224034722030" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="류마티스관절염치료약중면역억제제작용시작기간은?" data-group="류마티스관절염" data-imported="not-imported" data-log-no="224053372928">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-10-25</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">류마티스 관절염 치료 약 중 면역억제제 작용 시작 기간은?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224053372928" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224053372928" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224053372928" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="건선증상합병증중심혈관질환" data-group="건선" data-imported="not-imported" data-log-no="224067426251">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-11-06</td>
+  <td>건선</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">건선 증상 합병증 중 심혈관질환</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224067426251" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224067426251" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224067426251" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="공막염과자가면역질환과의관련성의최근지견" data-group="자가면역질환" data-imported="not-imported" data-log-no="224083439774">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-11-21</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">공막염과 자가면역질환과의 관련성의 최근 지견</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224083439774" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224083439774" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224083439774" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군불소치약불소도포왜필요할까" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224086155050">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2025-11-24</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>불소, 불소치약</td>
+  <td class="title-cell">쇼그렌증후군 불소치약 불소도포 왜 필요할까</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224086155050" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224086155050" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224086155050" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군원인중스트레스등의정신적문제는어느정도" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="224094441523">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-12-01</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감증후군 원인 중 스트레스 등의 정신적 문제는 어느 정도</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224094441523" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224094441523" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224094441523" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군진단방법무엇을검사하나요?" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224109627236">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2025-12-14</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 진단 방법 무엇을 검사하나요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224109627236" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224109627236" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224109627236" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군정확한진단이중요할까요?" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224133756318">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-04</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 정확한 진단이 중요할까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224133756318" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224133756318" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224133756318" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증과외음부통증이같이나타난다면구강작열감증후군" data-group="혀통증" data-imported="not-imported" data-log-no="224133836232">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-04</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀 통증과 외음부 통증이 같이 나타난다면 구강작열감 증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224133836232" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224133836232" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224133836232" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군림프종발생위험에대한최근의학지견" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224136148842">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-06</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 림프종 발생 위험에 대한 최근 의학 지견</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224136148842" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224136148842" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224136148842" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군관절염관절통발생했을때의특징" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224139738896">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2026-01-08</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>관절통, 특징</td>
+  <td class="title-cell">쇼그렌증후군 관절염 관절통 발생했을 때의 특징</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224139738896" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224139738896" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224139738896" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군혈청음성진단된다면,혈액검사정상일수있습니다" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224142564008">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-11</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 혈청 음성 진단된다면, 혈액검사 정상일 수 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224142564008" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224142564008" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224142564008" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군어지러움주요원인5가지" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224143830489">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-12</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 어지러움 주요 원인 5가지</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224143830489" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224143830489" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224143830489" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군입술건조,단순한트임이아닌&#39;메마른경고&#39;일수있습니다" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224145499482">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-13</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 입술 건조, 단순한 트임이 아닌 &#39;메마른 경고&#39;일 수 있습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224145499482" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224145499482" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224145499482" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="전신홍반루푸스관절통증에대한한약의치료효과기전은" data-group="루푸스" data-imported="not-imported" data-log-no="224154818167">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-21</td>
+  <td>루푸스</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">전신홍반루푸스 관절 통증에 대한 한약의 치료 효과 기전은</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224154818167" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224154818167" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224154818167" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증원인,혀가갈라지고따갑다면혹시이문제일까요?" data-group="혀통증" data-imported="not-imported" data-log-no="224161364873">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-01-27</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀통증 원인, 혀가 갈라지고 따갑다면 혹시 이 문제일까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224161364873" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224161364873" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224161364873" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="자꾸재발하는건선,원인과유형별관리법은무엇일까요?" data-group="건선" data-imported="not-imported" data-log-no="224164661606">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2026-01-29</td>
+  <td>건선</td>
+  <td>pending</td>
+  <td>재발</td>
+  <td class="title-cell">자꾸 재발하는 건선, 원인과 유형별 관리법은 무엇일까요?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224164661606" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224164661606" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224164661606" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="쇼그렌증후군간질성폐질환의원인과유병률의최근지견" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224169895977">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2026-02-03</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>간질성폐질환</td>
+  <td class="title-cell">쇼그렌증후군 간질성 폐질환의 원인과 유병률의 최근 지견</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224169895977" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224169895977" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224169895977" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군피곤함은우울증면역활성과관련이높습니다" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224172732127">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-02-05</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 피곤함은 우울증 면역활성과 관련이 높습니다</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224172732127" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224172732127" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224172732127" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군수면장애원인에대한최근지견" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224173279133">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-02-05</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 수면장애 원인에 대한 최근 지견</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224173279133" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224173279133" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224173279133" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군환자가겪는우울증,단순한기분탓이아닌&#39;신경염증&#39;때문일까" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224177484251">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-02-09</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 환자가 겪는 우울증, 단순한 기분 탓이 아닌 &#39;신경염증&#39; 때문일까</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224177484251" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224177484251" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224177484251" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="건선악화요인심해지는이유는어떤것이있을까요" data-group="건선" data-imported="not-imported" data-log-no="224178915753">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-02-10</td>
+  <td>건선</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">건선 악화 요인 심해지는 이유는 어떤 것이 있을까요</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224178915753" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224178915753" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224178915753" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="자가면역질환환자가비인두염으로고생하는이유,최신논문으로밝혀진유전적인과관계총정리" data-group="자가면역질환" data-imported="not-imported" data-log-no="224198300263">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-02-27</td>
+  <td>자가면역질환</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">자가면역질환 환자가 비인두염으로 고생하는 이유, 최신 논문으로 밝혀진 유전적 인과관계 총정리</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224198300263" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224198300263" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224198300263" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군치료약이뮤란이무테라(aza)적응증과주의사항" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224202250311">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-03</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 치료약 이뮤란 이무테라 (AZA) 적응증과 주의 사항</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224202250311" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224202250311" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224202250311" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="입안이물감혀통증에대한파국적생각이들때에는" data-group="혀통증" data-imported="not-imported" data-log-no="224204270420">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-04</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">입안 이물감 혀통증에 대한 파국적 생각이 들 때에는</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224204270420" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224204270420" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224204270420" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군고혈압심혈관질환발생위험이높은이유" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224205030486">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-05</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 고혈압 심혈관 질환 발생 위험이 높은 이유</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224205030486" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224205030486" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224205030486" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="reflected" data-title="임플란트후혀통증이생겼다면구강작열감증후군도고려해야" data-group="혀통증" data-imported="not-imported" data-log-no="224205391517">
+  <td class="state-pill is-reflected">반영</td>
+  <td>2026-03-05</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>임플란트</td>
+  <td class="title-cell">임플란트 후 혀 통증이 생겼다면 구강작열감 증후군도 고려해야</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224205391517" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224205391517" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224205391517" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="임플란트이후입안에이물감이계속된다면구강작열감증후군" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="224217592970">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-15</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">임플란트 이후 입안에 이물감이 계속된다면 구강작열감 증후군</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224217592970" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224217592970" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224217592970" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="혀통증잘낫지않을때실천해볼수있는개선방법완화법" data-group="혀통증" data-imported="not-imported" data-log-no="224218390771">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-16</td>
+  <td>혀통증</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">혀 통증 잘 낫지 않을 때 실천해 볼 수 있는 개선 방법 완화법</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224218390771" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224218390771" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224218390771" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="고질적인구강작열감증후군에강박성인격장애가동반된다면" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="224219283562">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-17</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">고질적인 구강작열감증후군에 강박성 인격장애가 동반된다면</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224219283562" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224219283562" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224219283562" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군피로감원인과주요증상그리고운동의효과" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224222714287">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-19</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 피로감 원인과 주요 증상 그리고 운동의 효과</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224222714287" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224222714287" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224222714287" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="류마티스관절염과건선관절염에서anti-ccpab의의미" data-group="류마티스관절염" data-imported="not-imported" data-log-no="224223774930">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-20</td>
+  <td>류마티스 관절염</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">류마티스 관절염과 건선관절염에서 anti-CCP Ab의 의미</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224223774930" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224223774930" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224223774930" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="심한갈증원인과언제쇼그렌증후군진단을고려해야하는지" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224224877335">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-21</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">심한 갈증 원인과 언제 쇼그렌증후군 진단을 고려해야 하는지</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224224877335" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224224877335" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224224877335" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="쇼그렌증후군증상중재발성다발연골염이란" data-group="쇼그렌증후군" data-imported="not-imported" data-log-no="224226748802">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-23</td>
+  <td>쇼그렌증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">쇼그렌증후군 증상 중 재발성 다발 연골염이란</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224226748802" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224226748802" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224226748802" aria-label="업로드 체크"></td>
+</tr>
+<tr data-state="unreflected" data-title="구강작열감증후군침분비량이늘어난다면?" data-group="구강작열감증후군" data-imported="not-imported" data-log-no="224230817461">
+  <td class="state-pill is-unreflected">미반영</td>
+  <td>2026-03-26</td>
+  <td>구강작열감증후군</td>
+  <td>pending</td>
+  <td>-</td>
+  <td class="title-cell">구강작열감증후군 침분비량이 늘어난다면?</td>
+  <td><a href="https://blog.naver.com/xkjbaeakds/224230817461" target="_blank" rel="noreferrer">블로그 링크</a></td>
+  <td class="import-pill is-not-imported">미이관</td>
+  <td>-</td>
+  <td>-</td>
+  <td><input type="checkbox" class="task-check" data-check-kind="produced" data-log-no="224230817461" aria-label="제작 체크"></td>
+  <td><input type="checkbox" class="task-check" data-check-kind="uploaded" data-log-no="224230817461" aria-label="업로드 체크"></td>
+</tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footer-note">done / pending / failed는 로컬 이관 큐 상태입니다. 반영 표시는 제목 기준 2키워드 조합 일치로만 계산했습니다.</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const visibleCount = document.getElementById('visibleCount');
+    const rows = Array.from(document.querySelectorAll('#reportTable tbody tr'));
+    const stateButtons = Array.from(document.querySelectorAll('[data-filter]'));
+    const importButtons = Array.from(document.querySelectorAll('[data-import-filter]'));
+    const checkboxes = Array.from(document.querySelectorAll('.task-check'));
+    let activeState = "all";
+    let activeImport = 'all';
+    const storageKey = 'xkjbaeakds-shorts-report-checks-v1';
+
+    function loadChecks() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey) || '{}');
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function saveChecks(checks) {
+      localStorage.setItem(storageKey, JSON.stringify(checks));
+    }
+
+    function applyStoredChecks() {
+      const checks = loadChecks();
+      for (const checkbox of checkboxes) {
+        const logNo = checkbox.dataset.logNo;
+        const kind = checkbox.dataset.checkKind;
+        checkbox.checked = Boolean(checks[logNo] && checks[logNo][kind]);
+      }
+    }
+
+    function applyFilters() {
+      const query = (searchInput.value || '').replace(/\s+/g, '').toLowerCase();
+      let count = 0;
+
+      for (const row of rows) {
+        const state = row.dataset.state;
+        const title = row.dataset.title;
+        const group = row.dataset.group;
+        const imported = row.dataset.imported;
+        const stateOk = activeState === 'all' || state === activeState;
+        const importOk = activeImport === 'all' || imported === activeImport;
+        const textOk = !query || title.includes(query) || group.includes(query);
+        const show = stateOk && importOk && textOk;
+        row.classList.toggle('hidden-row', !show);
+        if (show) count += 1;
+      }
+
+      visibleCount.textContent = '현재 표시: ' + count + '개';
+    }
+
+    for (const button of stateButtons) {
+      button.addEventListener('click', () => {
+        activeState = button.dataset.filter;
+        for (const other of stateButtons) other.classList.remove('active');
+        button.classList.add('active');
+        applyFilters();
+      });
+    }
+
+    for (const button of importButtons) {
+      button.addEventListener('click', () => {
+        activeImport = button.dataset.importFilter;
+        for (const other of importButtons) other.classList.remove('active-import');
+        button.classList.add('active-import');
+        applyFilters();
+      });
+    }
+
+    for (const checkbox of checkboxes) {
+      checkbox.addEventListener('change', () => {
+        const checks = loadChecks();
+        const logNo = checkbox.dataset.logNo;
+        const kind = checkbox.dataset.checkKind;
+        if (!checks[logNo]) checks[logNo] = {};
+        checks[logNo][kind] = checkbox.checked;
+        saveChecks(checks);
+      });
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    applyStoredChecks();
+    applyFilters();
+  </script>
+</body>
+</html>
