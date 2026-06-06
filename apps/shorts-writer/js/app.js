@@ -531,6 +531,7 @@ ${STYLE_SPEC}
 - **강력 지시**: 초안을 머릿속으로 다 쓴 뒤, 반드시 스스로 총 글자수를 다시 점검해서 **${lengthGuide.max.toLocaleString()}자를 절대 넘기지 마세요.**
 - 자료가 많더라도 목표 글자수 안에 맞추기 위해 **덜 중요한 연구, 반복 설명, 군더더기 문장, 장황한 연결어는 삭제**하세요.
 - 각 줄은 영상 자막이므로 한 줄이 길어지면 안 됩니다. 줄바꿈은 유지하되, 총 분량은 반드시 위 글자수 범위 안에 맞추세요.
+- **반드시 완결된 결론으로 끝내세요.** 마지막 2~4줄에는 환자 행동 지침 또는 요약 결론이 있어야 하며, 문장이 중간에서 끊기면 안 됩니다.
 
 # 톤 및 추가 지시
 - 톤: ${toneLabel}
@@ -589,41 +590,61 @@ ${content.slice(0, 20000)}
       .length;
   }
 
-  async _fitScriptToLength(script, { topic, tone, lengthGuide, sampleStats }) {
-    const chars = this._countEffectiveChars(script);
-    if (chars >= lengthGuide.min && chars <= lengthGuide.max) {
-      return script.trim();
-    }
+  _isScriptComplete(script) {
+    const lines = String(script || '')
+      .replace(/\r\n/g, '\n')
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean);
 
-    this._setLoadingSub(`길이 보정 중... 현재 ${chars.toLocaleString()}자`);
-    try {
-      const adjusted = await this._rewriteScriptToLength(script, {
-        topic,
-        tone,
-        lengthGuide,
-        sampleStats,
-        currentChars: chars,
-      });
-      const adjustedChars = this._countEffectiveChars(adjusted);
-      if (adjustedChars >= lengthGuide.min && adjustedChars <= lengthGuide.max) {
-        return adjusted.trim();
-      }
-      if (adjustedChars > lengthGuide.max) {
-        return this._hardTrimToCharLimit(adjusted, lengthGuide.max);
-      }
-      return adjusted.trim();
-    } catch (e) {
-      console.warn('length adjustment failed', e);
-      if (chars > lengthGuide.max) {
-        return this._hardTrimToCharLimit(script, lengthGuide.max);
-      }
-      return script.trim();
-    }
+    if (!lines.length) return false;
+
+    const lastLine = lines[lines.length - 1];
+    const joinedTail = lines.slice(-4).join(' ');
+    const hasClosingSignal = /(따라서|결론적으로|즉,|그러므로|신중을 기할 필요가 있겠습니다|꼭 필요합니다|주의하셔야 합니다|확인하셔야 합니다|진료를 받으셔야 합니다|평가가 필요합니다)/.test(joinedTail);
+    const endsCleanly = /[.!?…]|니다$|됩니다$|있습니다$|하겠습니다$|필요합니다$/.test(lastLine);
+    const looksTruncated = /(없는지|있는지|때문에|이며|그리고|또한|특히|즉|따라서|첫 번째|두 번째|세 번째|네 번째)$/.test(lastLine);
+
+    return hasClosingSignal && endsCleanly && !looksTruncated;
   }
 
-  async _rewriteScriptToLength(script, { topic, tone, lengthGuide, sampleStats, currentChars }) {
+  async _fitScriptToLength(script, { topic, tone, lengthGuide, sampleStats }) {
+    let current = String(script || '').trim();
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const chars = this._countEffectiveChars(current);
+      const complete = this._isScriptComplete(current);
+      if (chars >= lengthGuide.min && chars <= lengthGuide.max && complete) {
+        return current;
+      }
+
+      this._setLoadingSub(`길이/마무리 보정 중... 현재 ${chars.toLocaleString()}자`);
+      try {
+        current = (await this._rewriteScriptToLength(current, {
+          topic,
+          tone,
+          lengthGuide,
+          sampleStats,
+          currentChars: chars,
+          isComplete: complete,
+        })).trim();
+      } catch (e) {
+        console.warn('length adjustment failed', e);
+        break;
+      }
+    }
+
+    return current;
+  }
+
+  async _rewriteScriptToLength(script, { topic, tone, lengthGuide, sampleStats, currentChars, isComplete }) {
     const toneLabel = { medical: '전문 의학 + 환자 친화적', casual: '좀 더 구어체', academic: '학술적/엄밀한' }[tone];
-    const direction = currentChars > lengthGuide.max ? '줄이세요' : '늘리세요';
+    const direction = currentChars > lengthGuide.max ? '줄이세요' : currentChars < lengthGuide.min ? '늘리세요' : '정리하세요';
+    const issueNotes = [
+      currentChars > lengthGuide.max ? `현재 대본이 목표보다 길기 때문에 핵심만 남기고 압축해야 합니다.` : null,
+      currentChars < lengthGuide.min ? `현재 대본이 목표보다 짧기 때문에 핵심 근거를 약간 보강해야 합니다.` : null,
+      !isComplete ? '현재 대본은 결론 없이 중간에서 끊겨 있습니다. 마지막 2~4줄에 완결된 행동 지침 또는 요약 결론을 반드시 넣으세요.' : null,
+    ].filter(Boolean).join('\n- ');
     const prompt = `아래 한국어 유튜브 쇼츠 대본을 같은 문체와 구조를 유지한 채 길이만 다시 맞추세요.
 
 # 길이 기준
@@ -637,31 +658,20 @@ ${content.slice(0, 20000)}
 - 최종 결과는 반드시 ${lengthGuide.min.toLocaleString()}~${lengthGuide.max.toLocaleString()}자 범위 안
 - 핵심 주장, 연구 근거, 마무리 결론은 유지
 - 불필요한 반복, 장황한 연결, 중복 예시는 삭제 또는 축약
+- 필요하면 이유 개수를 4개에서 2~3개로 줄여도 됩니다. 중요한 것은 **완결된 대본**입니다.
 - 줄바꿈 스타일은 유지
+- 마지막은 반드시 완결된 문장으로 끝내고, 마지막 2~4줄에는 환자 행동 지침 또는 요약 결론을 넣으세요
 - 설명 없이 대본 본문만 출력
 - 톤: ${toneLabel}
 - 주제: ${topic}
+
+# 현재 문제
+- ${issueNotes || '길이와 마무리를 미세 조정하세요.'}
 
 # 원본 대본
 ${script}`.trim();
 
     return this._callClaude(prompt);
-  }
-
-  _hardTrimToCharLimit(script, maxChars) {
-    const lines = String(script || '')
-      .replace(/\r\n/g, '\n')
-      .split('\n')
-      .map(line => line.trim())
-      .filter(Boolean);
-
-    const kept = [];
-    for (const line of lines) {
-      const next = kept.length ? `${kept.join('\n')}\n${line}` : line;
-      if (this._countEffectiveChars(next) > maxChars) break;
-      kept.push(line);
-    }
-    return kept.join('\n').trim();
   }
 
   async _callClaude(prompt) {
@@ -780,7 +790,7 @@ ${script}`.trim();
     }
     el.innerHTML = this.history.map(h => `
       <div class="history-item" data-id="${h.id}" title="${this._esc(h.topic)}">
-        ${this._esc(h.topic.slice(0, 32))}
+        <span class="history-title">${this._esc(h.topic)}</span>
         <span class="history-date">${new Date(h.date).toLocaleDateString('ko-KR')}</span>
       </div>
     `).join('');
