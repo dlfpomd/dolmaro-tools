@@ -190,28 +190,28 @@ code {
 }
 .history-item {
   padding: 14px 12px;
-  min-height: 88px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--sidebar-text);
   display: block;
-  overflow: hidden;
-  line-height: 1.65;
+  overflow: visible;
+  line-height: 1.8;
   background: rgba(255, 255, 255, 0.03);
   transition: background 0.15s;
 }
 .history-item:hover { background: var(--sidebar-hover); }
 .history-item .history-title {
   display: block;
-  overflow: hidden;
+  overflow: visible;
   white-space: normal;
   word-break: break-word;
   overflow-wrap: anywhere;
-  max-height: 5em;
+  max-height: none;
   color: var(--sidebar-text);
   font-weight: 500;
   margin-bottom: 8px;
+  line-height: 1.8;
 }
 .history-item .history-date {
   display: block;
