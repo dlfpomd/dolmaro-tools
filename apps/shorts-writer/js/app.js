@@ -40,6 +40,12 @@ const PROXY_URLS = {
   corsproxy:  (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
 };
 
+const LENGTH_PROFILES = {
+  '15-25': { label: '짧게', minRatio: 0.80, maxRatio: 0.95 },
+  '25-45': { label: '표준', minRatio: 0.90, maxRatio: 1.10 },
+  '45-70': { label: '길게', minRatio: 1.05, maxRatio: 1.20 },
+};
+
 class ShortsWriterApp {
   constructor() {
     this.state = {
@@ -401,14 +407,18 @@ class ShortsWriterApp {
     this.showLoading('AI가 대본을 생성하는 중...', '30초~1분 정도 걸립니다');
     try {
       const samples = await this._loadSamples();
-      const prompt = this._buildPrompt({ topic, content, length, tone, samples });
+      const sampleStats = this._getSampleStats(samples);
+      const lengthGuide = this._getLengthGuide(length, sampleStats);
+      const prompt = this._buildPrompt({ topic, content, tone, samples, sampleStats, lengthGuide });
 
-      const script = await this._callClaude(prompt);
+      let script = await this._callClaude(prompt);
+      script = await this._fitScriptToLength(script, { topic, tone, lengthGuide, sampleStats });
       this.state.script = script;
       this._renderStep3();
       this._saveToHistory();
       this.goToStep(3);
-      this.toast('대본 생성 완료', 'success');
+      const chars = this._countEffectiveChars(script);
+      this.toast(`대본 생성 완료 (${chars.toLocaleString()}자)`, 'success');
     } catch (e) {
       console.error(e);
       this.toast(`대본 생성 실패: ${e.message}`, 'error');
@@ -460,8 +470,7 @@ class ShortsWriterApp {
     return picked;
   }
 
-  _buildPrompt({ topic, content, length, tone, samples }) {
-    const [lenMin, lenMax] = length.split('-');
+  _buildPrompt({ topic, content, tone, samples, sampleStats, lengthGuide }) {
     const toneLabel = { medical: '전문 의학 + 환자 친화적', casual: '좀 더 구어체', academic: '학술적/엄밀한' }[tone];
 
     const picked = this._pickSamples(samples, 5);
@@ -514,11 +523,14 @@ class ShortsWriterApp {
 
 ${STYLE_SPEC}
 
-# 길이 및 분량 제한 (매우 중요)
-- 선택된 분량: **${lenMin}~${lenMax}줄**
-- **강력 지시**: 절대로 **${lenMax}줄을 초과하지 마세요.** 
-- 만약 자료가 방대하더라도, 지정된 줄 수 안에 맞추기 위해 **덜 중요한 내용은 과감히 삭제**하고 핵심 연구 결과와 결론 위주로 구성하세요.
-- 각 줄은 영상 자막이므로 한 줄이 길어지면 안 됩니다. (한 줄당 20자 내외 권장)
+# 길이 및 분량 제한 (가장 중요)
+- 이 앱의 기준은 **줄 수가 아니라 총 글자수**입니다.
+- 참고 샘플들의 평균 길이: **약 ${sampleStats.avg.toLocaleString()}자**
+- 이번 목표 분량 (${lengthGuide.label}): **${lengthGuide.min.toLocaleString()}자 ~ ${lengthGuide.max.toLocaleString()}자**
+- 이상적인 목표치: **약 ${lengthGuide.target.toLocaleString()}자**
+- **강력 지시**: 초안을 머릿속으로 다 쓴 뒤, 반드시 스스로 총 글자수를 다시 점검해서 **${lengthGuide.max.toLocaleString()}자를 절대 넘기지 마세요.**
+- 자료가 많더라도 목표 글자수 안에 맞추기 위해 **덜 중요한 연구, 반복 설명, 군더더기 문장, 장황한 연결어는 삭제**하세요.
+- 각 줄은 영상 자막이므로 한 줄이 길어지면 안 됩니다. 줄바꿈은 유지하되, 총 분량은 반드시 위 글자수 범위 안에 맞추세요.
 
 # 톤 및 추가 지시
 - 톤: ${toneLabel}
@@ -533,8 +545,123 @@ ${topic}
 ${content.slice(0, 20000)}
 
 # 최종 지시
-위 주제와 근거 자료를 바탕으로 **${lenMin}~${lenMax}줄** (절대 초과 금지) 분량의 대본을 작성하세요. 
+위 주제와 근거 자료를 바탕으로 **총 ${lengthGuide.min.toLocaleString()}~${lengthGuide.max.toLocaleString()}자** 분량의 대본을 작성하세요.
+가장 좋은 분량은 **약 ${lengthGuide.target.toLocaleString()}자**입니다.
 설명이나 메타 데이터 없이 **대본 본문만** 출력하세요.`;
+  }
+
+  _getSampleStats(samples) {
+    const lengths = (samples || [])
+      .map(s => this._countEffectiveChars(s.text))
+      .filter(n => n > 0);
+
+    if (!lengths.length) {
+      return { avg: 650, min: 520, max: 780 };
+    }
+
+    const sum = lengths.reduce((a, b) => a + b, 0);
+    return {
+      avg: Math.round(sum / lengths.length),
+      min: Math.min(...lengths),
+      max: Math.max(...lengths),
+    };
+  }
+
+  _getLengthGuide(length, sampleStats) {
+    const profile = LENGTH_PROFILES[length] || LENGTH_PROFILES['25-45'];
+    const target = sampleStats.avg;
+    const min = Math.max(180, Math.round(target * profile.minRatio));
+    const max = Math.max(min + 40, Math.round(target * profile.maxRatio));
+    return {
+      ...profile,
+      target,
+      min,
+      max,
+    };
+  }
+
+  _countEffectiveChars(text) {
+    return String(text || '')
+      .replace(/\r\n/g, '\n')
+      .replace(/\n+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .length;
+  }
+
+  async _fitScriptToLength(script, { topic, tone, lengthGuide, sampleStats }) {
+    const chars = this._countEffectiveChars(script);
+    if (chars >= lengthGuide.min && chars <= lengthGuide.max) {
+      return script.trim();
+    }
+
+    this._setLoadingSub(`길이 보정 중... 현재 ${chars.toLocaleString()}자`);
+    try {
+      const adjusted = await this._rewriteScriptToLength(script, {
+        topic,
+        tone,
+        lengthGuide,
+        sampleStats,
+        currentChars: chars,
+      });
+      const adjustedChars = this._countEffectiveChars(adjusted);
+      if (adjustedChars >= lengthGuide.min && adjustedChars <= lengthGuide.max) {
+        return adjusted.trim();
+      }
+      if (adjustedChars > lengthGuide.max) {
+        return this._hardTrimToCharLimit(adjusted, lengthGuide.max);
+      }
+      return adjusted.trim();
+    } catch (e) {
+      console.warn('length adjustment failed', e);
+      if (chars > lengthGuide.max) {
+        return this._hardTrimToCharLimit(script, lengthGuide.max);
+      }
+      return script.trim();
+    }
+  }
+
+  async _rewriteScriptToLength(script, { topic, tone, lengthGuide, sampleStats, currentChars }) {
+    const toneLabel = { medical: '전문 의학 + 환자 친화적', casual: '좀 더 구어체', academic: '학술적/엄밀한' }[tone];
+    const direction = currentChars > lengthGuide.max ? '줄이세요' : '늘리세요';
+    const prompt = `아래 한국어 유튜브 쇼츠 대본을 같은 문체와 구조를 유지한 채 길이만 다시 맞추세요.
+
+# 길이 기준
+- 참고 샘플 평균: 약 ${sampleStats.avg.toLocaleString()}자
+- 목표 범위: ${lengthGuide.min.toLocaleString()}~${lengthGuide.max.toLocaleString()}자
+- 현재 길이: 약 ${currentChars.toLocaleString()}자
+- 이번 작업: 대본을 ${direction}
+
+# 필수 규칙
+- 기준은 줄 수가 아니라 **총 글자수**
+- 최종 결과는 반드시 ${lengthGuide.min.toLocaleString()}~${lengthGuide.max.toLocaleString()}자 범위 안
+- 핵심 주장, 연구 근거, 마무리 결론은 유지
+- 불필요한 반복, 장황한 연결, 중복 예시는 삭제 또는 축약
+- 줄바꿈 스타일은 유지
+- 설명 없이 대본 본문만 출력
+- 톤: ${toneLabel}
+- 주제: ${topic}
+
+# 원본 대본
+${script}`.trim();
+
+    return this._callClaude(prompt);
+  }
+
+  _hardTrimToCharLimit(script, maxChars) {
+    const lines = String(script || '')
+      .replace(/\r\n/g, '\n')
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean);
+
+    const kept = [];
+    for (const line of lines) {
+      const next = kept.length ? `${kept.join('\n')}\n${line}` : line;
+      if (this._countEffectiveChars(next) > maxChars) break;
+      kept.push(line);
+    }
+    return kept.join('\n').trim();
   }
 
   async _callClaude(prompt) {
@@ -571,13 +698,13 @@ ${content.slice(0, 20000)}
     ta.value = this.state.script;
     const lines = this.state.script.split('\n').filter(l => l.trim()).length;
     document.getElementById('scriptLines').textContent = `${lines}줄`;
-    document.getElementById('scriptChars').textContent = `${this.state.script.length.toLocaleString()}자`;
+    document.getElementById('scriptChars').textContent = `${this._countEffectiveChars(this.state.script).toLocaleString()}자`;
 
     ta.oninput = () => {
       this.state.script = ta.value;
       const l = ta.value.split('\n').filter(x => x.trim()).length;
       document.getElementById('scriptLines').textContent = `${l}줄`;
-      document.getElementById('scriptChars').textContent = `${ta.value.length.toLocaleString()}자`;
+      document.getElementById('scriptChars').textContent = `${this._countEffectiveChars(ta.value).toLocaleString()}자`;
     };
   }
 
