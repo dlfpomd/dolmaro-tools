@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>캡컷 에이전트 · 돌마로 툴즈</title>
+<meta name="description" content="한국어 토킹 영상을 자동으로 편집 — 무음·잔말·NG 컷 + 자막을 CapCut 드래프트로." />
+<style>
+  :root{
+    --bg:#0a0a0a; --card:#161616; --line:#262626; --fg:#ededed;
+    --muted:#8b8b8b; --accent:#22c55e; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:720px;margin:0 auto;padding:64px 22px 96px}
+  .tnum{font-variant-numeric:tabular-nums}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 10px 1px var(--accent);vertical-align:middle}
+  .kicker{color:var(--muted);font-size:13px;letter-spacing:.02em;font-family:var(--mono);margin:0 0 14px}
+  h1{font-size:32px;font-weight:700;letter-spacing:-.02em;margin:0 0 10px;line-height:1.2}
+  h1 .g{color:var(--accent)}
+  .lede{color:#cfcfcf;font-size:16px;margin:0 0 30px}
+  hr{border:0;border-top:1px solid var(--line);margin:36px 0}
+
+  .cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#04130a;
+    font-weight:700;font-size:15px;border-radius:9px;padding:13px 22px;text-decoration:none;
+    border:1px solid var(--accent)}
+  .btn:hover{filter:brightness(1.06)}
+  .btn .sz{font-weight:500;opacity:.7;font-size:13px}
+  .meta{color:var(--muted);font-size:13px;font-family:var(--mono)}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:8px 0}
+  .grid .cell{background:var(--card);padding:18px 18px}
+  .grid h3{margin:0 0 5px;font-size:15px;font-weight:600}
+  .grid h3 .b{color:var(--accent)}
+  .grid p{margin:0;color:var(--muted);font-size:13.5px}
+
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  ol.steps li{position:relative;padding:12px 0 12px 40px}
+  ol.steps li+li{border-top:1px solid var(--line)}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:11px;
+    width:24px;height:24px;border:1px solid var(--accent);color:var(--accent);border-radius:50%;
+    display:grid;place-items:center;font-size:12px;font-family:var(--mono)}
+  ol.steps b{color:var(--fg)}
+  code,.chip{font-family:var(--mono);font-size:12.5px;background:#0f0f0f;border:1px solid var(--line);
+    border-radius:6px;padding:2px 7px;color:#cfcfcf}
+
+  .note{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    color:#cfcfcf;font-size:13.5px}
+  .note b{color:var(--fg)}
+  h2{font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:.04em;
+    text-transform:uppercase;margin:0 0 14px}
+  footer{color:var(--muted);font-size:12.5px;margin-top:48px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker"><span class="dot"></span>&nbsp; DOLMARO TOOLS</p>
+  <h1>무음 컷 · 캡컷 에이전트<br><span class="g">토킹 영상의 빈 구간을 자동으로.</span></h1>
+  <p class="lede">
+    mp4/mov 영상을 넣으면 <b>조용한 구간(무음)을 잘라(점프컷)</b> 곧바로
+    <b>CapCut 드래프트</b>로 만들어 줍니다. 끄고 켜면 CapCut 목록에 바로 떠요.
+    명령어 입력은 필요 없습니다. 영상은 PC를 벗어나지 않습니다.
+  </p>
+
+  <div class="cta">
+    <a class="btn" href="capcut-agent.zip" download>
+      ⬇ 다운로드 (Windows) <span class="sz">.zip</span>
+    </a>
+    <span class="meta">압축 풀고 <b>start.bat</b> 더블클릭</span>
+  </div>
+
+  <hr/>
+
+  <h2>무엇을 하나</h2>
+  <div class="grid">
+    <div class="cell"><h3><span class="b">·</span> 무음 컷</h3><p>조용한 구간을 감지해 점프컷. 길이/감도는 슬라이더로 조절.</p></div>
+    <div class="cell"><h3><span class="b">·</span> CapCut 자동 등록</h3><p>드래프트를 만들고 목록에 바로 등록 — 껐다 켜면 보입니다.</p></div>
+    <div class="cell"><h3><span class="b">·</span> 100% 로컬</h3><p>영상이 외부로 전송되지 않고 PC 안에서만 처리됩니다.</p></div>
+    <div class="cell"><h3><span class="b">·</span> 명령어 불필요</h3><p>start.bat 더블클릭 → 브라우저에서 드래그&드롭.</p></div>
+  </div>
+
+  <hr/>
+
+  <h2>3단계로 시작</h2>
+  <ol class="steps">
+    <li><b>다운로드 · 압축 풀기.</b> 위 버튼으로 받아 마우스 오른쪽 → 압축 풀기.</li>
+    <li><b>start.bat 더블클릭.</b> 처음 한 번 파이썬이 필요합니다(안내가 자동으로 떠요). 필요한 구성요소는 자동 설치됩니다.</li>
+    <li><b>브라우저에서 편집.</b> 창이 자동으로 열리면 영상을 끌어다 놓고 옵션 체크 후 “처리 시작”. 끝나면 CapCut 목록에 드래프트가 생깁니다.</li>
+  </ol>
+
+  <hr/>
+
+  <h2>필요한 것</h2>
+  <div class="note">
+    <b>Windows</b> · <b>CapCut(캡컷)</b> 설치(한 번 실행해 둘 것) ·
+    <b>Python</b>(없으면 설치 안내가 자동으로 열립니다). 인터넷은 최초 1회 구성요소
+    설치 때만 필요합니다.
+    <br><br>
+    ※ <b>드래프트 처리 전에는 CapCut을 꺼두세요.</b> 처리 후 CapCut을 켜면 목록 맨 위에 뜹니다.
+    검증은 항상 CapCut에서 직접 재생으로.
+  </div>
+
+  <hr/>
+
+  <h2>왜 웹에서 바로 안 돌아가나요?</h2>
+  <p style="color:var(--muted);font-size:13.5px;margin:0">
+    이 도구는 님 PC에서 영상을 직접 처리하고, 결과를 <b>CapCut 드래프트 폴더에 파일로 저장</b>합니다.
+    브라우저는 보안상 PC 폴더에 파일을 쓸 수 없고 무거운 AI 모델을 돌리기 어렵기 때문에,
+    <b>다운로드해서 실행하는 방식</b>으로 만들었습니다. (모든 처리는 님 PC 안에서만 일어나며,
+    영상이 외부로 업로드되지 않습니다.)
+  </p>
+
+  <footer>
+    돌마로 툴즈 · 캡컷 에이전트 — 로컬 실행, 영상은 PC를 벗어나지 않습니다.
+  </footer>
+</div>
+</body>
+</html>
