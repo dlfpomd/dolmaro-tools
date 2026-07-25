@@ -1,9 +1,17 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-07-24T03:00:24.089Z",
-  "total": 1042,
+  "generated_at": "2026-07-25T03:00:22.688Z",
+  "total": 1043,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-ADHD와-자가면역질환알레르기의-관련성-뇌신경-염증이라는-연결고리-84941494",
+      "lastmod": "2026-07-25T01:05:08.000Z",
+      "title": "ADHD와 자가면역질환·알레르기의 관련성 — 뇌신경 염증이라는 연결고리",
+      "description": "인천 연수구 송도동 기타 자가면역 칼럼. 산모의 자가면역질환이나 알레르기질환이 자녀의 ADHD와 연관된다는 대규모 연구가 잇따르고 있습니다. 원인이 아니라 위험이 조금 높아지는 연관이라는 점을 전제로, 대만 138만 명 코호트와 호주 연구, 뇌신경 염증 기전을 정리했습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-ADHD와-자가면역질환알레르기의-관련성-뇌신경-염증이라는-연결고리-84941494/img_01.webp",
+      "date": "2026-07-25T01:05:08.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군-추천-운동과-기대효과-인천-쇼그렌증후군-치료-한의원-84860910",
       "lastmod": "2026-07-24T02:42:08.000Z",
@@ -639,9 +647,9 @@
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군과-mTOR-면역-폭주의-스위치-그리고-한약의-가능성-81667837",
       "lastmod": "2026-06-17T09:09:44.000Z",
-      "title": "쇼그렌증후군과 mTOR — 면역 폭주의 스위치, 그리고 한약의 가능성",
-      "description": "인천 연수구 송도동 쇼그렌증후군 칼럼. 입이 마르고 눈이 뻑뻑한 쇼그렌증후군, 그 뒤에서 면역을 과하게 몰아붙이는 하나의 분자 스위치가 있다면 어떨까요?",
-      "image": "https://ireaomd.co.kr/images/blog/paper-쇼그렌증후군과-mTOR-면역-폭주의-스위치-그리고-한약의-가능성-81667837/s01.webp",
+      "title": "paper 쇼그렌증후군과 mTOR 면역 폭주의 스위치 그리고 한약의 가능성",
+      "description": "",
+      "image": "",
       "date": "2026-06-17T09:09:44.000Z"
     },
     {
