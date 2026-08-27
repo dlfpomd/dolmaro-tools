@@ -1,9 +1,49 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-08-26T03:00:27.135Z",
-  "total": 1162,
+  "generated_at": "2026-08-27T03:00:27.234Z",
+  "total": 1113,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-자가면역질환-백신-접종을-앞두고-판단이-서지-않을-때-87728919",
+      "lastmod": "2026-08-26T09:04:10.000Z",
+      "title": "자가면역질환, 백신 접종을 앞두고 판단이 서지 않을 때",
+      "description": "이 연구는 백신의 안전성을 검증한 것이 아니라, 기전을 보고한 논문 52편이 결론에서 그 기전을 어떻게 다루었는지 분석했습니다. 동료평가를 거치지 않은 프리프린트라는 점을 함께 정리했습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-자가면역질환-백신-접종을-앞두고-판단이-서지-않을-때-87728919/img_01.webp",
+      "date": "2026-08-26T09:04:10.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-골관절염-연골이-닳았다는-말만으로-설명이-안-될-때-87728392",
+      "lastmod": "2026-08-26T08:38:59.000Z",
+      "title": "골관절염, 연골이 닳았다는 말만으로 설명이 안 될 때",
+      "description": "골관절염은 연골 마모만이 아니라 활막의 낮은 염증이 함께 작용하는 면역 매개 질환으로 다시 보고 있습니다. 손 골관절염 IL-6 차단 시험에서 통증 변화가 위약과 다르지 않았던 이유를 정리했습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-골관절염-연골이-닳았다는-말만으로-설명이-안-될-때-87728392/img_01.webp",
+      "date": "2026-08-26T08:38:59.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-셀리악병-유전과-글루텐만으로-설명되지-않을-때-87727890",
+      "lastmod": "2026-08-26T08:13:51.000Z",
+      "title": "셀리악병, 유전과 글루텐만으로 설명되지 않을 때",
+      "description": "셀리악병은 HLA-DQ2·DQ8 유전자와 글루텐만으로 발병이 설명되지 않습니다. 생후 첫 2년의 장바이러스 반복 노출과 칸디다 단백질의 분자 모방 가설을 다룬 2026년 논문을 정리했습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-셀리악병-유전과-글루텐만으로-설명되지-않을-때-87727890/img_01.webp",
+      "date": "2026-08-26T08:13:51.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-자가면역질환-왜-여성-환자가-훨씬-많은지-궁금할-때-87727424",
+      "lastmod": "2026-08-26T07:48:47.000Z",
+      "title": "자가면역질환, 왜 여성 환자가 훨씬 많은지 궁금할 때",
+      "description": "자가면역질환에 여성 환자가 많은 배경에는 X염색체의 TLR7 유전자 용량이 있습니다. 면역 노화를 나이와 성별로 나눠 분석한 2026년 논문에서, 남성은 55세 무렵부터 CD4:CD8 비율이 먼저 낮아졌습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-자가면역질환-왜-여성-환자가-훨씬-많은지-궁금할-때-87727424/img_01.webp",
+      "date": "2026-08-26T07:48:47.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-자가면역질환-왜-하필-이-나이에-시작됐을까-싶을-때-87726956",
+      "lastmod": "2026-08-26T07:23:27.000Z",
+      "title": "자가면역질환, 왜 하필 이 나이에 시작됐을까 싶을 때",
+      "description": "나이가 들면 흉선에서 배출되는 T세포의 종류가 줄고 일부만 크게 불어납니다. 생후 4주·12개월·18개월 생쥐의 T세포 수용체를 읽은 2026년 연구에서, 늙은 흉선 환경만으로도 다양성이 낮아졌습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-자가면역질환-왜-하필-이-나이에-시작됐을까-싶을-때-87726956/img_01.webp",
+      "date": "2026-08-26T07:23:27.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/paper-베체트병이-있을-때-발목-줄기세포-시술-무엇을-확인해야-할까-87640569",
       "lastmod": "2026-08-26T01:25:36.000Z",
@@ -607,41 +647,41 @@
     {
       "link": "https://ireaomd.co.kr/blog/쇼그렌증후군-부정맥-유병률-기전",
       "lastmod": "2026-08-24T02:11:55.000Z",
-      "title": "쇼그렌증후군 부정맥 원인과 기전",
-      "description": "인천 송도에서 쇼그렌증후군 진료 중 두근거림이 걱정되신다면. anti-Ro/SSA 항체가 hERG 칼륨 통로와 Cav1.2 칼슘 통로를 억제해 QT 연장과 방실 차단을 일으키는 기전을, 유병률·종류·임상 양상과 함께 최근 논문으로 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/쇼그렌증후군-부정맥-유병률-기전/img_01.webp",
+      "title": "쇼그렌증후군 부정맥 유병률 기전",
+      "description": "",
+      "image": "",
       "date": "2026-08-24T02:11:55.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군에-발생하는-안검염의-특징과-한의학-치료-85736593",
       "lastmod": "2026-08-24T02:11:55.000Z",
-      "title": "쇼그렌 안검염 한의학 치료",
-      "description": "쇼그렌증후군 환자의 73.7%에서 눈 침범이 확인됩니다. 안검염과 눈꺼풀 기름샘 이상이 왜 생기는지 분자 수준에서 정리하고, 안검염 한약 치료 무작위 대조 연구 12편의 메타분석 결과를 함께 살펴봅니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-쇼그렌증후군에-발생하는-안검염의-특징과-한의학-치료-85736593/img_01.webp",
+      "title": "paper 쇼그렌증후군에 발생하는 안검염의 특징과 한의학 치료",
+      "description": "",
+      "image": "",
       "date": "2026-08-24T02:11:55.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-구강건조증-치료-AQP5-발현이-늘어야-효과가-지속됩니다-85753387",
       "lastmod": "2026-08-24T02:11:55.000Z",
-      "title": "AQP5",
-      "description": "침샘 세포의 물길 단백질 AQP5가 줄고 자리를 벗어나면 자극만으로는 침이 나오지 않습니다. 구강건조증의 분자 기전과, 한약이 염증 신호를 눌러 AQP5 발현을 회복시킨 최근 동물 연구를 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-구강건조증-치료-AQP5-발현이-늘어야-효과가-지속됩니다-85753387/img_01.webp",
+      "title": "paper 구강건조증 치료 AQP5 발현이 늘어야 효과가 지속됩니다",
+      "description": "",
+      "image": "",
       "date": "2026-08-24T02:11:55.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군에-서맥이-나타나는-이유와-대처방법-86063690",
       "lastmod": "2026-08-24T02:11:55.000Z",
-      "title": "쇼그렌증후군 서맥 원인과 대처",
-      "description": "건강검진에서 \"맥이 느리네요\"라는 말을 듣고 놀라 오시는 분들이 있습니다. 입과 눈이 마르는 병으로 알고 지내 왔는데 갑자기 심장 이야기가 나오니 당황스러울 수밖에 없습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-쇼그렌증후군에-서맥이-나타나는-이유와-대처방법-86063690/img_01.webp",
+      "title": "paper 쇼그렌증후군에 서맥이 나타나는 이유와 대처방법",
+      "description": "",
+      "image": "",
       "date": "2026-08-24T02:11:55.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군에-맥박이-빨리-뛰는-빈맥이-나타나는-이유-86066923",
       "lastmod": "2026-08-24T02:11:55.000Z",
-      "title": "쇼그렌증후군 빈맥 원인과 대처",
-      "description": "가만히 앉아 있는데 심장이 뛰는 것이 느껴진다고 호소하시는 분들이 있습니다. 계단을 조금만 올라도 숨이 차고, 아침에 일어설 때 가슴이 두근거려 다시 앉게 된다고들 하십니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-쇼그렌증후군에-맥박이-빨리-뛰는-빈맥이-나타나는-이유-86066923/img_01.webp",
+      "title": "paper 쇼그렌증후군에 맥박이 빨리 뛰는 빈맥이 나타나는 이유",
+      "description": "",
+      "image": "",
       "date": "2026-08-24T02:11:55.000Z"
     },
     {
@@ -1248,14 +1288,6 @@
       "link": "https://ireaomd.co.kr/blog/bms-혀에-이빨-자국-난-상태인-치흔설-원인은-223207807867",
       "lastmod": "2026-08-15T03:56:59.000Z",
       "title": "bms 혀에 이빨 자국 난 상태인 치흔설 원인은",
-      "description": "",
-      "image": "",
-      "date": "2026-08-15T03:56:59.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-혀끝-통증-원인-알아보기-약물-부작용으로-인해-223094850714",
-      "lastmod": "2026-08-15T03:56:59.000Z",
-      "title": "bms 혀끝 통증 원인 알아보기 약물 부작용으로 인해",
       "description": "",
       "image": "",
       "date": "2026-08-15T03:56:59.000Z"
@@ -2109,14 +2141,6 @@
       "date": "2026-08-12T08:23:03.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sjogren-hydroxychloroquine-hcq-할록신-정-류마티스-치료-약물1-220151699483",
-      "lastmod": "2026-08-12T08:23:03.000Z",
-      "title": "sjogren hydroxychloroquine hcq 할록신 정 류마티스 치료 약물1",
-      "description": "",
-      "image": "",
-      "date": "2026-08-12T08:23:03.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌-증후군-환자의-임신과-출산-이레-한의원-220151377501",
       "lastmod": "2026-08-12T08:23:03.000Z",
       "title": "sjogren 쇼그렌 증후군 환자의 임신과 출산 이레 한의원",
@@ -2160,14 +2184,6 @@
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-진단방식에-따른-진단율-차이-쇼그렌-증후군의-항체-존재-비율-220142481628",
       "lastmod": "2026-08-12T08:23:03.000Z",
       "title": "sjogren 쇼그렌증후군 진단방식에 따른 진단율 차이 쇼그렌 증후군의 항체 존재 비율",
-      "description": "",
-      "image": "",
-      "date": "2026-08-12T08:23:03.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌-증후군-항체-검사의-의미-인천-이레-한의원-220140102446",
-      "lastmod": "2026-08-12T08:23:03.000Z",
-      "title": "sjogren 쇼그렌 증후군 항체 검사의 의미 인천 이레 한의원",
       "description": "",
       "image": "",
       "date": "2026-08-12T08:23:03.000Z"
@@ -2221,14 +2237,6 @@
       "date": "2026-08-12T08:23:03.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-음식조절-무엇을-먹어야-할까요-인천-이레-한의원-220085432582",
-      "lastmod": "2026-08-12T08:23:03.000Z",
-      "title": "sjogren 쇼그렌증후군 음식조절 무엇을 먹어야 할까요 인천 이레 한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-08-12T08:23:03.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sjogren-일차성-쇼그렌-증후군-환자의-내분비-문제-갱년기-여성에게-쇼그렌증후군이-발생하는-이유-인천-이레-한의원-220077788359",
       "lastmod": "2026-08-12T08:23:03.000Z",
       "title": "sjogren 일차성 쇼그렌 증후군 환자의 내분비 문제 갱년기 여성에게 쇼그렌증후군이 발생하는 이유 인천 이레 한의원",
@@ -2264,22 +2272,6 @@
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-환자의-심혈관질환의-위험인자-인천-이레한의원-220372896316",
       "lastmod": "2026-08-12T08:22:59.000Z",
       "title": "sjogren 쇼그렌증후군 환자의 심혈관질환의 위험인자 인천 이레한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-08-12T08:22:59.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sjogren-anti-rossa-antibody-ro52-와-쇼그렌증후군-인천-이레한의원--220340507623",
-      "lastmod": "2026-08-12T08:22:59.000Z",
-      "title": "sjogren anti rossa antibody ro52 와 쇼그렌증후군 인천 이레한의원 ",
-      "description": "",
-      "image": "",
-      "date": "2026-08-12T08:22:59.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sjogren-anti-rossa-antibodies와-심박장애-쇼그렌증후군-환자의-출산-인천-이레-한의원-220339551843",
-      "lastmod": "2026-08-12T08:22:59.000Z",
-      "title": "sjogren anti rossa antibodies와 심박장애 쇼그렌증후군 환자의 출산 인천 이레 한의원",
       "description": "",
       "image": "",
       "date": "2026-08-12T08:22:59.000Z"
@@ -2413,14 +2405,6 @@
       "date": "2026-08-12T08:22:59.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군의-구강건조감을-개선시키는-살라겐정pilocarpine의-작용-인천-이레-한의원-220189302278",
-      "lastmod": "2026-08-12T08:22:59.000Z",
-      "title": "sjogren 쇼그렌증후군의 구강건조감을 개선시키는 살라겐정pilocarpine의 작용 인천 이레 한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-08-12T08:22:59.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌-증후군을-치료하는-한약의-효과-각종-증상과-지표의-개선을-나타냅니다-인천-이레-한의원-220187010655",
       "lastmod": "2026-08-12T08:22:59.000Z",
       "title": "sjogren 쇼그렌 증후군을 치료하는 한약의 효과 각종 증상과 지표의 개선을 나타냅니다 인천 이레 한의원",
@@ -2432,14 +2416,6 @@
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군의-치료효과-평가-anti-ssb-항체의-변화-인천-이레-한의원-220186025450",
       "lastmod": "2026-08-12T08:22:59.000Z",
       "title": "sjogren 쇼그렌증후군의 치료효과 평가 anti ssb 항체의 변화 인천 이레 한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-08-12T08:22:59.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군을-치료하는-한약의-효과-anti-ssa-anti-ssb-항체의-변화-관찰-인천-이레한의원-220185647353",
-      "lastmod": "2026-08-12T08:22:59.000Z",
-      "title": "sjogren 쇼그렌증후군을 치료하는 한약의 효과 anti ssa anti ssb 항체의 변화 관찰 인천 이레한의원",
       "description": "",
       "image": "",
       "date": "2026-08-12T08:22:59.000Z"
@@ -2531,14 +2507,6 @@
       "description": "",
       "image": "",
       "date": "2026-08-12T06:59:50.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/ai-섬유근유통-어떤-운동이-도움이-될까요-220563022336",
-      "lastmod": "2026-08-11T08:41:44.000Z",
-      "title": "ai 섬유근유통 어떤 운동이 도움이 될까요",
-      "description": "",
-      "image": "",
-      "date": "2026-08-11T08:41:44.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군-환자가-주의할-환경-위험요소-미세먼지유기용매자외선-최근-지견-85070570",
@@ -2747,14 +2715,6 @@
       "description": "",
       "image": "",
       "date": "2026-07-18T12:31:36.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/paper-섬유근육통-치료와-관리에서-마음챙김명상의-기대치는-어느정도-82875773",
-      "lastmod": "2026-07-01T03:16:26.000Z",
-      "title": "paper 섬유근육통 치료와 관리에서 마음챙김명상의 기대치는 어느정도",
-      "description": "",
-      "image": "",
-      "date": "2026-07-01T03:16:26.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-구강작열감증후군의-원인-총정리-혀가-화끈거리는데-검사는-정상인-이유-82810805",
@@ -3013,28 +2973,12 @@
       "date": "2026-06-16T07:05:28.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-구강작열감증후군-혀통증에-대한-한약의-치료-효과-인천-이레-한의원-220328765555",
-      "lastmod": "2026-06-16T07:05:24.000Z",
-      "title": "bms 구강작열감증후군 혀통증에 대한 한약의 치료 효과 인천 이레 한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T07:05:24.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-구강건조증-스트레스와-관련이-있을까요-인천-이레-한의원-220392847550",
       "lastmod": "2026-06-16T07:05:16.000Z",
       "title": "bms 구강건조증 스트레스와 관련이 있을까요 인천 이레 한의원",
       "description": "",
       "image": "",
       "date": "2026-06-16T07:05:16.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-구강작열감증후군-원인-작열감이-나타나는-부위-인천-이레-한의원-220397545891",
-      "lastmod": "2026-06-16T07:05:09.000Z",
-      "title": "bms 구강작열감증후군 원인 작열감이 나타나는 부위 인천 이레 한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T07:05:09.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-혀통증-구강작열감증후군-접촉성피부염이-원인이되기도-합니다--220411639683",
@@ -3107,14 +3051,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-16T07:04:10.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-혀-통증-구강작열감---한약의-치료-효과-인천-이레-한의원-220748856216",
-      "lastmod": "2026-06-16T07:03:59.000Z",
-      "title": "bms 혀 통증 구강작열감   한약의 치료 효과 인천 이레 한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T07:03:59.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-구강작열감-증후군의-한의학-치료-효과---인천-이레-한의원-220833650712",
@@ -3261,14 +3197,6 @@
       "date": "2026-06-16T07:02:37.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/aps-항인지질항체증후군antiphospholipid-syndrome-aps-인천-이레-한의원-220383515531",
-      "lastmod": "2026-06-16T07:02:29.000Z",
-      "title": "aps 항인지질항체증후군antiphospholipid syndrome aps 인천 이레 한의원",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T07:02:29.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/aps-항인지질항체증후군-한약의-치료-효과-220437474172",
       "lastmod": "2026-06-16T07:02:26.000Z",
       "title": "aps 항인지질항체증후군 한약의 치료 효과",
@@ -3379,14 +3307,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-16T07:01:27.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/aps-혈청음성-항인지질-항체-증후군seronegative-aps-임상적-특징-223283721711",
-      "lastmod": "2026-06-16T07:01:20.000Z",
-      "title": "aps 혈청음성 항인지질 항체 증후군seronegative aps 임상적 특징",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T07:01:20.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/ai-인천-알러지-비염에-대한-한약의-치료-효과-연구-연수구-이레한의원-220063288593",
@@ -4301,14 +4221,6 @@
       "date": "2026-06-16T06:48:16.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-ro-la에-대한-자가항체가-없는-경우-220426183429",
-      "lastmod": "2026-06-16T06:47:58.000Z",
-      "title": "sjogren 쇼그렌증후군 ro la에 대한 자가항체가 없는 경우",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T06:47:58.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-환자의-라식-후-안구건조증-220428405144",
       "lastmod": "2026-06-16T06:47:55.000Z",
       "title": "sjogren 쇼그렌증후군 환자의 라식 후 안구건조증",
@@ -4419,14 +4331,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-16T06:45:40.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/lupus-루푸스-환자가-한약을-복용하면-정말-큰일이-날-220529813072",
-      "lastmod": "2026-06-16T06:45:37.000Z",
-      "title": "lupus 루푸스 환자가 한약을 복용하면 정말 큰일이 날",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T06:45:37.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/lupus-청소년기에-발생한-루푸스의-특징-인천-이레한의-220964411532",
@@ -4541,14 +4445,6 @@
       "date": "2026-06-16T06:42:30.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-구강작열감증후군-증상-통증-저림-시림-입맛-변-223119639975",
-      "lastmod": "2026-06-16T06:42:21.000Z",
-      "title": "bms 구강작열감증후군 증상 통증 저림 시림 입맛 변",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T06:42:21.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-삼차신경통-구강작열감증후군과의-구별점-요약정리-223142615570",
       "lastmod": "2026-06-16T06:42:15.000Z",
       "title": "bms 삼차신경통 구강작열감증후군과의 구별점 요약정리",
@@ -4565,28 +4461,12 @@
       "date": "2026-06-16T06:42:11.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-구함증-입에서-짠맛이-나는-원인-3가지-요약정-223242994296",
-      "lastmod": "2026-06-16T06:42:02.000Z",
-      "title": "bms 구함증 입에서 짠맛이 나는 원인 3가지 요약정",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T06:42:02.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-구강-이상감각증은-입안에-이물감-끈적한-느낌--223387323640",
       "lastmod": "2026-06-16T06:41:48.000Z",
       "title": "bms 구강 이상감각증은 입안에 이물감 끈적한 느낌 ",
       "description": "",
       "image": "",
       "date": "2026-06-16T06:41:48.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-혓바닥끝-통증-아래-옆-안쪽-아래-신경증상이--223557410399",
-      "lastmod": "2026-06-16T06:41:45.000Z",
-      "title": "bms 혓바닥끝 통증 아래 옆 안쪽 아래 신경증상이 ",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T06:41:45.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-구강작열감증후군-치료법-중-비타민B12와-한의-223562685669",
@@ -4611,14 +4491,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-16T06:41:21.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/파킨슨병-환자분에게-혀통증-구강작열감-증후군-222180200479",
-      "lastmod": "2026-06-16T00:05:29.000Z",
-      "title": "파킨슨병 환자분에게 혀통증 구강작열감 증후군",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:05:29.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/behcet-stomatitis-oral-chemo-220912629115",
@@ -4805,14 +4677,6 @@
       "date": "2026-06-16T00:03:58.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/lupus-sle-prognosis-mortality-risk-factors-220319591337",
-      "lastmod": "2026-06-16T00:03:55.000Z",
-      "title": "lupus sle prognosis mortality risk factors",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:03:55.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/lupus-steroid-neuropsychiatric-anti-ssa-220321515299",
       "lastmod": "2026-06-16T00:03:52.000Z",
       "title": "lupus steroid neuropsychiatric anti ssa",
@@ -4957,22 +4821,6 @@
       "date": "2026-06-16T00:03:00.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/lupus-루푸스-신염lupus-nephritis에-대한-220862956011",
-      "lastmod": "2026-06-16T00:02:58.000Z",
-      "title": "lupus 루푸스 신염lupus nephritis에 대한",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:02:58.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/lupus-루프스와-연관된-항인지질항체증후군-인천-이레한-220916270153",
-      "lastmod": "2026-06-16T00:02:55.000Z",
-      "title": "lupus 루프스와 연관된 항인지질항체증후군 인천 이레한",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:02:55.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/lupus-루푸스-신증-lupus-nephritis-발생-220930084863",
       "lastmod": "2026-06-16T00:02:52.000Z",
       "title": "lupus 루푸스 신증 lupus nephritis 발생",
@@ -5027,14 +4875,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-16T00:02:34.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/lupus-전신홍반루푸스-진단은-어떤식으로-2019-EU-222577221129",
-      "lastmod": "2026-06-16T00:02:31.000Z",
-      "title": "lupus 전신홍반루푸스 진단은 어떤식으로 2019 EU",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:02:31.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/lupus-루푸스-신경정신적인-증상의-발생비율-종류-222951271747",
@@ -5165,14 +5005,6 @@
       "date": "2026-06-16T00:01:43.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sj-쇼그렌증후군-자가항체의-의미는-Ro-La-222037717033",
-      "lastmod": "2026-06-16T00:01:40.000Z",
-      "title": "sj 쇼그렌증후군 자가항체의 의미는 Ro La",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:01:40.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sj-안구건조증-심리적인-요소가-더-많이-작용하기도-222116907144",
       "lastmod": "2026-06-16T00:01:37.000Z",
       "title": "sj 안구건조증 심리적인 요소가 더 많이 작용하기도",
@@ -5187,14 +5019,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-16T00:01:34.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sj-항핵항체ANA-양성이지만-자가면역질환이-아니라-222198876255",
-      "lastmod": "2026-06-16T00:01:32.000Z",
-      "title": "sj 항핵항체ANA 양성이지만 자가면역질환이 아니라",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:01:32.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/sj-쇼그렌증후군-등의-자가면역질환과-근감소증sar-222249724235",
@@ -5293,14 +5117,6 @@
       "date": "2026-06-16T00:00:53.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sj-구강건조증-개선에-도움이-되는-차가-있을까요-223300470806",
-      "lastmod": "2026-06-16T00:00:51.000Z",
-      "title": "sj 구강건조증 개선에 도움이 되는 차가 있을까요",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:00:51.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sj-쇼그렌증후군-코로나-감염되면-후유증이-오래갈--223494509275",
       "lastmod": "2026-06-16T00:00:47.000Z",
       "title": "sj 쇼그렌증후군 코로나 감염되면 후유증이 오래갈 ",
@@ -5371,14 +5187,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-16T00:00:23.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-입안-통증-잇몸-통증-혓바닥-통증의-원인은-구-221909264733",
-      "lastmod": "2026-06-16T00:00:21.000Z",
-      "title": "bms 입안 통증 잇몸 통증 혓바닥 통증의 원인은 구",
-      "description": "",
-      "image": "",
-      "date": "2026-06-16T00:00:21.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-심한-스트레스-이후에-혀-화끈거림-입안-얼얼함-221968443249",
@@ -5605,14 +5413,6 @@
       "date": "2026-06-15T23:58:52.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-입에서-떫은-맛-떫은-느낌이-계속되는-원인-알-223249783134",
-      "lastmod": "2026-06-15T23:58:49.000Z",
-      "title": "bms 입에서 떫은 맛 떫은 느낌이 계속되는 원인 알",
-      "description": "",
-      "image": "",
-      "date": "2026-06-15T23:58:49.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-혀-통증-칸디다균-때문이-아니라면-그-원인은--223274782013",
       "lastmod": "2026-06-15T23:58:45.000Z",
       "title": "bms 혀 통증 칸디다균 때문이 아니라면 그 원인은 ",
@@ -5685,14 +5485,6 @@
       "date": "2026-06-15T23:58:19.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-혀-가장자리-통증-측면이-아픈-이유는-223581922383",
-      "lastmod": "2026-06-15T23:58:17.000Z",
-      "title": "bms 혀 가장자리 통증 측면이 아픈 이유는",
-      "description": "",
-      "image": "",
-      "date": "2026-06-15T23:58:17.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-입술-화끈거림-얼얼한-이유-223616617734",
       "lastmod": "2026-06-15T23:58:14.000Z",
       "title": "bms 입술 화끈거림 얼얼한 이유",
@@ -5725,28 +5517,12 @@
       "date": "2026-06-15T23:58:02.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-입술-따가움-화끈거림-따끔거림의-원인은-BMS-223650381859",
-      "lastmod": "2026-06-15T23:57:59.000Z",
-      "title": "bms 입술 따가움 화끈거림 따끔거림의 원인은 BMS",
-      "description": "",
-      "image": "",
-      "date": "2026-06-15T23:57:59.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-입이-텁텁-한-이유-중-구강작열감-증후군-요약-223652900681",
       "lastmod": "2026-06-15T23:57:55.000Z",
       "title": "bms 입이 텁텁 한 이유 중 구강작열감 증후군 요약",
       "description": "",
       "image": "",
       "date": "2026-06-15T23:57:55.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-입이-쓴-이유와-3개월-넘게-계속될-때의-원인-223654605310",
-      "lastmod": "2026-06-15T23:57:53.000Z",
-      "title": "bms 입이 쓴 이유와 3개월 넘게 계속될 때의 원인",
-      "description": "",
-      "image": "",
-      "date": "2026-06-15T23:57:53.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-다발성-골수종으로-인한-구강-안면-증상-223661245638",
@@ -5787,14 +5563,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-15T23:57:38.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-diabetes-neuropathy-224047437851",
-      "lastmod": "2026-06-15T23:57:35.000Z",
-      "title": "bms diabetes neuropathy",
-      "description": "",
-      "image": "",
-      "date": "2026-06-15T23:57:35.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-oral-dyskinesia-224122210945",
@@ -5891,14 +5659,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-15T08:32:46.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-사망률이-높은-질환이-아닙니다-220935562210",
-      "lastmod": "2026-06-15T08:32:43.000Z",
-      "title": "sjogren 쇼그렌증후군 사망률이 높은 질환이 아닙니다",
-      "description": "",
-      "image": "",
-      "date": "2026-06-15T08:32:43.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-진단---진단-기준에-따른-차이-220967043723",
@@ -6104,14 +5864,6 @@
       "link": "https://ireaomd.co.kr/blog/thyroid-graves-thyroid-hyperthyroidism-vaccine-223246288143",
       "lastmod": "2026-06-12T02:26:06.000Z",
       "title": "thyroid graves thyroid hyperthyroidism vaccine",
-      "description": "",
-      "image": "",
-      "date": "2026-06-12T02:26:06.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/thyroid-hashimoto-thyroid-cancer-223245971030",
-      "lastmod": "2026-06-12T02:26:06.000Z",
-      "title": "thyroid hashimoto thyroid cancer",
       "description": "",
       "image": "",
       "date": "2026-06-12T02:26:06.000Z"
@@ -6525,14 +6277,6 @@
       "date": "2026-06-12T02:26:06.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sj-sjogren-diagnosis-220990250292",
-      "lastmod": "2026-06-12T02:26:06.000Z",
-      "title": "sj sjogren diagnosis",
-      "description": "",
-      "image": "",
-      "date": "2026-06-12T02:26:06.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sj-sjogren-mental-220957360603",
       "lastmod": "2026-06-12T02:26:06.000Z",
       "title": "sj sjogren mental",
@@ -6805,22 +6549,6 @@
       "date": "2026-06-10T09:02:16.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-구강편평태선-꼭-알고-있어야-할-사실-221201700226",
-      "lastmod": "2026-06-10T09:02:12.000Z",
-      "title": "bms 구강편평태선 꼭 알고 있어야 할 사실",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T09:02:12.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-구강작열감-증후군-혀통증과-불면증-221207444623",
-      "lastmod": "2026-06-10T09:02:10.000Z",
-      "title": "bms 구강작열감 증후군 혀통증과 불면증",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T09:02:10.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-구강작열감-증후군-심리적-문제가-있는-경우-221253568814",
       "lastmod": "2026-06-10T09:01:56.000Z",
       "title": "bms 구강작열감 증후군 심리적 문제가 있는 경우",
@@ -6907,22 +6635,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-10T09:01:26.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/aps-항인지질항체-증후군-증상---신경계-222801606140",
-      "lastmod": "2026-06-10T09:00:28.000Z",
-      "title": "aps 항인지질항체 증후군 증상   신경계",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T09:00:28.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/aps-항인지질항체-증후군-혈전이-생기는-이유와-자가항체를-줄이는-치료-경과-223110751510",
-      "lastmod": "2026-06-10T09:00:25.000Z",
-      "title": "aps 항인지질항체 증후군 혈전이 생기는 이유와 자가항체를 줄이는 치료 경과",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T09:00:25.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/aps-항인지질항체증후군-증상-습관성-유산을-제외한-전신-224147354300",
@@ -7565,14 +7277,6 @@
       "date": "2026-06-10T08:52:20.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/ai-adhd와-자가면역질환-알러지와의-관련성은-223657968491",
-      "lastmod": "2026-06-10T08:52:17.000Z",
-      "title": "ai adhd와 자가면역질환 알러지와의 관련성은",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:52:17.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/ai-혼합결합조직병-증상-중-삼차신경통-223665980712",
       "lastmod": "2026-06-10T08:52:14.000Z",
       "title": "ai 혼합결합조직병 증상 중 삼차신경통",
@@ -7723,14 +7427,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-10T08:50:35.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-증상---입술염-입술-갈라짐-건조한-입술-220928090279",
-      "lastmod": "2026-06-10T08:50:32.000Z",
-      "title": "sjogren 쇼그렌증후군 증상   입술염 입술 갈라짐 건조한 입술",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:50:32.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/sjogren-쇼그렌증후군-초기-증상---발열fever-221075537282",
@@ -7893,14 +7589,6 @@
       "date": "2026-06-10T08:48:58.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sj-sjogren-diagnosis-autoantibody-220774308746",
-      "lastmod": "2026-06-10T08:48:55.000Z",
-      "title": "sj sjogren diagnosis autoantibody",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:48:55.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sj-sjogren-lung-220779523275",
       "lastmod": "2026-06-10T08:48:52.000Z",
       "title": "sj sjogren lung",
@@ -7997,14 +7685,6 @@
       "date": "2026-06-10T08:48:04.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sj-sjogren-diagnosis-220865458082",
-      "lastmod": "2026-06-10T08:48:01.000Z",
-      "title": "sj sjogren diagnosis",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:48:01.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sj-sjogren-diet-220868004918",
       "lastmod": "2026-06-10T08:47:58.000Z",
       "title": "sj sjogren diet",
@@ -8083,14 +7763,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-10T08:47:19.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sj-bladder-221219496942",
-      "lastmod": "2026-06-10T08:47:13.000Z",
-      "title": "sj bladder",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:47:13.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/sj-dry-eye-221231812668",
@@ -8413,14 +8085,6 @@
       "date": "2026-06-10T08:44:56.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sj-쇼그렌증후군-검사-antiRo52-자가항체만--223651850606",
-      "lastmod": "2026-06-10T08:44:53.000Z",
-      "title": "sj 쇼그렌증후군 검사 antiRo52 자가항체만 ",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:44:53.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sj-쇼그렌증후군-치료-시-고려해야-할-혈관-내피--223655840743",
       "lastmod": "2026-06-10T08:44:50.000Z",
       "title": "sj 쇼그렌증후군 치료 시 고려해야 할 혈관 내피 ",
@@ -8661,14 +8325,6 @@
       "date": "2026-05-27T08:23:09.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/sj-sjogren-autoantibody-221217288554",
-      "lastmod": "2026-05-27T08:22:58.000Z",
-      "title": "sj sjogren autoantibody",
-      "description": "",
-      "image": "",
-      "date": "2026-05-27T08:22:58.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/sj-sjogren-221263618181",
       "lastmod": "2026-05-27T08:22:39.000Z",
       "title": "sj sjogren",
@@ -8837,14 +8493,6 @@
       "date": "2026-05-27T08:06:30.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-혀측면-통증-화끈거림-이물감-뜨거움이-나타나는-223423567020",
-      "lastmod": "2026-05-27T08:06:19.000Z",
-      "title": "bms 혀측면 통증 화끈거림 이물감 뜨거움이 나타나는",
-      "description": "",
-      "image": "",
-      "date": "2026-05-27T08:06:19.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-혀통증-원인-쇼그렌증후군-검사-꼭-해야-하나요-223476021373",
       "lastmod": "2026-05-27T08:06:16.000Z",
       "title": "bms 혀통증 원인 쇼그렌증후군 검사 꼭 해야 하나요",
@@ -8893,36 +8541,12 @@
       "date": "2026-05-27T08:05:56.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/bms-lateral-tongue-pain-223730959940",
-      "lastmod": "2026-05-27T08:05:08.000Z",
-      "title": "bms lateral tongue pain",
-      "description": "",
-      "image": "",
-      "date": "2026-05-27T08:05:08.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-molar-cheek-pain-223858134658",
-      "lastmod": "2026-05-27T08:05:04.000Z",
-      "title": "bms molar cheek pain",
-      "description": "",
-      "image": "",
-      "date": "2026-05-27T08:05:04.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/bms-tongue-pain-ocd-223877394524",
       "lastmod": "2026-05-27T08:04:53.000Z",
       "title": "bms tongue pain ocd",
       "description": "",
       "image": "",
       "date": "2026-05-27T08:04:53.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-tongue-food-sensitivity-223905647845",
-      "lastmod": "2026-05-27T08:04:50.000Z",
-      "title": "bms tongue food sensitivity",
-      "description": "",
-      "image": "",
-      "date": "2026-05-27T08:04:50.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-glossitis-treatment-223906353984",
@@ -8939,14 +8563,6 @@
       "description": "",
       "image": "",
       "date": "2026-05-27T08:04:44.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/bms-fissured-tongue-223927806488",
-      "lastmod": "2026-05-27T08:04:40.000Z",
-      "title": "bms fissured tongue",
-      "description": "",
-      "image": "",
-      "date": "2026-05-27T08:04:40.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-tongue-stress-223932397551",
@@ -9179,14 +8795,6 @@
       "description": "",
       "image": "",
       "date": "2026-05-27T08:02:05.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sjogren-anti-jo1-223878537183",
-      "lastmod": "2026-05-27T08:02:02.000Z",
-      "title": "sjogren anti jo1",
-      "description": "",
-      "image": "",
-      "date": "2026-05-27T08:02:02.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/sjogren-disease-new-name-223897477728",
