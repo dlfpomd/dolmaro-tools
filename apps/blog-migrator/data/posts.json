@@ -1,9 +1,17 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-09-12T03:00:26.979Z",
-  "total": 1181,
+  "generated_at": "2026-09-13T03:00:27.742Z",
+  "total": 1179,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/FOXO-면역항상성-장수유전자",
+      "lastmod": "2026-09-12T10:01:49.000Z",
+      "title": "FOXO 장수유전자와 면역",
+      "description": "FOXO 전사인자는 스트레스 대응과 면역 항상성에 관여합니다. FOXO3 유전형과 장수의 연관성이 보고되었지만 수명을 결정하는 단일 유전자는 아닙니다. 유전학적 관찰과 면역세포 기능 연구를 구분해 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/FOXO-면역항상성-장수유전자/img_01.webp",
+      "date": "2026-09-12T10:01:49.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/paper-메니에르병-귀가-먹먹해지면서-몇-시간씩-세상이-도는-발작이-반복될-때-89172342",
       "lastmod": "2026-09-12T00:19:28.000Z",
@@ -639,10 +647,10 @@
     {
       "link": "https://ireaomd.co.kr/blog/paper-렘수면행동장애-꿈대로-몸이-움직인-밤이-자꾸-늘어날-때-88092550",
       "lastmod": "2026-08-30T12:22:46.000Z",
-      "title": "렘수면행동장애와 파킨슨병",
-      "description": "렘수면행동장애는 파킨슨병과 루이소체 치매의 전구 단계로, 국제 공동 코호트 1,280명에서 연간 6.3%가 전환했고 12년째에는 73.5%에 이르렀습니다. 전환을 앞당기는 신호와 한의학 치료 연구를 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-렘수면행동장애-꿈대로-몸이-움직인-밤이-자꾸-늘어날-때-88092550/img_01.webp",
-      "date": "2026-08-30T12:22:35.000Z"
+      "title": "paper 렘수면행동장애 꿈대로 몸이 움직인 밤이 자꾸 늘어날 때",
+      "description": "",
+      "image": "",
+      "date": "2026-08-30T12:22:46.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-신경병증성-통증-옷깃이-스치기만-해도-살갗이-아플-때-88091379",
@@ -7445,14 +7453,6 @@
       "date": "2026-06-10T08:55:42.000Z"
     },
     {
-      "link": "https://ireaomd.co.kr/blog/ai-류마티스-관절염-한약의-치료-효과는-어떻게-221517897841",
-      "lastmod": "2026-06-10T08:55:39.000Z",
-      "title": "ai 류마티스 관절염 한약의 치료 효과는 어떻게",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:55:39.000Z"
-    },
-    {
       "link": "https://ireaomd.co.kr/blog/ai-전신-경화증-systemic-sclerosis-치료-한약은-어떤-작용을-할까요-221530276201",
       "lastmod": "2026-06-10T08:55:36.000Z",
       "title": "ai 전신 경화증 systemic sclerosis 치료 한약은 어떤 작용을 할까요",
@@ -7467,14 +7467,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-10T08:55:33.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/ai-두경부암-치료-이후-발생한-건조증-한의학-치료-효과-221547190905",
-      "lastmod": "2026-06-10T08:55:31.000Z",
-      "title": "ai 두경부암 치료 이후 발생한 건조증 한의학 치료 효과",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:55:31.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/ai-구강-편평태선---자가면역질환과의-관련성이-높습니다-221555257852",
@@ -7827,14 +7819,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-10T08:53:07.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/ai-자가면역-결절병증-autoimmune-nodopathy-223281575732",
-      "lastmod": "2026-06-10T08:53:05.000Z",
-      "title": "ai 자가면역 결절병증 autoimmune nodopathy",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:53:05.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/ai-자가면역-간염aih-예후와-진단-방법-223281663516",
