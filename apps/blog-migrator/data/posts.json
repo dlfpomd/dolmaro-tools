@@ -1,9 +1,49 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-09-15T03:00:26.888Z",
-  "total": 1183,
+  "generated_at": "2026-09-17T03:00:27.653Z",
+  "total": 1188,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/MHC-1형-소실-항원제시-면역회피",
+      "lastmod": "2026-09-16T10:02:28.000Z",
+      "title": "MHC 1형 소실과 면역회피",
+      "description": "MHC 1형은 세포 안의 항원을 T세포에 제시합니다. 일부 폐암에서 발견된 HLA 대립유전자 소실은 면역 회피와 관련되지만 MHC 전체 소실과는 다릅니다. 항원 제시의 변화와 치료 저항성의 관계를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/MHC-1형-소실-항원제시-면역회피/img_01.webp",
+      "date": "2026-09-16T10:02:28.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-구강-이상감각-입안이-꽉-차고-부은-느낌인데-검사에서는-이상이-없다고-할-때-89521828",
+      "lastmod": "2026-09-16T01:23:57.000Z",
+      "title": "입안 꽉찬 느낌 원인, 구강작열감 신경병증",
+      "description": "입안이 꽉 찬 느낌이 검사 이상 없이 석 달 넘게 이어진다면 혀 점막의 작은 신경섬유가 30~60% 줄어든 신경병증의 결과일 수 있습니다. 줄어든 입력을 뇌간이 잘못된 부피감으로 채우며, 환자 90%에서 검사 이상이 확인됩니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-구강-이상감각-입안이-꽉-차고-부은-느낌인데-검사에서는-이상이-없다고-할-때-89521828/img_01.webp",
+      "date": "2026-09-16T01:23:57.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/종양변이부담-신생항원-면역치료-반응",
+      "lastmod": "2026-09-15T10:02:10.000Z",
+      "title": "종양변이부담과 면역치료",
+      "description": "종양변이부담이 높은 환자군에서 면역치료 반응이 더 흔했던 연구가 있지만, 변이 수가 곧 신생항원 수는 아닙니다. 반응률 29%와 6%가 나온 시험의 대상과 한계를 살펴보고 개인의 치료 예측과 구분합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/종양변이부담-신생항원-면역치료-반응/img_01.webp",
+      "date": "2026-09-15T10:02:10.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/pcos-autoimmunity-autoantibodies-inflammation",
+      "lastmod": "2026-09-15T07:15:01.000Z",
+      "title": "다낭성난소증후군 원인·자가항체·갑상선 자가면역",
+      "description": "다낭성난소증후군은 대사·호르몬 이상과 염증이 연결된 질환으로, 자가면역이 주원인이라고 확정할 수 없습니다. 2025~2026년 연구를 바탕으로 갑상선 자가항체와 ANA의 의미, 동반질환과 검사 필요성을 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/pcos-autoimmunity-autoantibodies-inflammation/i1.webp",
+      "date": "2026-09-15T07:15:01.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/endometriosis-autoimmune-inflammation-evidence",
+      "lastmod": "2026-09-15T07:14:56.000Z",
+      "title": "자궁내막증 원인과 자가면역성 염증·자가항체",
+      "description": "자궁내막증에는 면역 염증이 관여하지만 자가면역질환으로 확립된 것은 아닙니다. 2025~2026년 연구로 자가항체, 동반질환, 공유 유전 소인과 발병 원인의 차이, 면역억제 치료의 한계를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/endometriosis-autoimmune-inflammation-evidence/i1.webp",
+      "date": "2026-09-15T07:14:56.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/면역감시-면역편집-제거-균형-회피",
       "lastmod": "2026-09-14T10:02:07.000Z",
@@ -319,10 +359,10 @@
     {
       "link": "https://ireaomd.co.kr/blog/CD47-노화-면역-먹지마라-신호",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "CD47과 면역 청소",
-      "description": "CD47은 대식세포의 포식을 억제하는 신호를 전달합니다. 림프종 초기 시험의 반응과 골수형성이상증후군 3상 시험의 부정적 결과를 비교하며, 서로 다른 암종의 결과를 같은 치료 효과로 읽지 않도록 설명합니다.",
-      "image": "https://ireaomd.co.kr/images/blog/CD47-노화-면역-먹지마라-신호/img_01.webp",
-      "date": "2026-09-03T11:58:52.000Z"
+      "title": "CD47 노화 면역 먹지마라 신호",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/CD24-시글렉10-노화-면역-두번째-표지",
@@ -607,42 +647,42 @@
     {
       "link": "https://ireaomd.co.kr/blog/bms-혀-밑-통증-원인과-스트레스-우울-불안-불면과-223270031569",
       "lastmod": "2026-09-06T12:56:12.000Z",
-      "title": "혀 아래 힘줄 통증과 염증, 혀 밑이 아픈 원인",
-      "description": "혀 밑 통증이 3개월 넘게 이어지고 스트레스에 따라 심해지면 구강작열감증후군일 수 있습니다. 환자 500명 연구에서 48.4%가 혀 아래 통증을 호소했습니다. 발생 부위와 감별 기준을 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/bms-혀-밑-통증-원인과-스트레스-우울-불안-불면과/img_01.webp",
-      "date": "2023-11-20T16:10:00.000Z"
+      "title": "bms 혀 밑 통증 원인과 스트레스 우울 불안 불면과",
+      "description": "",
+      "image": "",
+      "date": "2026-09-06T12:56:12.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-혀에-이빨-자국-난-상태인-치흔설-원인은-223207807867",
       "lastmod": "2026-09-06T12:56:12.000Z",
-      "title": "치흔설 원인과 치료, 혀에 이빨 자국이 생기는 이유",
-      "description": "치흔설은 혀가 부어 이에 눌려 자국이 남는 상태로, 336명 조사에서 20.2%에게 있었습니다. 혀가 붓는 원인, 갑상선·구강작열감증후군과의 관계, 치료가 필요한 경우를 논문 근거로 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/bms-혀에-이빨-자국-난-상태인-치흔설-원인은/img_01.webp",
-      "date": "2023-09-10T14:56:58.000Z"
+      "title": "bms 혀에 이빨 자국 난 상태인 치흔설 원인은",
+      "description": "",
+      "image": "",
+      "date": "2026-09-06T12:56:12.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-혀-갈라짐-치료-필요-없는-건강상태-입니다-균-223094273388",
       "lastmod": "2026-09-06T12:56:12.000Z",
-      "title": "균열설이란? 혀 갈라짐의 원인과 치료가 필요한 경우",
-      "description": "균열설은 혀 표면이 갈라지는 상태로 대부분 치료가 필요 없습니다. 다만 건선 환자의 33%, 칸디다 감염 68.9%, 통증 동반 15.6% 등 함께 살펴야 할 질환을 6편의 논문으로 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/bms-혀-갈라짐-치료-필요-없는-건강상태-입니다-균/img_01.webp",
-      "date": "2023-05-05T08:14:57.000Z"
+      "title": "bms 혀 갈라짐 치료 필요 없는 건강상태 입니다 균",
+      "description": "",
+      "image": "",
+      "date": "2026-09-06T12:56:12.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-치흔설은-왜-생기고-언제-치료-대상이-될까-혀-부종염증과-수면무호흡-84531710",
       "lastmod": "2026-09-06T12:56:12.000Z",
-      "title": "치흔설 치료가 필요한 경우와 혀 부종",
-      "description": "치흔설은 대부분 치료 대상이 아니지만, 혀 부종과 염증이 함께 있으면 이야기가 달라집니다. 언제 치료 대상이 되는지와 수면무호흡과의 관련을 논문으로 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-치흔설은-왜-생기고-언제-치료-대상이-될까-혀-부종염증과-수면무호흡-84531710/img_01.webp",
-      "date": "2026-07-20T07:15:11.000Z"
+      "title": "paper 치흔설은 왜 생기고 언제 치료 대상이 될까 혀 부종염증과 수면무호흡",
+      "description": "",
+      "image": "",
+      "date": "2026-09-06T12:56:12.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-지도설-혀에-얼룩덜룩한-백태가-보여-걱정될-때-86497638",
       "lastmod": "2026-09-06T12:56:12.000Z",
-      "title": "지도설 감별 진단",
-      "description": "혀의 얼룩덜룩한 무늬는 대부분 지도설이고 치료가 필요 없는 경우가 많습니다. 다만 위축성 설염과 구강편평태선, 건선은 예후가 달라 감별이 먼저입니다. 균열설과의 관계와 치료를 시작해야 하는 시점까지 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-지도설-혀에-얼룩덜룩한-백태가-보여-걱정될-때-86497638/img_01.webp",
-      "date": "2026-08-12T01:20:42.000Z"
+      "title": "paper 지도설 혀에 얼룩덜룩한 백태가 보여 걱정될 때",
+      "description": "",
+      "image": "",
+      "date": "2026-09-06T12:56:12.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/구강작열감증후군-각막-신경병통증-삼차신경-소섬유신경병증",
