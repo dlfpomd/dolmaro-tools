@@ -1,9 +1,33 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-09-18T03:00:28.505Z",
-  "total": 1190,
+  "generated_at": "2026-09-20T03:00:26.726Z",
+  "total": 1193,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/면역관문차단-반응예측-바이오마커",
+      "lastmod": "2026-09-19T10:01:23.000Z",
+      "title": "면역치료 반응 예측 지표",
+      "description": "PD-L1과 종양변이부담 등은 면역치료 선택에 도움이 되지만 개인의 반응을 확정하지는 못합니다. 염색 양성 세포 비율과 객관적 반응률의 의미, 예후 지표와 치료 반응 예측 지표의 차이를 연구 근거로 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/면역관문차단-반응예측-바이오마커/img_01.webp",
+      "date": "2026-09-19T10:01:23.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/paper-유방보형물-질환ASIA-증후군-가슴-성형-뒤-피로관절통건조증이-시작되었을-때-89781781",
+      "lastmod": "2026-09-19T01:36:37.000Z",
+      "title": "유방보형물 질환 ASIA 증후군 예후",
+      "description": "가슴 성형 뒤 피로·관절통·건조증이 늘었다면 실리콘 보형물이 면역을 자극하는 유방보형물 질환(ASIA 증후군)일 수 있습니다. 보형물 여성은 피로 3.15배, 쇼그렌증후군 1.58배 흔했고 제거 뒤 75%가 호전되었습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/paper-유방보형물-질환ASIA-증후군-가슴-성형-뒤-피로관절통건조증이-시작되었을-때-89781781/img_01.webp",
+      "date": "2026-09-19T01:36:37.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/CTLA-4-차단-림프절-면역관문",
+      "lastmod": "2026-09-18T10:01:40.000Z",
+      "title": "CTLA-4 차단과 면역관문",
+      "description": "CTLA-4 차단은 T세포 활성화를 제한하는 신호를 줄여 항종양 반응을 돕습니다. 흑색종 임상시험의 생존 결과와 병용치료의 이상반응을 살펴보고, 장기 생존곡선을 완치와 동일하게 해석할 수 없는 이유를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/CTLA-4-차단-림프절-면역관문/img_01.webp",
+      "date": "2026-09-18T10:01:40.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/paper-인지기능저하-자꾸-깜빡깜빡하고-말이-안-떠오르는-날이-늘-때-89653286",
       "lastmod": "2026-09-17T13:55:01.000Z",
@@ -623,25 +647,25 @@
     {
       "link": "https://ireaomd.co.kr/blog/구강건조증-물을-마시면-더-마른-느낌-생리학",
       "lastmod": "2026-09-09T06:58:19.000Z",
-      "title": "물을 마시면 더 마른 입, 왜일까요?",
-      "description": "물을 마셔도 입이 더 마른 느낌은 침의 윤활과 지속적인 보충이 부족해서 나타날 수 있습니다. 2024년 물 섭취 연구와 뮤신·점막 침막의 생리학을 바탕으로, 가능한 이유와 근거의 한계 및 진료에서 확인할 점을 정리합니다.",
-      "image": "https://ireaomd.co.kr/images/blog/구강건조증-물을-마시면-더-마른-느낌-생리학/img_01.webp",
+      "title": "구강건조증 물을 마시면 더 마른 느낌 생리학",
+      "description": "",
+      "image": "",
       "date": "2026-09-09T06:58:19.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/베체트병-삼차신경병증-얼굴통증-빈도-원인-예후",
       "lastmod": "2026-09-09T05:54:03.000Z",
-      "title": "베체트병 삼차신경병증 빈도·원인·예후",
-      "description": "베체트병의 삼차신경병증은 드물게 보고되며 정확한 발생률은 미확립입니다. 57명 연구의 빈도 해석부터 뇌간 염증의 원인, 회복과 재발, 2026년 발표된 최신 치료 권고까지 근거를 구분해 설명합니다.",
-      "image": "https://ireaomd.co.kr/images/blog/베체트병-삼차신경병증-얼굴통증-빈도-원인-예후/img_01.webp",
+      "title": "베체트병 삼차신경병증 얼굴통증 빈도 원인 예후",
+      "description": "",
+      "image": "",
       "date": "2026-09-09T05:54:03.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/notices/1100371",
       "lastmod": "2026-09-07T01:46:33.000Z",
-      "title": "2026년 9월 진료일정입니다 | 병원공지",
-      "description": "9월 24일 목요일 부터 9월 27일 일요일까지 추석 연휴로 휴진이고\n9월 28일 월요일 부터 정상진료입니다\n\n내원과 예약에 참고해주세요",
-      "image": "https://ireaomd.co.kr/og-image.png?v=2",
+      "title": "/notices/1100371",
+      "description": "",
+      "image": "",
       "date": "2026-09-07T01:46:33.000Z"
     },
     {
