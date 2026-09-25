@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-09-25T14:55:36+09:00",
+  "mainPosts": 1203,
+  "satellitePosts": 242,
+  "shorts": 160,
+  "shortsUniqueTitles": 159,
+  "topicGroups": 871,
+  "missing": 314,
+  "partial": 488,
+  "covered": 69,
+  "highPriorityMissing": 10,
+  "method": "질환·핵심 주제 2개가 함께 일치하면 반영, 하나만 겹치면 부분 반영으로 분류"
+}
