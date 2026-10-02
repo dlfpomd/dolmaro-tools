@@ -1,9 +1,145 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-09-24T03:00:29.202Z",
-  "total": 1203,
+  "generated_at": "2026-10-02T03:00:27.756Z",
+  "total": 1220,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/tongue-pain-perfectionism-stress",
+      "lastmod": "2026-10-02T01:30:47.000Z",
+      "title": "혀 통증·구강작열감증후군, 완벽주의와 스트레스",
+      "description": "혀 통증은 과도한 자기 압박과 스트레스, 수면 문제로 더 힘들어질 수 있습니다. 환자 151명 연구와 최근 논문을 바탕으로 완벽주의와 구강작열감증후군의 관계, 다른 원인 확인, 일상 관리 방법을 정리합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/tongue-pain-perfectionism-stress/i1.webp",
+      "date": "2026-10-02T01:30:47.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/발암성-감염-헬리코박터-간염-사람유두종바이러스",
+      "lastmod": "2026-10-01T10:01:52.000Z",
+      "title": "발암성 감염과 암 예방",
+      "description": "일부 감염은 만성 염증이나 직접적인 세포 조절을 통해 암 발생에 기여합니다. 2018년 세계 감염 관련 암 220만 건의 추정 의미와 헬리코박터 제균·B형간염·HPV 백신 연구, 치료 후 추적의 필요성을 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/발암성-감염-헬리코박터-간염-사람유두종바이러스/img_01.webp",
+      "date": "2026-10-01T10:01:52.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/oral-lichen-planus-smoking-vaping",
+      "lastmod": "2026-10-01T04:37:47.000Z",
+      "title": "구강편평태선과 담배·전자담배의 영향",
+      "description": "구강편평태선에서 흡연은 점막 자극과 구강암 위험에 관련됩니다. 24개 연구의 상대위험 1.60배가 뜻하는 바와, 액상형·궐련형 전자담배 및 무니코틴 제품의 근거 한계를 나누어 살펴보고 금연·점막 관리 방법을 정리합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/oral-lichen-planus-smoking-vaping/i1.webp",
+      "date": "2026-10-01T04:37:47.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/장내세균-면역치료-반응-분변이식",
+      "lastmod": "2026-09-30T10:01:52.000Z",
+      "title": "장내세균과 면역치료 반응",
+      "description": "장내 미생물은 면역치료 반응과 연관되며 초기 분변 이식 연구에서 일부 임상적 이득이 관찰되었습니다. 흑색종 15명 중 6명의 이득과 객관적 반응을 구분하고, 유산균·항생제·이식 안전성의 의미를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/장내세균-면역치료-반응-분변이식/img_01.webp",
+      "date": "2026-09-30T10:01:52.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/dry-eye-cornea-normal-comparison",
+      "lastmod": "2026-09-30T08:37:06.000Z",
+      "title": "안구건조증 각막 변화·지속 증상·합병증",
+      "description": "안구건조증에서는 정상 눈보다 눈물막이 불안정하고 각막상피 손상·염증·감각 변화가 나타날 수 있습니다. 2025년 지침과 대조군 연구로 각막 상태의 차이와 지속되는 증상, 드문 합병증, 필요한 검사와 관리 방법을 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/dry-eye-cornea-normal-comparison/i1.webp",
+      "date": "2026-09-30T08:37:06.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/IL-17-Th17-종양-양면성",
+      "lastmod": "2026-09-29T10:01:00.000Z",
+      "title": "인터루킨-17과 종양",
+      "description": "IL-17은 점막 방어와 염증에 관여하며, 이를 만드는 Th17 세포의 기능과는 구분해야 합니다. 대장암·유방암의 동물실험과 세쿠키누맙 안전성 자료를 통해 종양에 대한 작용과 감염 위험의 의미를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/IL-17-Th17-종양-양면성/img_01.webp",
+      "date": "2026-09-29T10:01:00.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/notices/1100402",
+      "lastmod": "2026-09-29T08:30:13.000Z",
+      "title": "2026년 10월 진료일정입니다 | 병원공지",
+      "description": "10월3일(토)개천절, 10월9일(금)한글날은 휴진입니다.\n10월5일(월)은 단축진료(10시~4시) 입니다.\n\n내원과 예약에 참고해주세요",
+      "image": "https://ireaomd.co.kr/og-image.png?v=2",
+      "date": "2026-09-29T08:30:13.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/postoperative-brain-fog-recovery-korean-medicine",
+      "lastmod": "2026-09-29T03:52:43.000Z",
+      "title": "전신마취 후 브레인포그 원인·회복·한의학 치료",
+      "description": "전신마취 후 브레인포그는 수면·통증·약물·염증 등 여러 요인이 겹쳐 나타날 수 있습니다. 피로·멍함·어지럼의 원인과 회복 방법, 최신 전침·한약 연구의 기대 효과와 한계, 즉시 진료가 필요한 증상을 정리합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/postoperative-brain-fog-recovery-korean-medicine/i1.webp",
+      "date": "2026-09-29T03:52:43.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/치료유발염증-항암-방사선-면역",
+      "lastmod": "2026-09-28T10:01:16.000Z",
+      "title": "치료 유발 염증의 양면",
+      "description": "항암치료와 방사선치료 뒤의 염증은 항종양 반응과 남은 세포의 생존에 서로 다르게 관여할 수 있습니다. 방사선 선행 시험의 반응률 18%와 36%를 살펴보고, 수치상 차이와 입증된 임상 이득을 구분합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/치료유발염증-항암-방사선-면역/img_01.webp",
+      "date": "2026-09-28T10:01:16.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/COX-2-PGE2-아스피린-대장암-면역",
+      "lastmod": "2026-09-27T10:01:06.000Z",
+      "title": "아스피린과 대장암 예방",
+      "description": "COX-2·PGE2 경로는 염증과 종양 면역에 관여합니다. 일부 아스피린 시험에서 대장암 감소가 관찰되었지만 모든 사람에게 복용을 권할 수는 없습니다. 고위험군 연구와 일반인 예방의 불확실성, 출혈 위험을 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/COX-2-PGE2-아스피린-대장암-면역/img_01.webp",
+      "date": "2026-09-27T10:01:06.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/자폐스펙트럼장애-먹는-음식이-몇-가지로-줄고-가족-식탁까지-정하려-할-때",
+      "lastmod": "2026-09-27T04:37:05.000Z",
+      "title": "자폐 편식·섭식 문제 최근 연구",
+      "description": "자폐스펙트럼장애의 편식은 감각 과민과 동일성 고집이 함께 만드는 경우가 많고, 자폐인의 약 11%에서 ARFID가 동반됩니다. 부모 훈련 무작위 연구 두 편에서는 훈련군 아이의 약 절반이 호전되었습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/자폐스펙트럼장애-먹는-음식이-몇-가지로-줄고-가족-식탁까지-정하려-할-때/img_01.webp",
+      "date": "2026-09-27T03:59:05.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/schizophrenia-eating-disorders-neuroimmune-evidence",
+      "lastmod": "2026-09-27T03:50:59.000Z",
+      "title": "조현병 섭식장애 자가면역·뇌신경염증 관련성",
+      "description": "조현병과 섭식장애는 동반 발생과 일부 면역 변화가 관찰되지만, 모두 자가면역질환인 것은 아닙니다. 2025~2026년 연구로 자가염증·뇌신경염증의 차이와 자가면역뇌염 감별, 치료 근거의 한계를 정리합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/schizophrenia-eating-disorders-neuroimmune-evidence/img_01.webp",
+      "date": "2026-09-27T03:50:59.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/NF-kB-STAT3-만성염증-발암",
+      "lastmod": "2026-09-26T10:01:12.000Z",
+      "title": "만성 염증과 발암 경로",
+      "description": "NF-κB와 STAT3는 정상적인 방어·회복에 필요하면서 특정 조건에서는 종양의 생존과 성장에도 관여합니다. 만성 염증의 발암 기전과 궤양성 대장염의 과거 위험 통계를 살펴보고 개인 위험과의 차이를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/NF-kB-STAT3-만성염증-발암/img_01.webp",
+      "date": "2026-09-26T10:01:12.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/TGF-beta-면역배제-종양미세환경",
+      "lastmod": "2026-09-25T10:01:03.000Z",
+      "title": "TGF-베타와 면역 배제",
+      "description": "TGF-β는 면역 기능과 종양 주변 기질을 바꾸어 T세포의 침투를 제한할 수 있습니다. 동물에서 병용 효과가 관찰되었지만 폐암 304명 시험에서는 우월성이 입증되지 않았습니다. 그 결과와 한계를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/TGF-beta-면역배제-종양미세환경/img_01.webp",
+      "date": "2026-09-25T10:01:03.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/만성-두드러기-혈액검사에서-ANA-양성이-나왔을-때",
+      "lastmod": "2026-09-25T03:21:11.000Z",
+      "title": "만성 두드러기, 혈액검사에서 ANA 양성이 나왔을 때",
+      "description": "만성 두드러기와 ANA 양성이 함께 있어도 루푸스로 확정되지는 않습니다. 병변이 24시간 넘거나 멍이 남으면 피부생검과 C3·C4·C1q, 소변·신장검사를 먼저 확인하고 증상에 맞춰 특이항체를 선택합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/만성-두드러기-혈액검사에서-ANA-양성이-나왔을-때/img_01.webp",
+      "date": "2026-09-25T02:49:57.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/종양관련대식세포-M1-M2-재교육",
+      "lastmod": "2026-09-24T10:01:01.000Z",
+      "title": "종양관련대식세포",
+      "description": "종양관련 대식세포는 종양 제거와 성장 지원 등 다양한 기능을 합니다. M1·M2만으로 실제 조직의 상태를 모두 설명하기는 어렵습니다. 암종별 예후 차이와 CSF1R 표적 치료의 제한된 적용 범위를 살펴봅니다.",
+      "image": "https://ireaomd.co.kr/images/blog/종양관련대식세포-M1-M2-재교육/img_01.webp",
+      "date": "2026-09-24T10:01:01.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/hashimoto-allergy-peripheral-neuropathy-evidence",
+      "lastmod": "2026-09-24T09:28:24.000Z",
+      "title": "하시모토 갑상선염, 두드러기와 손발 저림이 함께 생길 때",
+      "description": "하시모토 갑상선염은 갑상선기능저하증의 가장 흔한 원인입니다. 만성 두드러기 환자는 갑상선 자가항체 양성 오즈가 약 5배 높았고, 치료 중인 환자의 36%에서 감각신경 이상 신호가 확인됐습니다.",
+      "image": "https://ireaomd.co.kr/images/blog/hashimoto-allergy-peripheral-neuropathy-evidence/img_01.webp",
+      "date": "2026-09-24T09:05:54.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/골수유래억제세포-MDSC-종양면역억제",
       "lastmod": "2026-09-23T10:01:01.000Z",
@@ -511,138 +647,138 @@
     {
       "link": "https://ireaomd.co.kr/blog/장내세균-단쇄지방산-염증노화-면역",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "장내세균과 염증노화",
-      "description": "무균 환경에서 키운 생쥐는 나이가 들어도 혈중 염증 물질이 오르지 않았습니다. 9,000명이 넘는 코호트에서는 흔한 균이 줄고 구성이 개인마다 고유해지는 것이 건강한 노화의 양상이었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/장내세균-단쇄지방산-염증노화-면역/img_01.webp",
-      "date": "2026-09-06T12:32:52.000Z"
+      "title": "장내세균 단쇄지방산 염증노화 면역",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/SIRT1-노화-염증-탈아세틸화효소",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "SIRT1과 항노화 근거",
-      "description": "SIRT1은 염증 전사인자의 표시를 떼어 내 활성을 낮추는 효소입니다. 다만 이를 활성화한다는 성분의 메타분석은 2015년과 2021년이 반대 결론을 냈고, 효과 크기도 0.4 mg/L에 그쳤습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/SIRT1-노화-염증-탈아세틸화효소/img_01.webp",
-      "date": "2026-09-06T12:32:52.000Z"
+      "title": "SIRT1 노화 염증 탈아세틸화효소",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/Nrf2-Keap1-항산화-염증-노화",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "Nrf2와 항산화 근거",
-      "description": "Nrf2는 항산화 유전자를 한꺼번에 켜면서 염증 유전자도 직접 막습니다. 다만 89명 시험에서 성분이 흡수되어도 표적 유전자는 켜지지 않았고, 강하게 켜는 약은 심부전이 1.83배 늘었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/Nrf2-Keap1-항산화-염증-노화/img_01.webp",
-      "date": "2026-09-06T12:32:53.000Z"
+      "title": "Nrf2 Keap1 항산화 염증 노화",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/자가포식-노화-면역-T세포-기억",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "자가포식과 면역 기억",
-      "description": "자가포식은 세포가 낡은 부품을 분해해 다시 쓰는 과정입니다. 이 능력이 떨어진 늙은 T세포는 기억을 만들지 못했고, 사람 12개월 시험에서 기억력은 위약과 차이가 없었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/자가포식-노화-면역-T세포-기억/img_01.webp",
-      "date": "2026-09-07T10:01:59.000Z"
+      "title": "자가포식 노화 면역 T세포 기억",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/NAD-CD38-노화-면역-대식세포",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "NAD와 노화 염증",
-      "description": "노화와 함께 NAD⁺가 감소하는 과정에는 생성과 소모의 변화가 관여합니다. CD38 양성 대식세포의 역할과 NAD⁺ 전구체 임상시험을 살펴봅니다. 일부 보행 지표의 개선이 보고되었지만, 노화 예방 효과로 일반화할 수는 없습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/NAD-CD38-노화-면역-대식세포/img_01.webp",
-      "date": "2026-09-08T10:01:59.000Z"
+      "title": "NAD CD38 노화 면역 대식세포",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/베체트병-브레인포그-미세아교세포-사이토카인",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "베체트병 브레인포그",
-      "description": "베체트병 환자의 인지 불편은 피로·수면·기분과 염증 등 여러 요인이 관여할 수 있습니다. 소규모 연구에서 관찰된 언어·실행 기능 저하와 브레인포그의 가능한 기전을 구분하고, 검사 결과의 해석을 살펴봅니다.",
-      "image": "https://ireaomd.co.kr/images/blog/베체트병-브레인포그-미세아교세포-사이토카인/img_01.webp?v=20260902b",
-      "date": "2026-09-02T00:58:52.000Z"
+      "title": "베체트병 브레인포그 미세아교세포 사이토카인",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-외상-후-삼차신경병증성-통증-치과-치료가-끝났는데-얼굴-통증이-석-달-넘게-남았을-때-88352180",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "외상 후 삼차신경병증성 통증, 치과 치료가 끝났는데 얼굴 통증이 석 달 넘게 남았을 때",
-      "description": "치과·구강 시술 뒤 통증이 3개월을 넘기면 회복기 통증이 아니라 외상 후 삼차신경병증성 통증일 수 있습니다. 화끈거림·전기 충격 같은 통증·감각 둔화가 단서이고, 원인이 신경이면 반복 발치는 감작을 더 굳힙니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-외상-후-삼차신경병증성-통증-치과-치료가-끝났는데-얼굴-통증이-석-달-넘게-남았을-때-88352180/img_01.webp",
-      "date": "2026-09-02T12:29:44.000Z"
+      "title": "paper 외상 후 삼차신경병증성 통증 치과 치료가 끝났는데 얼굴 통증이 석 달 넘게 남았을 때",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군-검사-수치는-낮은데-3년-사이-통증이-늘었다면-국내-884명-표현형-4군-분석-88353955",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "쇼그렌증후군, 검사 수치는 낮은데 3년 사이 통증이 늘었다면 — 국내 884명 표현형 4군 분석",
-      "description": "국내 쇼그렌증후군 환자 884명을 진단 시 활성도·증상·면역 지표로 4군으로 나눠 3년을 추적했더니, 검사가 낮았던 3·4군에서 증상 부담 큰 비율이 10→43%, 14→50%로 늘었습니다. 침샘 초음파 변화는 네 군이 비슷했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-쇼그렌증후군-검사-수치는-낮은데-3년-사이-통증이-늘었다면-국내-884명-표현형-4군-분석-88353955/img_01.webp",
-      "date": "2026-09-02T12:59:20.000Z"
+      "title": "paper 쇼그렌증후군 검사 수치는 낮은데 3년 사이 통증이 늘었다면 국내 884명 표현형 4군 분석",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-쇼그렌증후군에-겹친-ANCA-혈관염-건강검진-소변검사에서-혈뇨와-단백뇨가-나왔을-때-88418361",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "쇼그렌 신장 침범, ANCA 혈관염 사례",
-      "description": "쇼그렌증후군 환자에게 혈뇨와 단백뇨가 함께 나타나면 ANCA 연관 혈관염이 겹친 사구체신염일 수 있습니다. 증상이 없던 37세 여성은 MPO-ANCA 46.2U/mL, 사구체여과율 51.4였고 면역복합체 침착까지 동반했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/paper-쇼그렌증후군에-겹친-ANCA-혈관염-건강검진-소변검사에서-혈뇨와-단백뇨가-나왔을-때-88418361/img_01.webp",
-      "date": "2026-09-03T06:52:54.000Z"
+      "title": "paper 쇼그렌증후군에 겹친 ANCA 혈관염 건강검진 소변검사에서 혈뇨와 단백뇨가 나왔을 때",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/스트레스-혀통증-구강작열감증후군-심리요인",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "스트레스 뒤 혀 통증",
-      "description": "심한 스트레스 뒤 시작된 혀 통증은 구강작열감증후군일 수 있습니다. 환자 50명과 대조군 50명을 비교한 국내 연구에서 신체화·불안·우울 점수가 모두 높았지만, 값은 대부분 정상 범위 안이었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/스트레스-혀통증-구강작열감증후군-심리요인/img_01.webp",
-      "date": "2026-09-03T09:13:06.000Z"
+      "title": "스트레스 혀통증 구강작열감증후군 심리요인",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/프레가발린-리리카-신경병증통증-작용기전",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "프레가발린 기전과 부작용",
-      "description": "프레가발린은 칼슘통로 보조 단백질에 결합해 통증 신호 전달을 조절합니다. 손상된 신경에만 작용하는 약은 아닙니다. 신경병증성 통증의 질환별 임상 결과와 부작용, 통증 완화와 신경 회복의 차이를 설명합니다.",
-      "image": "https://ireaomd.co.kr/images/blog/프레가발린-리리카-신경병증통증-작용기전/img_01.webp",
-      "date": "2026-09-04T06:00:38.000Z"
+      "title": "프레가발린 리리카 신경병증통증 작용기전",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/스트레스-미세아교세포-모노사이트-중추감작-브레인포그",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "스트레스와 뇌 면역세포",
-      "description": "스트레스는 뇌 안의 면역세포를 켜고, 골수와 비장에서 나온 세포가 이 반응을 증폭합니다. 건강한 남성 20명에게 소량의 세균 물질만 주입해도 불안과 우울이 오르고 언어 기억이 함께 떨어졌습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/스트레스-미세아교세포-모노사이트-중추감작-브레인포그/img_01.webp",
-      "date": "2026-09-05T00:45:42.000Z"
+      "title": "스트레스 미세아교세포 모노사이트 중추감작 브레인포그",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/변연계-스트레스-면역활성-편도체-파충류의뇌-검증",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "변연계와 스트레스 면역",
-      "description": "감정을 다루는 뇌 부위는 호르몬과 신경 두 갈래로 면역기관을 직접 자극합니다. 293명을 3.7년 추적한 연구에서 편도체 활성이 높을수록 골수 활성과 동맥 염증이 함께 높았고 심혈관 사건 위험이 1.59배였습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/변연계-스트레스-면역활성-편도체-파충류의뇌-검증/img_01.webp",
-      "date": "2026-09-05T03:37:31.000Z"
+      "title": "변연계 스트레스 면역활성 편도체 파충류의뇌 검증",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/ITP-항혈소판항체-표적-제거경로-진단가치",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "항혈소판 항체 최신 지견",
-      "description": "항혈소판 항체는 혈소판을 부수는 동시에 만드는 쪽도 막습니다. 성인 368명의 검사 485건을 분석한 연구에서 진단 민감도는 90%, 특이도는 78%였고, 검출된 항체가 많을수록 병이 무거웠습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/ITP-항혈소판항체-표적-제거경로-진단가치/img_01.webp",
-      "date": "2026-09-05T05:24:22.000Z"
+      "title": "ITP 항혈소판항체 표적 제거경로 진단가치",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/혈소판감소증-원인-전조증상-악화요인-자반증",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "혈소판감소증 원인과 악화 요인",
-      "description": "혈소판감소증은 예고 증상이 뚜렷하지 않습니다. 60세 이상 발생률이 10만 명당 5.4명으로 가장 높고, 감염과 예방접종, 약물이 대표적인 악화 요인입니다. 멍과 점상출혈, 자반증 감별까지 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/혈소판감소증-원인-전조증상-악화요인-자반증/img_01.webp",
-      "date": "2026-09-06T01:30:58.000Z"
+      "title": "혈소판감소증 원인 전조증상 악화요인 자반증",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/아급성-피부-홍반루푸스-SCLE-항SSA항체-진단-예후",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "피부 루푸스와 SSA 항체",
-      "description": "아급성 피부 홍반루푸스와 항SSA 항체의 관계를 설명합니다. 면역항암제 유발 사례의 항체 양성률은 일반 환자의 비율과 구분하고, 약물 유발·전신 증상·임신 계획에서 확인할 점을 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/아급성-피부-홍반루푸스-SCLE-항SSA항체-진단-예후/img_01.webp",
-      "date": "2026-09-06T02:06:24.000Z"
+      "title": "아급성 피부 홍반루푸스 SCLE 항SSA항체 진단 예후",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/환상홍반-윤상홍반-자가면역질환-감별-임상특징",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "환상홍반 원인 자가면역질환",
-      "description": "환상홍반은 여러 질환이 공유하는 피부 모양입니다. 쇼그렌증후군과 자가항체, 원심성 환상홍반의 감염·약물 연관성을 살피고, 모양만으로 원인을 확정하지 않도록 질환별 특징과 감별을 정리했습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/환상홍반-윤상홍반-자가면역질환-감별-임상특징/img_01.webp",
-      "date": "2026-09-06T04:16:35.000Z"
+      "title": "환상홍반 윤상홍반 자가면역질환 감별 임상특징",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/paper-미노사이클린-삼차신경통과-신경계-자가면역질환에-쓸-수-있다는-말을-들었을-때-88697991",
