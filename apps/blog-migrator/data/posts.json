@@ -1,9 +1,17 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-10-02T03:00:27.756Z",
-  "total": 1220,
+  "generated_at": "2026-10-03T03:00:29.539Z",
+  "total": 1221,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/후소박테리움-대장암-화학내성-TIGIT",
+      "lastmod": "2026-10-02T10:01:01.000Z",
+      "title": "후소박테리움과 대장암 내성",
+      "description": "후소박테리움은 일부 대장암 조직에서 검출되며 약물 저항성과 면역억제에 관여할 수 있습니다. 대장암 1,069건의 예후 연관성과 자가포식·TIGIT 실험을 구분하고, 항생제를 임의로 사용할 수 없는 이유를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/후소박테리움-대장암-화학내성-TIGIT/img_01.webp",
+      "date": "2026-10-02T10:01:01.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/tongue-pain-perfectionism-stress",
       "lastmod": "2026-10-02T01:30:47.000Z",
@@ -639,10 +647,10 @@
     {
       "link": "https://ireaomd.co.kr/blog/미토파지-PINK1-Parkin-노화-염증",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "미토파지와 염증",
-      "description": "망가진 미토콘드리아를 치우지 못하면 안의 DNA가 새어 나와 염증을 일으킵니다. 다만 미토파지를 늘린다는 영양제의 4개월 무작위 시험에서 1차 종점인 보행거리는 위약과 차이가 없었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/미토파지-PINK1-Parkin-노화-염증/img_01.webp",
-      "date": "2026-09-05T11:58:52.000Z"
+      "title": "미토파지 PINK1 Parkin 노화 염증",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/장내세균-단쇄지방산-염증노화-면역",
