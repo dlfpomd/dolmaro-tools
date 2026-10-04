@@ -1,9 +1,25 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-10-03T03:00:29.539Z",
-  "total": 1221,
+  "generated_at": "2026-10-04T03:00:25.307Z",
+  "total": 1223,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/menopause-tongue-pain-burning-mouth-syndrome",
+      "lastmod": "2026-10-04T01:51:57.000Z",
+      "title": "갱년기 혀통증의 원인, 구강작열감증후군",
+      "description": "갱년기 혀통증의 원인에는 구강작열감증후군뿐 아니라 입마름·점막 질환·약물 등이 있습니다. 폐경 후 여성 952명 연구를 바탕으로 호르몬과 감각신경의 관계, 동반 증상, 감별과 대처 방법을 구분해 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/menopause-tongue-pain-burning-mouth-syndrome/i1.webp",
+      "date": "2026-10-04T01:51:57.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/종양-신경지배-신경주위침습-면역억제",
+      "lastmod": "2026-10-03T10:01:37.000Z",
+      "title": "종양 신경지배와 면역",
+      "description": "종양의 신경은 성장과 혈관 형성, 면역세포 상태에 영향을 줄 수 있습니다. 위암·전립선암 동물실험과 신경교종의 시냅스 연구를 살펴보고, 신경주위 침습의 의미와 사람 치료로 해석할 때의 한계를 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/종양-신경지배-신경주위침습-면역억제/img_01.webp",
+      "date": "2026-10-03T10:01:37.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/후소박테리움-대장암-화학내성-TIGIT",
       "lastmod": "2026-10-02T10:01:01.000Z",
@@ -631,18 +647,18 @@
     {
       "link": "https://ireaomd.co.kr/blog/IL-11-염증노화-수명-허브",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "인터루킨-11과 수명",
-      "description": "인터루킨-11 차단 항체를 75주령 생쥐에게 투여하자 전체 중앙 수명이 수컷 22.5%, 암컷 25% 늘었습니다. 치료 후 남은 수명의 증가율과는 다르며, 사람의 노화 예방이나 수명 연장 효과는 확인되지 않았습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/IL-11-염증노화-수명-허브/img_01.webp",
-      "date": "2026-09-05T10:01:52.000Z"
+      "title": "IL 11 염증노화 수명 허브",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/cGAS-STING-노화-염증-DNA-감지",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "cGAS-STING과 노화",
-      "description": "cGAS-STING은 세포질의 DNA를 감지하는 선천면역 경로입니다. 노화세포의 핵에서 떨어져 나온 조각이 이 경보를 켜고, STING을 막자 생쥐의 조직 기능과 인지 저하가 함께 개선되었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/cGAS-STING-노화-염증-DNA-감지/img_01.webp",
-      "date": "2026-09-05T11:03:52.000Z"
+      "title": "cGAS STING 노화 염증 DNA 감지",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/미토파지-PINK1-Parkin-노화-염증",
