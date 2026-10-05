@@ -1,9 +1,49 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-10-04T03:00:25.307Z",
-  "total": 1223,
+  "generated_at": "2026-10-05T03:00:29.087Z",
+  "total": 1227,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/tongue-numbness-causes-burning-mouth-syndrome",
+      "lastmod": "2026-10-05T01:11:48.000Z",
+      "title": "혀가 저린 증상 이유는 구강작열감증후군일까요?",
+      "description": "혀가 저린 증상은 구강작열감증후군뿐 아니라 영양 결핍, 구강건조, 치과 치료 후 신경 손상 등에서도 나타납니다. 혀끝 저림과 감각저하의 차이, 함께 확인할 원인과 검사·치료 방향을 최근 연구와 진료지침으로 정리합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/tongue-numbness-causes-burning-mouth-syndrome/i1.webp",
+      "date": "2026-10-05T01:03:13.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/sj-sjogren-treatment-symptoms-joint-221433383219",
+      "lastmod": "2026-10-05T00:24:53.000Z",
+      "title": "쇼그렌증후군 관절통·관절통증 원인과 치료",
+      "description": "쇼그렌증후군 관절통은 자가면역성 관절염과 비염증성 통증을 구분해 치료합니다. 손가락 통증과 아침 뻣뻣함, 류마티스관절염과의 차이를 살피고 프랑스 환자 연구와 최근 진료지침, 한약 임상시험에서 확인한 치료 효과를 정리합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/sjogren-joint-pain-20261005/i1.webp",
+      "date": "2018-05-15T07:18:05.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/itp-remission-platelet-herbal-treatment",
+      "lastmod": "2026-10-05T00:00:11.000Z",
+      "title": "ITP 관해 기준, 혈소판 유지기간과 한약 치료",
+      "description": "ITP 관해는 혈소판 수치뿐 아니라 출혈 여부, 유지기간과 치료 중단 상태를 함께 평가합니다. 6개월간 수치가 회복된 사례로 완전반응과 무치료 관해의 차이를 설명하고, 한약 치료 경과의 국내 증례와 최근 임상시험을 검토합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/itp-remission-platelet-herbal-treatment/i1.webp",
+      "date": "2026-10-04T13:17:01.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/psoriasis-antibiotics-medication-flare",
+      "lastmod": "2026-10-04T12:50:57.000Z",
+      "title": "건선 악화 약물, 항생제와 재발 원인",
+      "description": "건선 악화 약물에는 리튬·베타차단제 등이 있으며, 항생제는 성분별 근거와 감염의 영향을 구분해야 합니다. 2026년 약물감시 연구를 포함해 재발 관련 보고, 농포성 약물 발진의 감별과 복용약 확인 방법을 설명합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/psoriasis-antibiotics-medication-flare/i1.webp",
+      "date": "2026-10-04T12:50:57.000Z"
+    },
+    {
+      "link": "https://ireaomd.co.kr/blog/젖산-산성-미세환경-면역억제",
+      "lastmod": "2026-10-04T10:01:35.000Z",
+      "title": "젖산과 종양 면역억제",
+      "description": "젖산은 정상 세포도 만드는 대사산물이며, 종양에서는 높은 농도와 산성 환경이 면역 기능에 영향을 줄 수 있습니다. T세포 배양 실험의 최대 95% 억제와 조절 T세포의 대사 적응을 실제 환자 결과와 구분합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/젖산-산성-미세환경-면역억제/img_01.webp",
+      "date": "2026-10-04T10:01:35.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/menopause-tongue-pain-burning-mouth-syndrome",
       "lastmod": "2026-10-04T01:51:57.000Z",
@@ -607,42 +647,42 @@
     {
       "link": "https://ireaomd.co.kr/blog/BCL-2-세놀리틱-노화세포-제거",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "노화세포 제거 치료",
-      "description": "노화세포는 BCL-2 계열 단백질 등을 이용해 세포사멸을 피합니다. 세놀리틱의 생쥐 수명 연구와 사람 대상 시험을 구분하고, 초기 가능성뿐 아니라 1차 평가변수에서 효과를 확인하지 못한 결과도 살펴봅니다.",
-      "image": "https://ireaomd.co.kr/images/blog/BCL-2-세놀리틱-노화세포-제거/img_01.webp",
-      "date": "2026-09-03T11:03:52.000Z"
+      "title": "BCL 2 세놀리틱 노화세포 제거",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/CD47-노화-면역-먹지마라-신호",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "CD47과 면역 청소",
-      "description": "CD47은 대식세포의 포식을 억제하는 신호를 전달합니다. 림프종 초기 시험의 반응과 골수형성이상증후군 3상 시험의 부정적 결과를 비교하며, 서로 다른 암종의 결과를 같은 치료 효과로 읽지 않도록 설명합니다.",
-      "image": "https://ireaomd.co.kr/images/blog/CD47-노화-면역-먹지마라-신호/img_01.webp",
-      "date": "2026-09-03T11:58:52.000Z"
+      "title": "CD47 노화 면역 먹지마라 신호",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/CD24-시글렉10-노화-면역-두번째-표지",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "CD24와 면역 회피",
-      "description": "CD24는 대식세포에게 「먹지 마라」고 알리는 두 번째 표지입니다. 여러 암 가운데 난소암에서 가장 높게 발현되었고, 노화세포도 CD47이 부족할 때 이 표지를 대신 써서 면역 청소를 피합니다.",
-      "image": "https://ireaomd.co.kr/images/blog/CD24-시글렉10-노화-면역-두번째-표지/img_01.webp",
-      "date": "2026-09-04T10:01:52.000Z"
+      "title": "CD24 시글렉10 노화 면역 두번째 표지",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/PD-L1-노화세포-면역감시-회피",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "PD-L1과 노화세포",
-      "description": "노화세포는 PD-L1을 내걸어 T세포 공격을 피합니다. 이 브레이크를 푸는 치료는 진행암 시험 19건에서 65세 이상 6,064명의 사망 위험을 27% 낮췄고, 젊은 환자와 차이가 없었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/PD-L1-노화세포-면역감시-회피/img_01.webp",
-      "date": "2026-09-04T11:03:52.000Z"
+      "title": "PD L1 노화세포 면역감시 회피",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/NKG2D-노화세포-자연살해세포-면역감시",
       "lastmod": "2026-09-09T07:00:11.000Z",
-      "title": "자연살해세포와 노화",
-      "description": "자연살해세포는 스트레스를 받은 세포가 스스로 내거는 표지를 읽고 제거합니다. 일본 일반 인구 3,625명을 11년 추적했을 때 이 활성이 높은 층의 암 발생 상대위험은 0.63이었습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/NKG2D-노화세포-자연살해세포-면역감시/img_01.webp",
-      "date": "2026-09-04T11:58:52.000Z"
+      "title": "NKG2D 노화세포 자연살해세포 면역감시",
+      "description": "",
+      "image": "",
+      "date": "2026-09-09T07:00:11.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/IL-11-염증노화-수명-허브",
@@ -8691,14 +8731,6 @@
       "description": "",
       "image": "",
       "date": "2026-06-10T08:46:57.000Z"
-    },
-    {
-      "link": "https://ireaomd.co.kr/blog/sj-sjogren-treatment-symptoms-joint-221433383219",
-      "lastmod": "2026-06-10T08:46:54.000Z",
-      "title": "sj sjogren treatment symptoms joint",
-      "description": "",
-      "image": "",
-      "date": "2026-06-10T08:46:54.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/sj-sjogren-sinus-221465609018",
