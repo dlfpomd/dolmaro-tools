@@ -1,9 +1,17 @@
 {
   "source": "https://ireaomd.co.kr/sitemap-posts.xml",
-  "generated_at": "2026-10-29T03:00:30.967Z",
-  "total": 1192,
+  "generated_at": "2026-10-30T03:00:29.911Z",
+  "total": 1193,
   "top_detailed": 80,
   "posts": [
+    {
+      "link": "https://ireaomd.co.kr/blog/ivig-autoimmune-molecular-immunological-mechanisms",
+      "lastmod": "2026-10-29T08:38:23.000Z",
+      "title": "IVIG 자가면역질환 면역조절 분자기전",
+      "description": "정맥주사용 면역글로불린(IVIG)은 FcRn 포화, 억제성 FcγRIIB 상향 조절, Asn297 시알산화, 보체 C3b 차단, 항-이디오타입 중화를 통해 자가면역 염증을 억제합니다. 최신 분자생물학적 기전과 한계를 정리합니다.",
+      "image": "https://ireaomd.co.kr/images/blog/ivig-autoimmune-molecular-immunological-mechanisms/img_01.webp",
+      "date": "2026-10-29T08:38:23.000Z"
+    },
     {
       "link": "https://ireaomd.co.kr/blog/구강작열감증후군-먹고-마신-뒤-혀가-더-화끈거릴-때",
       "lastmod": "2026-10-27T07:11:41.000Z",
@@ -639,10 +647,10 @@
     {
       "link": "https://ireaomd.co.kr/blog/bms-혀-갈라짐-치료-필요-없는-건강상태-입니다-균-223094273388",
       "lastmod": "2026-10-15T05:41:39.000Z",
-      "title": "혀 갈라짐(균열설), 치료가 필요한 경우와 관리법",
-      "description": "혀 갈라짐인 균열설은 불편이 없으면 보통 치료가 필요하지 않습니다. 새로 생긴 통증·상처·입마름을 구분하고, 갈라진 틈을 부드럽게 관리하는 방법과 진료가 필요한 경우를 설명합니다. 모양만으로 병을 단정하지 않습니다.",
-      "image": "https://ireaomd.co.kr/images/blog/bms-혀-갈라짐-치료-필요-없는-건강상태-입니다-균/img_01.webp",
-      "date": "2023-05-05T08:14:57.000Z"
+      "title": "bms 혀 갈라짐 치료 필요 없는 건강상태 입니다 균",
+      "description": "",
+      "image": "",
+      "date": "2026-10-15T05:41:39.000Z"
     },
     {
       "link": "https://ireaomd.co.kr/blog/bms-교합-감각이상의-원인과-주의점-신체화-증상의--223051461743",
