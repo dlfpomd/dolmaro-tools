@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "started_at": "2026-11-20T10:00:05+09:00",
-  "finished_at": "2026-11-20T12:06:17+09:00",
+  "started_at": "2026-11-23T10:00:05+09:00",
+  "finished_at": "2026-11-23T12:45:05+09:00",
   "diseases": {
     "구강작열감증후군": {
       "slug": "oral_burning",
@@ -10,9 +10,9 @@
       "summary": {
         "total": 221,
         "checked": 221,
-        "exposed": 186,
-        "not_exposed": 35,
-        "exposure_rate": 0.8416289592760181,
+        "exposed": 189,
+        "not_exposed": 32,
+        "exposure_rate": 0.8552036199095022,
         "by_priority": {
           "최상": {
             "total": 10,
@@ -24,12 +24,12 @@
           },
           "중": {
             "total": 165,
-            "exposed": 137
+            "exposed": 140
           }
         },
         "by_channel": {
-          "blog": 19,
-          "website": 186,
+          "blog": 26,
+          "website": 182,
           "youtube": 0,
           "image": 0
         }
@@ -204,7 +204,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ed%98%80%ec%9d%98-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%bc%ea%b3%bc-%ed%95%a8%ea%bb%98-%ec%99%b8%ec%9d%8c%eb%b6%80-%ec%9e%91%ec%97%b4%ea%b0%90%ea%b9%8c%ec%a7%80-%eb%b2%88%ec%a7%84%eb%8b%a4%eb%a9%b4/",
-            "https://blog.ireaomd.co.kr/"
+            "https://ireaomd.co.kr/about"
           ],
           "priority": "최상",
           "disease": "구강작열감증후군"
@@ -212,16 +212,16 @@
         {
           "keyword": "구강작열감 치료",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd/224484564420"
           ],
           "priority": "상",
           "disease": "구강작열감증후군"
@@ -247,12 +247,16 @@
           "keyword": "구강작열감 치약",
           "checked": true,
           "blog": false,
-          "website": false,
+          "website": true,
           "youtube": false,
           "image": false,
-          "any_exposed": false,
-          "found_where": [],
-          "found_urls": [],
+          "any_exposed": true,
+          "found_where": [
+            "이레한의원(텍스트)"
+          ],
+          "found_urls": [
+            "https://clip.naver.com/@ireaomd"
+          ],
           "priority": "상",
           "disease": "구강작열감증후군"
         },
@@ -277,16 +281,12 @@
           "keyword": "구강작열감증후군 대학병원",
           "checked": true,
           "blog": false,
-          "website": true,
+          "website": false,
           "youtube": false,
           "image": false,
-          "any_exposed": true,
-          "found_where": [
-            "홈페이지(irea.co.kr)"
-          ],
-          "found_urls": [
-            "https://www.irea.co.kr/%eb%8b%b9%eb%87%a8%eb%b3%91-%ed%99%98%ec%9e%90%ec%9d%98-%ed%98%80-%ed%86%b5%ec%a6%9d-%eb%8b%a8%ec%88%9c%ed%95%9c-%ec%9e%85%eb%b3%91%ec%9d%b4-%ec%95%84%eb%8b%8c-%ec%8b%a0%ea%b2%bd%eb%b3%91%ec%a6%9d/"
-          ],
+          "any_exposed": false,
+          "found_where": [],
+          "found_urls": [],
           "priority": "상",
           "disease": "구강작열감증후군"
         },
@@ -321,7 +321,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/",
-            "https://ireaomd.co.kr/topics/autoimmune/ai-connective/sjogren-burning-mouth-syndrome"
+            "https://ireaomd.co.kr/blog/bms-%ed%98%80-%ed%86%b5%ec%a6%9d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90-%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%87%bc%ea%b7%b8%eb%a0%8c-%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%84-%ea%b3%a0%eb%a0%a4%ed%95%b4%ec%95%bc-%ed%95%a0-%ea%b2%bd%ec%9a%b0%ea%b0%80-%ec%9e%88%ec%8a%b5%eb%8b%88%eb%8b%a4-220937292506"
           ],
           "priority": "상",
           "disease": "구강작열감증후군"
@@ -415,8 +415,8 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%eb%aa%87-%eb%8b%ac%ec%a7%b8-%ec%9d%b4%ec%96%b4%ec%a7%80%eb%8a%94-%ed%98%93%eb%b0%94%eb%8b%a5-%ed%86%b5%ec%a6%9d-%ed%98%b9%ec%8b%9c-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90-%ec%a6%9d%ed%9b%84/",
-            "https://ireaomd.co.kr/blog/bms-%ec%9d%b8%ec%b2%9c-%ed%98%80-%ec%b9%98%eb%a3%8c-%ed%95%9c%ec%9d%98%ec%9b%90---%ec%9e%85%ec%95%88%ec%9d%b4-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%ac%eb%a9%b4-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90-%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%86%a1%eb%8f%84-%ec%9d%b4%eb%a0%88-%ed%95%9c%ec%9d%98%ec%9b%90-221103059117"
+            "https://www.irea.co.kr/%ea%b0%91%ec%83%81%ec%84%a0-%ec%a7%88%ed%99%98%ec%9d%b4-%ec%9e%88%eb%8a%94%eb%8d%b0-%ed%98%80%ea%b0%80-3%ea%b0%9c%ec%9b%94-%eb%84%98%ea%b2%8c-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%b0%eb%8b%a4%eb%a9%b4/",
+            "https://ireaomd.co.kr/about"
           ],
           "priority": "상",
           "disease": "구강작열감증후군"
@@ -560,16 +560,16 @@
         {
           "keyword": "혀 통증 원인",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd/224484564420"
           ],
           "priority": "상",
           "disease": "구강작열감증후군"
@@ -624,7 +624,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ed%98%80-%ec%95%84%eb%9e%98-%ed%86%b5%ec%a6%9d%ec%9d%98-%ec%9b%90%ec%9d%b8-7%ea%b0%80%ec%a7%80-%ec%9c%a1%ec%95%88-%ec%9d%b4%ec%83%81-%ec%97%86%ec%9d%84-%eb%95%8c-%ec%9d%98%ec%8b%ac%ed%95%a0/",
-            "https://ireaomd.co.kr/blog/bms-%ed%98%80-%eb%b0%91-%ed%86%b5%ec%a6%9d-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ec%8a%a4%ed%8a%b8%eb%a0%88%ec%8a%a4-%ec%9a%b0%ec%9a%b8-%eb%b6%88%ec%95%88-%eb%b6%88%eb%a9%b4%ea%b3%bc-223270031569"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "상",
           "disease": "구강작열감증후군"
@@ -848,7 +848,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/diagnosis/%ec%9e%85%ec%97%90%ec%84%9c-%ec%a7%a0%eb%a7%9b-%ec%9b%90%ec%9d%b8-%ea%b2%80%ec%82%ac"
+            "https://ireaomd.co.kr/topics/bms/bms-diagnosis/%ec%9e%85%ec%97%90%ec%84%9c-%ec%a7%a0%eb%a7%9b-%eb%82%98%eb%8a%94-%ec%9b%90%ec%9d%b8-%ea%b2%80%ec%82%ac-%ec%b9%98%eb%a3%8c"
           ],
           "priority": "상",
           "disease": "구강작열감증후군"
@@ -879,11 +879,9 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ed%98%80%ea%b0%80-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%ac%eb%8a%94-%ec%9d%b4%ec%9c%a0-%ec%8a%a4%ed%8a%b8%eb%a0%88%ec%8a%a4%ec%99%80-%ec%8b%a0%ea%b2%bd-%ec%86%90%ec%83%81%ec%9d%b4-%ed%98%80-%ed%86%b5/",
             "https://ireaomd.co.kr/blog/%ec%8a%a4%ed%8a%b8%eb%a0%88%ec%8a%a4-%ed%98%80%ed%86%b5%ec%a6%9d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%8b%ac%eb%a6%ac%ec%9a%94%ec%9d%b8"
           ],
           "priority": "상",
@@ -902,7 +900,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ed%98%80%ed%86%b5%ec%a6%9d-%ec%9b%90%ec%9d%b8%ea%b3%bc-%eb%b6%88%eb%a9%b4%ec%a6%9d%ec%9d%98-%ea%b4%80%ea%b3%84-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc/",
+            "https://www.irea.co.kr/%eb%8b%b9%eb%87%a8%eb%b3%91-%ed%99%98%ec%9e%90%ec%9d%98-%ed%98%80-%ed%86%b5%ec%a6%9d-%eb%8b%a8%ec%88%9c%ed%95%9c-%ec%9e%85%eb%b3%91%ec%9d%b4-%ec%95%84%eb%8b%8c-%ec%8b%a0%ea%b2%bd%eb%b3%91%ec%a6%9d/",
             "https://ireaomd.co.kr/topics/bms/bms-sleep/%eb%b6%88%eb%a9%b4%ec%a6%9d-%ec%88%98%eb%a9%b4%eb%b6%80%ec%a1%b1-%ed%98%80%eb%94%b0%ea%b0%80%ec%9b%80-%ec%95%85%ed%99%94-%ec%9b%90%ec%9d%b8"
           ],
           "priority": "상",
@@ -930,9 +928,11 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://www.irea.co.kr/",
             "https://ireaomd.co.kr/blog/sj-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a6%9d%ec%83%81-%ea%b5%ac%ea%b0%95%ea%b3%bc-%ec%9e%85%ec%88%a0-%eb%aa%a9%ec%97%90-%eb%a7%8e%ec%9d%b4-%eb%b0%9c%ec%83%9d-223164150681"
           ],
           "priority": "상",
@@ -1003,7 +1003,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ea%b5%ac%ea%b0%95-%ec%9d%b4%ec%83%81-%ea%b0%90%ea%b0%81-%ec%9e%85%ec%95%88%ec%9d%b4-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%ac%ea%b3%a0-%ed%98%80%ea%b0%80-%ec%a0%9c%eb%a9%8b%eb%8c%80%eb%a1%9c-%ec%9b%80/",
-            "https://ireaomd.co.kr/blog/paper-%ea%b5%ac%ea%b0%95-%ec%9d%b4%ec%83%81%ea%b0%90%ea%b0%81-%ec%9e%85%ec%95%88%ec%9d%b4-%ea%bd%89-%ec%b0%a8%ea%b3%a0-%eb%b6%80%ec%9d%80-%eb%8a%90%eb%82%8c%ec%9d%b8%eb%8d%b0-%ea%b2%80%ec%82%ac%ec%97%90%ec%84%9c%eb%8a%94-%ec%9d%b4%ec%83%81%ec%9d%b4-%ec%97%86%eb%8b%a4%ea%b3%a0-%ed%95%a0-%eb%95%8c-89521828"
+            "https://ireaomd.co.kr/blog/bms-%ea%b5%ac%ea%b0%95-%ec%9d%b4%ec%83%81%ea%b0%90%ea%b0%81%ec%a6%9d%ec%9d%80-%ec%9e%85%ec%95%88%ec%97%90-%ec%9d%b4%eb%ac%bc%ea%b0%90-%eb%81%88%ec%a0%81%ed%95%9c-%eb%8a%90%eb%82%8c--223387323640"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1061,7 +1061,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/bms/",
+            "https://www.irea.co.kr/%ec%9e%85%ec%97%90%ec%84%9c-%ec%93%b4%eb%a7%9b%ec%9d%b4-%eb%82%98%eb%8a%94-5%ea%b0%80%ec%a7%80-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0/",
             "https://ireaomd.co.kr/topics/bms/bms-pathology/%ea%b3%a0%ed%98%88%ec%95%95%ec%95%bd-%ed%98%80%ed%86%b5%ec%a6%9d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0"
           ],
           "priority": "중",
@@ -1076,12 +1076,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%84%ac%ec%9c%a0%ea%b7%bc%ec%9c%a1%ed%86%b5%ec%9d%b4-%ec%9e%88%ec%9c%bc%eb%a9%b4-%ec%99%9c-%ec%9e%85%ea%b3%bc-%ed%98%80-%ed%84%b1%ea%b9%8c%ec%a7%80-%ec%95%84%ed%94%8c%ea%b9%8c%ec%9a%94/",
-            "https://ireaomd.co.kr/blog/bms-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4-%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ea%b1%b4%ea%b0%95%ec%97%bc%eb%a0%a4%ec%a6%9dhypocondriasis-221217415519"
+            "https://ireaomd.co.kr/blog/%eb%b9%84%ec%a0%95%ed%98%95%ec%95%88%eb%a9%b4%ed%86%b5%ec%a6%9d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%98-%ea%b3%b5%ed%86%b5%ec%a0%90%ec%9d%80-%ec%a0%95%ec%8b%a0%ec%8b%a0%ec%b2%b4%ec%a7%88%ed%99%98-222029108795"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1106,16 +1104,16 @@
         {
           "keyword": "구강작열감증후군 구내염",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1205,9 +1203,11 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://www.irea.co.kr/%eb%8b%b9%eb%87%a8%eb%b3%91-%ed%99%98%ec%9e%90%ec%9d%98-%ed%98%80-%ed%86%b5%ec%a6%9d-%eb%8b%a8%ec%88%9c%ed%95%9c-%ec%9e%85%eb%b3%91%ec%9d%b4-%ec%95%84%eb%8b%8c-%ec%8b%a0%ea%b2%bd%eb%b3%91%ec%a6%9d/",
             "https://ireaomd.co.kr/blog/paper-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%b6%88%ec%95%88-%ec%9a%b0%ec%9a%b8-%eb%b6%88%eb%a9%b4%ec%a6%9d%ea%b3%bc-%ea%b4%80%eb%a0%a8%ec%84%b1%ec%9d%b4-%eb%86%92%ec%8a%b5%eb%8b%88%eb%8b%a4-81683117"
           ],
           "priority": "중",
@@ -1222,10 +1222,12 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)"
+            "홈페이지(irea.co.kr)",
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/bms/"
+            "https://www.irea.co.kr/%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%eb%b6%88%ec%95%88%c2%b7%ec%9a%b0%ec%9a%b8%ec%a6%9d%ec%9d%98-%ec%97%b0%ea%b4%80%ec%84%b1-%eb%8f%99%eb%b0%98/",
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1273,17 +1275,15 @@
         {
           "keyword": "구강작열감증후군 비타민B12",
           "checked": true,
-          "blog": true,
+          "blog": false,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://blog.naver.com/dlfpomd",
             "https://ireaomd.co.kr/topics/bms/bms-treatment/bms-tongue-pain-nutrition-supplements"
           ],
           "priority": "중",
@@ -1301,7 +1301,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://ireaomd.co.kr/topics/bms/bms-treatment/bms-drug-types"
+            "https://ireaomd.co.kr/blog/%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90-%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%98%80-%ed%86%b5%ec%a6%9d%ec%97%90-%ec%82%ac%ec%9a%a9%ed%95%98%eb%8a%94-%eb%a6%ac%eb%b3%b4%ed%8a%b8%eb%a6%b4-%ec%a3%bc%ec%9d%98%ed%95%a0-%ec%a0%90%ec%9d%80-222253072566"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1337,7 +1337,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://ireaomd.co.kr/topics/bms/bms-diagnosis/bms-glossitis-simultaneous-diagnosis"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1446,7 +1446,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9b%90%ec%9d%b8-3%ea%b0%80%ec%a7%80-%ec%8b%ac%eb%a6%ac%ec%a0%81-%ec%9a%94%ec%9d%b8%ec%9d%b4-80-%ec%b0%a8%ec%a7%80%ed%95%98/",
+            "https://www.irea.co.kr/%ec%84%ac%ec%9c%a0%ea%b7%bc%ec%9c%a1%ed%86%b5%ea%b3%bc-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90-%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%86%b5%ec%a6%9d%ec%9d%84-%eb%8d%94-%ed%81%ac%ea%b2%8c-%eb%8a%90/",
             "https://ireaomd.co.kr/blog/paper-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ec%9a%b0%ec%9a%b8%ec%a6%9d%ec%9d%98-%ea%b4%80%eb%a0%a8%ec%84%b1-%ed%98%80%ec%9d%98-%ed%86%b5%ec%a6%9d%ea%b3%bc-%eb%a7%88%ec%9d%8c%ec%9d%80-%ec%96%b4%eb%96%bb%ea%b2%8c-%ec%96%bd%ed%9e%88%eb%8a%94%ea%b0%80-83601847"
           ],
           "priority": "중",
@@ -1510,13 +1510,17 @@
         {
           "keyword": "구강작열감증후군 혀 앞쪽 통증",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": false,
           "youtube": false,
           "image": false,
-          "any_exposed": false,
-          "found_where": [],
-          "found_urls": [],
+          "any_exposed": true,
+          "found_where": [
+            "블로그(dlfpomd)"
+          ],
+          "found_urls": [
+            "https://blog.naver.com/dlfpomd"
+          ],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -1534,7 +1538,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%9e%85%ec%97%90%ec%84%9c-%ec%93%b4%eb%a7%9b%ec%9d%b4-%eb%82%98%eb%8a%94-5%ea%b0%80%ec%a7%80-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0/",
-            "https://ireaomd.co.kr/topics/bms/bms-pathology/oral-burning-mouth-syndrome-mental-health"
+            "https://ireaomd.co.kr/topics/bms/bms-treatment/bms-drug-types"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1644,7 +1648,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%eb%8b%b9%eb%87%a8%ea%b0%80-%ec%9e%88%eb%8a%94%eb%8d%b0-%ed%98%80%ea%b0%80-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%ac%ea%b3%a0-%ec%95%84%ed%94%84%eb%8b%a4%eb%a9%b4-%eb%8b%a8%ec%88%9c%ed%95%9c-%ed%98%80/",
-            "https://ireaomd.co.kr/blog/paper-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%b6%88%ec%95%88-%ec%9a%b0%ec%9a%b8-%eb%b6%88%eb%a9%b4%ec%a6%9d%ea%b3%bc-%ea%b4%80%eb%a0%a8%ec%84%b1%ec%9d%b4-%eb%86%92%ec%8a%b5%eb%8b%88%eb%8b%a4-81683117"
+            "https://ireaomd.co.kr/topics/bms/bms-features/bms-prevalence-not-rare"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1753,7 +1757,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%eb%af%b8%ea%b0%81%ec%83%81%ec%8b%a4-%eb%af%b8%ea%b0%81%ec%9d%b4%ec%83%81%ec%9d%98-%ec%9b%90%ec%9d%b8-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%b4-%ec%9e%88/",
+            "https://www.irea.co.kr/bms/",
             "https://ireaomd.co.kr/blog/%ec%9e%85%eb%a7%9b%ec%9d%b4-%eb%8b%ac%eb%9d%bc%ec%a1%8c%eb%8b%a4%eb%a9%b4-%eb%af%b8%ea%b0%81%ec%9d%b4%ec%83%81%ec%a6%9d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0"
           ],
           "priority": "중",
@@ -1822,7 +1826,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%96%91%ec%b9%98-%ed%9b%84%ec%97%90-%ed%98%80%ea%b0%80-%eb%8d%94-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%b0%eb%8b%a4%eb%a9%b4-%ec%b9%98%ec%95%bd-%ec%84%b1%eb%b6%84%ec%9d%84-%ec%9d%98%ec%8b%ac%ed%95%b4/",
-            "https://ireaomd.co.kr/topics/bms/bms-diagnosis/bms-oral-dryness-and-bitterness"
+            "https://ireaomd.co.kr/topics/bms/bms-symptoms/%ec%9e%85%ec%9d%b4-%ed%85%81%ed%85%81%ed%95%98%ea%b3%a0-%eb%96%ab%ec%9d%80-%eb%a7%9b-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1843,7 +1847,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%9e%84%ed%94%8c%eb%9e%80%ed%8a%b8-%ed%9b%84-%ed%98%80-%ec%b8%a1%eb%a9%b4-%ed%86%b5%ec%a6%9d-3%ea%b0%9c%ec%9b%94-%ec%a7%80%ec%86%8d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84/",
-            "https://ireaomd.co.kr/blog/%ed%98%80-%ed%86%b5%ec%a6%9d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a0%84%ec%8b%a0%ec%a0%81%ec%9d%b8-%eb%ac%b8%ec%a0%9c-%ed%86%b5%ec%a6%9d-%ec%8a%a4%ed%8a%b8%eb%a0%88%ec%8a%a4-%ed%9a%8c%eb%a1%9c"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1870,18 +1874,16 @@
         {
           "keyword": "구강작열감증후군 진단이 오래",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
-            "홈페이지(ireaomd.co.kr)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ed%98%80-%ed%86%b5%ec%a6%9d-%ec%a7%84%eb%8b%a8%ec%9d%84-%ec%9c%84%ed%95%9c-%eb%b3%91%ec%9b%90-%ea%b2%80%ec%82%ac-%ed%95%ad%eb%aa%a9-%ec%99%84%ec%a0%84-%ea%b0%80%ec%9d%b4%eb%93%9c-%ea%b5%ac%ea%b0%95/",
-            "https://ireaomd.co.kr/blog/bms-diagnosis-delay-223873267532"
+            "https://blog.naver.com/dlfpomd"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1899,8 +1901,8 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9b%90%ec%9d%b8-3%ea%b0%80%ec%a7%80-%ec%8b%ac%eb%a6%ac%ec%a0%81-%ec%9a%94%ec%9d%b8%ec%9d%b4-80-%ec%b0%a8%ec%a7%80%ed%95%98/",
-            "https://blog.ireaomd.co.kr/"
+            "https://www.irea.co.kr/%ec%9e%85%ec%97%90%ec%84%9c-%ec%93%b4%eb%a7%9b%ec%9d%b4-%eb%82%98%eb%8a%94-5%ea%b0%80%ec%a7%80-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0/",
+            "https://ireaomd.co.kr/topics/bms/bms-symptoms/bms-taste-disorder-symptoms"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -1909,12 +1911,16 @@
           "keyword": "구강작열감증후군 치약",
           "checked": true,
           "blog": false,
-          "website": false,
+          "website": true,
           "youtube": false,
           "image": false,
-          "any_exposed": false,
-          "found_where": [],
-          "found_urls": [],
+          "any_exposed": true,
+          "found_where": [
+            "이레한의원(텍스트)"
+          ],
+          "found_urls": [
+            "https://clip.naver.com/@ireaomd"
+          ],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -2061,7 +2067,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ed%98%80-%ea%b0%80%ec%9a%b4%eb%8d%b0-%ed%86%b5%ec%a6%9d-3%ea%b0%9c%ec%9b%94-%ec%9d%b4%ec%83%81-%ec%a7%80%ec%86%8d%ec%8b%9c-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90/",
-            "https://ireaomd.co.kr/blog/%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%a8%b9%ea%b3%a0-%eb%a7%88%ec%8b%a0-%eb%92%a4-%ed%98%80%ea%b0%80-%eb%8d%94-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%b4-%eb%95%8c"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -2293,16 +2299,12 @@
           "keyword": "입안이 써요",
           "checked": true,
           "blog": false,
-          "website": true,
+          "website": false,
           "youtube": false,
           "image": false,
-          "any_exposed": true,
-          "found_where": [
-            "이레한의원(텍스트)"
-          ],
-          "found_urls": [
-            "https://clip.naver.com/@ireaomd"
-          ],
+          "any_exposed": false,
+          "found_where": [],
+          "found_urls": [],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -2357,16 +2359,12 @@
           "keyword": "입에서 단맛 원인",
           "checked": true,
           "blog": false,
-          "website": true,
+          "website": false,
           "youtube": false,
           "image": false,
-          "any_exposed": true,
-          "found_where": [
-            "홈페이지(ireaomd.co.kr)"
-          ],
-          "found_urls": [
-            "https://blog.ireaomd.co.kr/"
-          ],
+          "any_exposed": false,
+          "found_where": [],
+          "found_urls": [],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -2650,12 +2648,16 @@
           "keyword": "입이 쓴 이유 항생제",
           "checked": true,
           "blog": false,
-          "website": false,
+          "website": true,
           "youtube": false,
           "image": false,
-          "any_exposed": false,
-          "found_where": [],
-          "found_urls": [],
+          "any_exposed": true,
+          "found_where": [
+            "홈페이지(irea.co.kr)"
+          ],
+          "found_urls": [
+            "https://www.irea.co.kr/%ec%9e%85%ec%9d%b4-%ec%93%b4-%ec%9d%b4%ec%9c%a0-3%ea%b0%9c%ec%9b%94-%ec%9d%b4%ec%83%81-%ec%a7%80%ec%86%8d%eb%90%9c%eb%8b%a4%eb%a9%b4-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84/"
+          ],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -2709,7 +2711,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/1%ed%98%95-%eb%8b%b9%eb%87%a8-%ed%99%98%ec%9e%90-%ed%98%80%ec%97%90-%eb%b0%b1%ed%83%9c%ea%b0%80-%ec%95%84%ed%94%84%eb%8b%a4%eb%a9%b4-%ec%a7%80%eb%8f%84%ec%84%a4%ec%9d%84-%ec%9d%98%ec%8b%ac%ed%95%b4/",
-            "https://ireaomd.co.kr/blog/paper-%ec%a7%80%eb%8f%84%ec%84%a4%ec%9d%80-%ec%99%9c-%ec%83%9d%ea%b8%b8%ea%b9%8c-%eb%b0%9c%ec%83%9d-%ec%9c%84%ed%97%98-%ec%9a%94%ec%9d%b8%ea%b3%bc-%eb%8f%99%eb%b0%98-%ec%a7%88%ed%99%98-84296949"
+            "https://ireaomd.co.kr/topics/autoimmune/ai-endocrine/1%ed%98%95-%eb%8b%b9%eb%87%a8-%ec%a7%80%eb%8f%84%ec%84%a4-%ec%b9%98%eb%a3%8c-%ea%b4%80%eb%a6%ac"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -2740,12 +2742,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
-            "홈페이지(ireaomd.co.kr)"
+            "홈페이지(irea.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/1%ed%98%95-%eb%8b%b9%eb%87%a8-%ed%99%98%ec%9e%90-%ed%98%80%ec%97%90-%eb%b0%b1%ed%83%9c%ea%b0%80-%ec%95%84%ed%94%84%eb%8b%a4%eb%a9%b4-%ec%a7%80%eb%8f%84%ec%84%a4%ec%9d%84-%ec%9d%98%ec%8b%ac%ed%95%b4/",
-            "https://ireaomd.co.kr/conditions/ai/geographic-fissured-tongue"
+            "https://www.irea.co.kr/1%ed%98%95-%eb%8b%b9%eb%87%a8-%ed%99%98%ec%9e%90-%ed%98%80%ec%97%90-%eb%b0%b1%ed%83%9c%ea%b0%80-%ec%95%84%ed%94%84%eb%8b%a4%eb%a9%b4-%ec%a7%80%eb%8f%84%ec%84%a4%ec%9d%84-%ec%9d%98%ec%8b%ac%ed%95%b4/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -2934,7 +2934,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ed%98%80-%ec%95%84%eb%9e%98-%ed%86%b5%ec%a6%9d%ec%9d%98-%ec%9b%90%ec%9d%b8-7%ea%b0%80%ec%a7%80-%ec%9c%a1%ec%95%88-%ec%9d%b4%ec%83%81-%ec%97%86%ec%9d%84-%eb%95%8c-%ec%9d%98%ec%8b%ac%ed%95%a0/",
-            "https://ireaomd.co.kr/blog/bms-%ed%98%80-%eb%b0%91-%ed%86%b5%ec%a6%9d-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ec%8a%a4%ed%8a%b8%eb%a0%88%ec%8a%a4-%ec%9a%b0%ec%9a%b8-%eb%b6%88%ec%95%88-%eb%b6%88%eb%a9%b4%ea%b3%bc-223270031569"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3027,9 +3027,11 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://www.irea.co.kr/%ed%98%80-%ec%b8%a1%eb%a9%b4-%ed%86%b5%ec%a6%9d-%ec%99%bc%ec%aa%bd-%ec%98%a4%eb%a5%b8%ec%aa%bd-%ed%95%9c%ec%aa%bd%eb%a7%8c-%ec%95%84%ed%94%88-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ea%b5%ac%ea%b0%95%ec%9e%91/",
             "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
@@ -3044,10 +3046,12 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)"
+            "홈페이지(irea.co.kr)",
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%9e%84%ed%94%8c%eb%9e%80%ed%8a%b8-%ed%9b%84-%ed%98%80-%ec%b8%a1%eb%a9%b4-%ed%86%b5%ec%a6%9d-3%ea%b0%9c%ec%9b%94-%ec%a7%80%ec%86%8d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84/"
+            "https://www.irea.co.kr/%ec%9e%84%ed%94%8c%eb%9e%80%ed%8a%b8-%ed%9b%84-%ed%98%80-%ec%b8%a1%eb%a9%b4-%ed%86%b5%ec%a6%9d-3%ea%b0%9c%ec%9b%94-%ec%a7%80%ec%86%8d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90%ec%a6%9d%ed%9b%84/",
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3136,7 +3140,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ed%98%80-%ec%b8%a1%eb%a9%b4-%ed%86%b5%ec%a6%9d%ec%9d%98-%eb%91%90-%ea%b0%80%ec%a7%80-%ec%9b%90%ec%9d%b8-%eb%a6%bc%ed%94%84%ec%a1%b0%ec%a7%81-%ec%a6%9d%ec%8b%9d%ec%a6%9d%ea%b3%bc-%ea%b5%ac%ea%b0%95/",
-            "https://ireaomd.co.kr/blog/bms-tongue-stress-223932397551"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3150,10 +3154,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3226,12 +3230,16 @@
           "keyword": "혀가 얼얼",
           "checked": true,
           "blog": false,
-          "website": false,
+          "website": true,
           "youtube": false,
           "image": false,
-          "any_exposed": false,
-          "found_where": [],
-          "found_urls": [],
+          "any_exposed": true,
+          "found_where": [
+            "홈페이지(ireaomd.co.kr)"
+          ],
+          "found_urls": [
+            "https://ireaomd.co.kr/blog/%ec%9e%85%ec%88%a0%ec%9d%b4-%ec%96%bc%ec%96%bc%ed%95%98%ea%b3%a0-%ed%98%80%ea%b0%80-%ec%96%bc%ec%96%bc%ed%95%9c-%ec%a6%9d%ec%83%81-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ec%9d%b4%ec%9c%a0%ea%b0%80-%ec%9e%88%ec%8a%b5%eb%8b%88%eb%8b%a4-224300494158"
+          ],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -3386,16 +3394,12 @@
           "keyword": "혀통증 갈라짐",
           "checked": true,
           "blog": false,
-          "website": true,
+          "website": false,
           "youtube": false,
           "image": false,
-          "any_exposed": true,
-          "found_where": [
-            "이레한의원(텍스트)"
-          ],
-          "found_urls": [
-            "https://clip.naver.com/@ireaomd"
-          ],
+          "any_exposed": false,
+          "found_where": [],
+          "found_urls": [],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -3465,10 +3469,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)"
+            "이레한의원(텍스트)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ed%98%80-%ea%b0%80%ec%9a%b4%eb%8d%b0-%ed%86%b5%ec%a6%9d-3%ea%b0%9c%ec%9b%94-%ec%9d%b4%ec%83%81-%ec%a7%80%ec%86%8d%ec%8b%9c-%ec%9b%90%ec%9d%b8%ea%b3%bc-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90/"
+            "https://clip.naver.com/@ireaomd"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3477,12 +3481,16 @@
           "keyword": "혀통증 구강건조",
           "checked": true,
           "blog": false,
-          "website": false,
+          "website": true,
           "youtube": false,
           "image": false,
-          "any_exposed": false,
-          "found_where": [],
-          "found_urls": [],
+          "any_exposed": true,
+          "found_where": [
+            "이레한의원(텍스트)"
+          ],
+          "found_urls": [
+            "https://clip.naver.com/@ireaomd"
+          ],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
@@ -3530,7 +3538,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%eb%8b%b9%eb%87%a8%ea%b0%80-%ec%9e%88%eb%8a%94%eb%8d%b0-%ed%98%80%ea%b0%80-%ed%99%94%eb%81%88%ea%b1%b0%eb%a6%ac%ea%b3%a0-%ec%95%84%ed%94%84%eb%8b%a4%eb%a9%b4-%eb%8b%a8%ec%88%9c%ed%95%9c-%ed%98%80/",
-            "https://ireaomd.co.kr/topics/bms/bms-pathology/diabetes-tongue-pain-cause"
+            "https://ireaomd.co.kr/topics/bms/bms-treatment/%eb%8b%b9%eb%87%a8-%ed%98%80%ed%86%b5%ec%a6%9d-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90-%ec%b9%98%eb%a3%8c"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3574,29 +3582,33 @@
         {
           "keyword": "혀통증 빈혈",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": false,
           "youtube": false,
           "image": false,
-          "any_exposed": false,
-          "found_where": [],
-          "found_urls": [],
+          "any_exposed": true,
+          "found_where": [
+            "블로그(dlfpomd)"
+          ],
+          "found_urls": [
+            "https://blog.naver.com/dlfpomd"
+          ],
           "priority": "중",
           "disease": "구강작열감증후군"
         },
         {
           "keyword": "혀통증 설염",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3685,7 +3697,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ed%98%80-%ec%95%84%eb%9e%98-%ed%86%b5%ec%a6%9d%ec%9d%98-%ec%9b%90%ec%9d%b8-7%ea%b0%80%ec%a7%80-%ec%9c%a1%ec%95%88-%ec%9d%b4%ec%83%81-%ec%97%86%ec%9d%84-%eb%95%8c-%ec%9d%98%ec%8b%ac%ed%95%a0/",
-            "https://ireaomd.co.kr/topics/bms/bms-pathology/lpr-bms-tongue-pain"
+            "https://ireaomd.co.kr/topics/bms/bms-pathology/bms-migraine-connection"
           ],
           "priority": "중",
           "disease": "구강작열감증후군"
@@ -3710,16 +3722,18 @@
         {
           "keyword": "혀통증 인천",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%eb%aa%87-%eb%8b%ac%ec%a7%b8-%ec%9d%b4%ec%96%b4%ec%a7%80%eb%8a%94-%ed%98%93%eb%b0%94%eb%8b%a5-%ed%86%b5%ec%a6%9d-%ed%98%b9%ec%8b%9c-%ea%b5%ac%ea%b0%95%ec%9e%91%ec%97%b4%ea%b0%90-%ec%a6%9d%ed%9b%84/",
             "https://ireaomd.co.kr/blog/bms-%ed%98%80-%ea%b0%88%eb%9d%bc%ec%a7%90---%ed%98%80-%ed%86%b5%ec%a6%9d%ea%b3%bc-%ea%b4%80%eb%a0%a8%ec%9d%b4-%ec%97%86%ec%9d%84-%ec%88%98%eb%8f%84-%ec%9e%88%ec%8a%b5%eb%8b%88%eb%8b%a4-%ec%9d%b8%ec%b2%9c-%ec%9d%b4%eb%a0%88-%ed%95%9c%ec%9d%98%ec%9b%90-220928062094"
           ],
@@ -3836,892 +3850,85 @@
       "delta": {
         "newly_exposed": [
           {
-            "keyword": "구강작열감",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 원인",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 증상",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 치료",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "미각이상",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀 통증",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀통증",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감 영양제",
+            "keyword": "구강작열감 치약",
             "priority": "상",
             "found_where": [
               "이레한의원(텍스트)"
             ]
           },
           {
-            "keyword": "구강작열감 치료",
-            "priority": "상",
+            "keyword": "구강작열감증후군 치약",
+            "priority": "중",
             "found_where": [
               "이레한의원(텍스트)"
             ]
           },
           {
-            "keyword": "구강작열감증후군 구강건조",
-            "priority": "상",
+            "keyword": "구강작열감증후군 혀 앞쪽 통증",
+            "priority": "중",
+            "found_where": [
+              "블로그(dlfpomd)"
+            ]
+          },
+          {
+            "keyword": "입이 쓴 이유 항생제",
+            "priority": "중",
+            "found_where": [
+              "홈페이지(irea.co.kr)"
+            ]
+          },
+          {
+            "keyword": "혀가 얼얼",
+            "priority": "중",
+            "found_where": [
+              "홈페이지(ireaomd.co.kr)"
+            ]
+          },
+          {
+            "keyword": "혀통증 구강건조",
+            "priority": "중",
             "found_where": [
               "이레한의원(텍스트)"
             ]
           },
+          {
+            "keyword": "혀통증 빈혈",
+            "priority": "중",
+            "found_where": [
+              "블로그(dlfpomd)"
+            ]
+          }
+        ],
+        "newly_lost": [
           {
             "keyword": "구강작열감증후군 대학병원",
             "priority": "상",
-            "found_where": [
+            "previously_where": [
               "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 미각이상",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 완치",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 입마름",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 치료기간",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "미각 이상 원인",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "미각장애",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "이상미각",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "이상미각증",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "입안 쓴맛",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입안 짠맛",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "입에서 쓴맛",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "지도설",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀 따가움",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀 아래 통증",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 옆 통증",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 통증 따가움",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀 통증 원인",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀끝 통증",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀통증 불면증",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 비타민B12",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 쇼그렌증후군",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 치료방법",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증치료법",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강이상감각",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 구내염",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 따가움 화끈거림",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 목구멍 화끈거림",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 백태",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 불안증",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 비타민B12",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 사용되는 약물",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 삼차신경통",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 술",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 심리",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 얼굴 통증",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 여성",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 영양제",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 음식",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 이비인후과",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 이상감각증",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 입안 화끈거림",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 침",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 혀끝 갈라짐",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 혀끝 통증",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 혓바닥 가운데",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 혓바닥 혀바닥",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구강작열감증후군 화끈거림 입안",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "구함증",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "구함증 한의원",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "미각장애 원인",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입안 쓴맛 나는 이유",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입안 쓴맛 치료",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
             ]
           },
           {
             "keyword": "입안이 써요",
             "priority": "중",
-            "found_where": [
+            "previously_where": [
               "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입안이 써요 원인",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입에서 단맛 날 때",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
             ]
           },
           {
             "keyword": "입에서 단맛 원인",
             "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "입에서 신맛",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입에서 신맛 나는 이유",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입에서 신맛 쓴맛",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입에서 쓴맛이 나면",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입에서 짠 침",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "입에서 짠맛이 느껴져요",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "입에서 짠맛이 느껴질때",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "입이 쓴 경우",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입이 쓴 느낌",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "입이 짠 이유",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "입이 짠 증상",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "지도설 병원",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "지도설 원인",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "지도설 치료",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "지도설 혀",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀 따가움 치료",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀 미각 이상",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 뿌리 통증",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 뿌리 통증 병원",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 아래 통증 병원",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 아래 통증 약",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 아래 통증 원인",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 얼얼한 느낌",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 얼얼한 증상",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 옆 통증 약",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 옆 통증 원인",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 저림 병원",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 저림 원인",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 저림 이유",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 지도설",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀 측면 통증",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀 통증 목 통증",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀가 아파요 원인",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀가 아플때",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀가 얼얼한 원인",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀끝 통증 약",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀끝 통증 원인",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀뿌리 통증 귀통증",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀에서 쓴맛",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀에서 쓴맛이 날때",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
+            "previously_where": [
               "홈페이지(ireaomd.co.kr)"
             ]
           },
           {
             "keyword": "혀통증 갈라짐",
             "priority": "중",
-            "found_where": [
+            "previously_where": [
               "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀통증 갱년기",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 계속되는 이유",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 구내염",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀통증 목구멍 타는",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 설염",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀통증 설인신경통",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 신경",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀통증 역류성 식도염",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 이상미각증",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 입마름",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "혀통증 침치료",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 코로나 감염",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "혀통증 편두통",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
             ]
           }
-        ],
-        "newly_lost": []
+        ]
       }
     },
     "쇼그렌증후군": {
@@ -4749,8 +3956,8 @@
           }
         },
         "by_channel": {
-          "blog": 74,
-          "website": 251,
+          "blog": 89,
+          "website": 247,
           "youtube": 0,
           "image": 0
         }
@@ -4850,10 +4057,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome?faqpage=3"
           ],
           "priority": "최상",
           "disease": "쇼그렌증후군"
@@ -5056,9 +4263,11 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://www.irea.co.kr/%eb%82%ab%ec%a7%80-%ec%95%8a%eb%8a%94-%ec%b9%a8%ec%83%98%ec%97%bc%ea%b3%bc-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b0%91%ec%83%81%ec%84%a0-%eb%b0%a9%ec%82%ac%ec%84%a0-%ec%b9%98/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/related-conditions/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b0%91%ec%83%81%ec%84%a0%ec%a7%88%ed%99%98-%ec%97%b0%ea%b4%80%ec%84%b1"
           ],
           "priority": "상",
@@ -5073,10 +4282,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "홈페이지(irea.co.kr)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://www.irea.co.kr/lupus/"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5149,12 +4358,14 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "블로그(xkjbaeakds)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://blog.naver.com/xkjbaeakds",
-            "https://blog.ireaomd.co.kr/"
+            "https://ireaomd.co.kr/blog/sj-sjogren-220974348248"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5177,7 +4388,7 @@
             "https://blog.naver.com/dlfpomd",
             "https://blog.naver.com/xkjbaeakds",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8%ec%9d%84-%eb%b0%9b%ec%9c%bc%eb%a9%b4-%ec%b2%98%ec%9d%8c%ec%97%90-%ec%96%b4%eb%96%a4-%ec%95%bd%ec%9d%84-%eb%a8%b9%ea%b2%8c/",
-            "https://blog.ireaomd.co.kr/"
+            "https://ireaomd.co.kr/blog/sj-sjogren-symptoms-bladder-220753007147"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5185,18 +4396,16 @@
         {
           "keyword": "쇼그렌증후군 연수구",
           "checked": true,
-          "blog": true,
+          "blog": false,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/",
             "https://ireaomd.co.kr/programs/sjogren-syndrome"
           ],
@@ -5206,15 +4415,17 @@
         {
           "keyword": "쇼그렌증후군 신경학적인 증상",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://blog.ireaomd.co.kr/"
           ],
           "priority": "상",
@@ -5285,7 +4496,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/sjogren-digestive-symptoms-common"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/sjogren-digestive-symptoms-causes"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5329,16 +4540,18 @@
         {
           "keyword": "쇼그렌증후군 근육통",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90%ec%9d%98-%ec%9d%b4%ec%9c%a0-%ec%97%86%eb%8a%94-%ea%b7%bc%ec%9c%a1%ed%86%b5%ea%b3%bc-%ea%b7%bc%eb%a0%a5-%ec%95%bd%ed%99%94/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b7%bc%ec%9c%a1%ed%86%b5-%ec%84%ac%ec%9c%a0%ea%b7%bc%ec%9c%a1%ed%86%b5"
           ],
@@ -5359,7 +4572,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%98%a4%eb%9e%98%ea%b0%80%eb%8a%94-%eb%a7%88%eb%a5%b8-%ea%b8%b0%ec%b9%a8%ea%b3%bc-%ec%9a%b0%ec%9a%b8%ec%a6%9d-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%84-%ec%9d%98%ec%8b%ac/",
-            "https://ireaomd.co.kr/blog/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a0%95%ec%8b%a0%ec%a6%9d%ec%83%81-%ec%9a%b0%ec%9a%b8-%eb%b6%88%ec%95%88-%ec%9d%b8%ea%b3%bc%ea%b4%80%ea%b3%84-%eb%a9%98%eb%8d%b8%eb%ac%b4%ec%9e%91%ec%9c%84%ed%99%94"
+            "https://ireaomd.co.kr/blog/paper-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%98-%ec%9a%b0%ec%9a%b8%ea%b3%bc-%eb%b6%88%ec%95%88%ec%9d%80-%ec%96%bc%eb%a7%88%eb%82%98-%ed%9d%94%ed%95%9c%ea%b0%80-286%eb%aa%85-%eb%b6%84%ec%84%9d%ea%b3%bc-%eb%a7%90%ec%b4%88%ec%8b%a0%ea%b2%bd%eb%b3%91%ec%a6%9d%ec%9d%98-%ec%97%ad%ed%95%a0-86274726"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5407,10 +4620,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/lifestyle/sjogren-stress-vaccine-impact"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5437,10 +4650,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://ireaomd.co.kr/blog/sj-sjogren-diet-220868004918"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5457,7 +4670,7 @@
             "홈페이지(irea.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%b9%98%eb%a3%8c-%ec%9b%90%eb%a6%ac-%ed%95%9c%ec%95%bd%ec%9d%b4-tlr9-%eb%86%8d%eb%8f%84%eb%a5%bc-%ec%a4%84%ec%97%ac-%eb%a9%b4%ec%97%ad%ec%9d%84/"
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%9c%ec%95%bd-%ec%b9%98%eb%a3%8c-%ed%9a%a8%ea%b3%bc-320%eb%aa%85-%eb%8c%80%ec%83%81-%eb%8c%80%ea%b7%9c%eb%aa%a8-rct-%eb%85%bc%eb%ac%b8/"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5510,7 +4723,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8%ec%9d%84-%eb%b0%9b%ec%9c%bc%eb%a9%b4-%ec%b2%98%ec%9d%8c%ec%97%90-%ec%96%b4%eb%96%a4-%ec%95%bd%ec%9d%84-%eb%a8%b9%ea%b2%8c/",
-            "https://ireaomd.co.kr/blog/sj-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8-20%eb%8c%80-30%eb%8c%80%ec%97%90%eb%8f%84-%ea%b0%80%eb%8a%a5%ed%95%a9%eb%8b%88%eb%8b%a4-223597235214"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5524,10 +4737,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)"
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8-%ea%b2%80%ec%82%ac-%eb%b0%a9%eb%b2%95-%ec%a1%b0%ec%a7%81%ea%b2%80%ec%82%ac-%ea%bc%ad-%ed%95%b4%ec%95%bc-%ed%95%98%eb%82%98/"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5535,16 +4748,16 @@
         {
           "keyword": "쇼그렌증후군 진단 자가항체",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(ireaomd.co.kr)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://blog.ireaomd.co.kr/"
+            "https://blog.naver.com/dlfpomd"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5609,15 +4822,17 @@
         {
           "keyword": "쇼그렌증후군 치료 목표",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/sjogren/"
           ],
           "priority": "상",
@@ -5643,16 +4858,18 @@
         {
           "keyword": "쇼그렌증후군 치료약",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%95%bd-%ec%96%b4%eb%94%94%ea%b9%8c%ec%a7%80-%ea%bc%ad-%eb%a8%b9%ec%96%b4%ec%95%bc-%ed%95%a0%ea%b9%8c%ec%9a%94/",
             "https://ireaomd.co.kr/blog/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%95%bd%ec%9d%84-%eb%a8%b9%ec%96%b4%eb%8f%84-%ed%94%bc%eb%a1%9c%ec%99%80-%ea%b4%80%ec%a0%88%ed%86%b5%ec%9d%b4-%ea%b0%80%ec%8b%9c%ec%a7%80-%ec%95%8a%ec%9d%84-%eb%95%8c"
           ],
@@ -5806,16 +5023,16 @@
         {
           "keyword": "쇼그렌증후군 유전",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd"
           ],
           "priority": "상",
           "disease": "쇼그렌증후군"
@@ -5823,15 +5040,17 @@
         {
           "keyword": "쇼그렌증후군 유전병",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://blog.ireaomd.co.kr/"
           ],
           "priority": "상",
@@ -5923,7 +5142,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90%ec%9d%98-54%ed%8d%bc%ec%84%bc%ed%8a%b8%ea%b0%80-%ea%b2%aa%eb%8a%94-%eb%b3%80%eb%b9%84-%eb%8b%a8%ec%88%9c%ed%95%9c-%ec%86%8c/",
-            "https://ireaomd.co.kr/blog/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9c%84%ec%9e%a5%ec%a6%9d%ec%83%81-%ec%b5%9c%ea%b7%bc%ec%a7%80%ea%b2%ac"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/lifestyle/sjogren-flour-stomach-discomfort"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -5979,9 +5198,11 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://www.irea.co.kr/%ea%b1%b4%ec%a1%b0-%ec%a6%9d%ec%83%81-%ec%97%86%ec%9d%b4-%ec%8b%a0%ec%9e%a5-%eb%ac%b8%ec%a0%9c%eb%a1%9c-%eb%a8%bc%ec%a0%80-%eb%93%9c%eb%9f%ac%eb%82%98%eb%8a%94-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d/",
             "https://ireaomd.co.kr/blog/paper-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%97%90-%ea%b2%b9%ec%b9%9c-anca-%ed%98%88%ea%b4%80%ec%97%bc-%ea%b1%b4%ea%b0%95%ea%b2%80%ec%a7%84-%ec%86%8c%eb%b3%80%ea%b2%80%ec%82%ac%ec%97%90%ec%84%9c-%ed%98%88%eb%87%a8%ec%99%80-%eb%8b%a8%eb%b0%b1%eb%87%a8%ea%b0%80-%eb%82%98%ec%99%94%ec%9d%84-%eb%95%8c-88418361"
           ],
           "priority": "중",
@@ -6051,16 +5272,18 @@
         {
           "keyword": "쇼그렌증후군 RF",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%b9%98%eb%a3%8c%ec%99%80-%ec%a7%84%eb%8b%a8-%eb%a5%98%eb%a7%88%ed%8b%b0%ec%8a%a4-%ec%9d%b8%ec%9e%90rf-%ec%88%98%ec%b9%98%ea%b0%80-%ec%9d%98/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/diagnosis/sjogren-rheumatoid-factor-meaning"
           ],
@@ -6082,7 +5305,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%eb%b6%80%ec%8b%a0-%ed%98%b8%eb%a5%b4%eb%aa%ac-dhea-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ec%96%b4%eb%96%a4-%ea%b4%80%eb%a0%a8%ec%9d%b4-%ec%9e%88%ec%9d%84%ea%b9%8c%ec%9a%94/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90%ea%b0%80-%eb%b0%98%eb%93%9c%ec%8b%9c-%ec%86%8c%ea%b8%88%ec%9d%84-%ec%a4%84%ec%97%ac%ec%95%bc-%ed%95%98%eb%8a%94-%ec%9d%98/",
             "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
@@ -6199,7 +5422,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%b4-%ec%9e%88%eb%8a%94%eb%8d%b0-%eb%b9%b5%c2%b7%eb%a9%b4%eb%a7%8c-%eb%a8%b9%ec%9c%bc%eb%a9%b4-%ec%84%a4%ec%82%ac%ea%b0%80-%eb%a9%88%ec%b6%94/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/sjogren-digestive-symptoms-common"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/lifestyle/sjogren-flour-stomach-discomfort"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -6266,18 +5489,16 @@
         {
           "keyword": "쇼그렌증후군 두드러기",
           "checked": true,
-          "blog": true,
+          "blog": false,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90%ec%9d%98-%eb%82%ab%ec%a7%80-%ec%95%8a%eb%8a%94-%eb%91%90%eb%93%9c%eb%9f%ac%ea%b8%b0-%eb%8b%a8%ec%88%9c-%ed%94%bc%eb%b6%80/",
             "https://ireaomd.co.kr/blog/paper-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%83%81%ed%99%8d%eb%b0%98-%ea%b3%a0%eb%a6%ac-%eb%aa%a8%ec%96%91-%eb%b0%9c%ec%a7%84%ec%9d%b4-%eb%a8%bc%ec%a0%80-%ec%98%a4%eb%8a%94-%ec%9d%b4%ec%9c%a0-%ec%b9%b4%ed%83%80%ec%95%bc%eb%a7%88-%eb%b6%84%eb%a5%98%ec%99%80-%ec%b5%9c%ea%b7%bc-%ec%a7%80%ea%b2%ac-87107118"
           ],
@@ -6319,7 +5540,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%9e%85%ec%97%90%ec%84%9c-%ec%a7%a0%eb%a7%9b%ec%9d%b4-%eb%82%98%eb%8a%94-%ea%b5%ac%ed%95%a8%ec%a6%9d-%ed%98%b9%ec%8b%9c-%ec%9e%90%ea%b0%80%eb%a9%b4%ec%97%ad%ec%a7%88%ed%99%98%ec%9d%98-%ec%8b%a0/",
-            "https://ireaomd.co.kr/blog/sjogren-%ec%87%bc%ea%b7%b8%eb%a0%8c-%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90%ec%97%90%ea%b2%8c-%eb%82%98%ed%83%80%eb%82%98%eb%8a%94-%ec%8b%a0%ea%b2%bd%eb%b3%91%ec%a6%9d%ec%9d%98-%ed%8a%b9%ec%a7%95-1-%ed%8e%b8-220149585208"
+            "https://ireaomd.co.kr/blog/sjogren-sleep-bruxism-223827682380"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -6458,7 +5679,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%89%b0-%eb%aa%a9%ec%86%8c%eb%a6%ac%ec%99%80-%ec%84%b1%eb%8c%80-%ed%86%b5%ec%a6%9d-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%98-%eb%86%93%ec%b9%98%ea%b8%b0-%ec%89%ac%ec%9a%b4/",
-            "https://ireaomd.co.kr/blog/sj-%ed%98%88%ec%95%a1%ea%b2%80%ec%82%ac%ec%97%90%ec%84%9c-%eb%a9%b4%ec%97%ad%ea%b8%80%eb%a1%9c%eb%b8%94%eb%a6%b0-%ec%88%98%ec%b9%98%ea%b0%80-%eb%86%92%eb%8b%a4%eb%8a%94-%ea%b2%83%ec%9d%98--223664587907"
+            "https://ireaomd.co.kr/blog/sj-2microglobulin-%ec%83%81%ec%8a%b9%ec%9d%98-%ec%9d%98%eb%af%b8%ec%99%80-%ec%87%bc%ea%b7%b8-223662634205"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -6546,17 +5767,17 @@
         {
           "keyword": "쇼그렌증후군 10대",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
+            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90-3600%ec%97%ac-%eb%aa%85%ec%9d%80-%ec%8b%a4%ec%a0%9c%eb%a1%9c-%ec%96%b4%eb%96%a4-%ec%a6%9d%ec%83%81%ec%9c%bc%eb%a1%9c/",
+            "https://blog.naver.com/dlfpomd",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/sjogren-teenager-symptoms"
           ],
           "priority": "중",
@@ -6578,7 +5799,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%b9%a8%ec%83%98-%eb%b9%84%eb%8c%80%ec%a6%9d%ea%b3%bc-%ed%83%80%ec%95%a1%ec%84%a0%ec%a6%9d-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ec%96%b4%eb%96%bb%ea%b2%8c-%ea%b5%ac/",
-            "https://ireaomd.co.kr/blog/sj-sjogren-symptoms-220744429143"
+            "https://ireaomd.co.kr/blog/sj-%ec%b9%a8%ec%83%98%eb%b9%84%eb%8c%80%ec%a6%9d-%ed%83%80%ec%95%a1%ec%84%a0%ec%a6%9dsialadenosis-si-223609943925"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -6592,11 +5813,9 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90-3600%ec%97%ac-%eb%aa%85%ec%9d%80-%ec%8b%a4%ec%a0%9c%eb%a1%9c-%ec%96%b4%eb%96%a4-%ec%a6%9d%ec%83%81%ec%9c%bc%eb%a1%9c/",
             "https://ireaomd.co.kr/blog/sj-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8-20%eb%8c%80-30%eb%8c%80%ec%97%90%eb%8f%84-%ea%b0%80%eb%8a%a5%ed%95%a9%eb%8b%88%eb%8b%a4-223597235214"
           ],
           "priority": "중",
@@ -6669,7 +5888,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%bd%94%eb%a1%9c%eb%82%98-%ea%b0%90%ec%97%bc-%ed%9b%84-%eb%aa%a9%ec%97%90-%eb%a9%8d%ec%9a%b8%ec%9d%b4-%ec%9e%a1%ed%9e%8c%eb%8b%a4%eb%a9%b4-%ea%b8%b0%ec%bf%a0%ec%b9%98%eb%b3%91%ea%b3%bc-%ec%9e%90/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/complications/sjogren-covid-fatigue-longcovid"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/treatment/sjogren-covid19-vaccine-safety"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -6683,9 +5902,11 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8%ec%9d%84-%eb%b0%9b%ec%9c%bc%eb%a9%b4-%ec%b2%98%ec%9d%8c%ec%97%90-%ec%96%b4%eb%96%a4-%ec%95%bd%ec%9d%84-%eb%a8%b9%ea%b2%8c/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/sjogren-digestive-symptoms-causes"
           ],
           "priority": "중",
@@ -6740,7 +5961,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%8b%a0%ea%b2%bd%ea%b3%84-%ec%86%90%ec%83%81-2025%eb%85%84-%ec%b5%9c%ec%8b%a0-%ec%97%b0%ea%b5%ac%eb%a1%9c-%eb%b0%9d%ed%98%80%ec%a7%84-b/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ed%8c%94%eb%8b%a4%eb%a6%ac-%eb%ac%b4%eb%a0%a5%ea%b0%90-%eb%a7%8c%ec%84%b1-%ec%97%bc%ec%a6%9d%ec%84%b1-%ed%83%88%ec%88%98%ec%b4%88/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/sjogren-sfn-symptom-diagnosis"
           ],
           "priority": "중",
@@ -6862,15 +6083,17 @@
         {
           "keyword": "쇼그렌증후군 설염",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/sjogren-atrophic-glossitis-cause"
           ],
           "priority": "중",
@@ -6912,7 +6135,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%ed%8c%94%eb%8b%a4%eb%a6%ac%ec%97%90-%ed%9e%98%ec%9d%b4-%eb%b9%a0%ec%a7%80%ea%b3%a0-%ec%a0%80%eb%a6%b0%eb%8d%b0-%ec%9b%90%ec%9d%b8%ec%9d%84-%eb%aa%bb-%ec%b0%be%eb%8a%94%eb%8b%a4%eb%a9%b4-%ec%87%bc/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ed%8c%94%eb%8b%a4%eb%a6%ac-%eb%ac%b4%eb%a0%a5%ea%b0%90-%eb%a7%8c%ec%84%b1-%ec%97%bc%ec%a6%9d%ec%84%b1-%ed%83%88%ec%88%98%ec%b4%88/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/sjogren-peripheral-neuropathy-symptoms"
           ],
           "priority": "중",
@@ -7054,11 +6277,9 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%98%a4%eb%9e%98%ea%b0%80%eb%8a%94-%eb%a7%88%eb%a5%b8-%ea%b8%b0%ec%b9%a8%ea%b3%bc-%ec%9a%b0%ec%9a%b8%ec%a6%9d-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%84-%ec%9d%98%ec%8b%ac/",
             "https://ireaomd.co.kr/blog/paper-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%98-%ec%9a%b0%ec%9a%b8%ea%b3%bc-%eb%b6%88%ec%95%88%ec%9d%80-%ec%96%bc%eb%a7%88%eb%82%98-%ed%9d%94%ed%95%9c%ea%b0%80-286%eb%aa%85-%eb%b6%84%ec%84%9d%ea%b3%bc-%eb%a7%90%ec%b4%88%ec%8b%a0%ea%b2%bd%eb%b3%91%ec%a6%9d%ec%9d%98-%ec%97%ad%ed%95%a0-86274726"
           ],
           "priority": "중",
@@ -7139,7 +6360,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ed%8c%94%eb%8b%a4%eb%a6%ac-%eb%ac%b4%eb%a0%a5%ea%b0%90-%eb%a7%8c%ec%84%b1-%ec%97%bc%ec%a6%9d%ec%84%b1-%ed%83%88%ec%88%98%ec%b4%88/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/sjogren-myositis-symptoms-999429"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/complications/sjogren-myositis-symptoms"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -7432,7 +6653,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%95%bd-%ec%96%b4%eb%94%94%ea%b9%8c%ec%a7%80-%ea%bc%ad-%eb%a8%b9%ec%96%b4%ec%95%bc-%ed%95%a0%ea%b9%8c%ec%9a%94/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%9c%ec%95%bd-%ec%b9%98%eb%a3%8c-%ed%9a%a8%ea%b3%bc-320%eb%aa%85-%eb%8c%80%ec%83%81-%eb%8c%80%ea%b7%9c%eb%aa%a8-rct-%eb%85%bc%eb%ac%b8/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/treatment/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%9c%ec%95%bd-%ec%b9%98%eb%a3%8c-%ea%b3%bc%ed%95%99%ec%a0%81-%ea%b7%bc%ea%b1%b0"
           ],
           "priority": "중",
@@ -7485,10 +6706,12 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://ireaomd.co.kr/blog/sj-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b8%b0%eb%b3%b8-%ec%a0%95%eb%b3%b4%ec%99%80-%ec%82%b0%ec%a0%95%ed%8a%b9%eb%a1%80-%ec%a0%81%ec%9a%a9-%ec%9d%98%eb%af%b8--223346576609"
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%a6%bc%ed%94%84%ec%a2%85-%ec%9c%84%ed%97%98%eb%8f%84-%ec%99%84%ec%a0%84%eb%b6%84%ec%84%9d-30%eb%85%84-%ec%97%b0%ea%b5%ac%eb%a1%9c-%eb%b0%9d/",
+            "https://ireaomd.co.kr/blog/paper-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%a6%bc%ed%94%84%ec%a2%85-%ec%9c%84%ed%97%98%ec%9d%98-%ec%97%b0%ea%b2%b0%ea%b3%a0%eb%a6%ac-b%ec%84%b8%ed%8f%ac-%ec%88%98%ec%9a%a9%ec%b2%b4-%ec%8b%a0%ed%98%b8%eb%a1%9c-%eb%b3%b8-dlbcl-%ec%a7%84%ed%96%89-%ea%b8%b0%ec%a0%84-82273083"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -7938,7 +7161,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://blog.ireaomd.co.kr/"
+            "https://ireaomd.co.kr/blog/sj-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b8%b0%eb%b3%b8-%ec%a0%95%eb%b3%b4%ec%99%80-%ec%82%b0%ec%a0%95%ed%8a%b9%eb%a1%80-%ec%a0%81%ec%9a%a9-%ec%9d%98%eb%af%b8--223346576609"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -7946,16 +7169,16 @@
         {
           "keyword": "쇼그렌증후군 감염",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -7973,7 +7196,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%b9%98%eb%a3%8c-%ec%9b%90%eb%a6%ac-%ed%95%9c%ec%95%bd%ec%9d%b4-tlr9-%eb%86%8d%eb%8f%84%eb%a5%bc-%ec%a4%84%ec%97%ac-%eb%a9%b4%ec%97%ad%ec%9d%84/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%9c%ec%95%bd-%ec%b9%98%eb%a3%8c-%ed%9a%a8%ea%b3%bc-320%eb%aa%85-%eb%8c%80%ec%83%81-%eb%8c%80%ea%b7%9c%eb%aa%a8-rct-%eb%85%bc%eb%ac%b8/",
             "https://ireaomd.co.kr/blog/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%9c%ec%95%bd%ec%b9%98%eb%a3%8c-%ed%9a%a8%ea%b3%bc-%ec%82%ac%eb%9e%8c%ec%97%b0%ea%b5%ac-%ea%b7%bc%ea%b1%b0%ec%a0%95%eb%a6%ac"
           ],
           "priority": "중",
@@ -8088,7 +7311,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ea%b0%91%ec%9e%91%ec%8a%a4%eb%9f%ac%ec%9a%b4-%ea%b7%bc%ec%9c%a1-%eb%a7%88%eb%b9%84%eb%a5%bc-%ec%9c%a0%eb%b0%9c%ed%95%98%eb%8a%94-%ec%a0%80%ec%b9%bc%eb%a5%a8%ed%98%88%ec%a6%9d-19%eb%85%84-%ec%b0%a8/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/complications/sjogren-muscle-weakness-connection"
+            "https://ireaomd.co.kr/blog/sj-sjogren-symptoms-220770288878"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8096,15 +7319,17 @@
         {
           "keyword": "쇼그렌증후군 재발성 이하선염",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://ireaomd.co.kr/blog/sj-sjogren-symptoms-220744429143"
           ],
           "priority": "중",
@@ -8139,7 +7364,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://ireaomd.co.kr/blog/sj-sjogren-symptoms-bladder-220753007147"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8147,15 +7372,17 @@
         {
           "keyword": "쇼그렌증후군 바이러스 감염",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/sjogren-syndrome-causes"
           ],
           "priority": "중",
@@ -8196,7 +7423,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%98-%ec%a0%84%ec%8b%a0-%ec%a6%9d%ec%83%81-%ec%96%b4%eb%96%a4-%ec%95%bd%ec%9c%bc%eb%a1%9c-%eb%8b%a4%ec%8a%a4%eb%a6%b4%ea%b9%8c%ec%9a%94/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/sjogren-symptoms-progression"
+            "https://ireaomd.co.kr/blog/sjogren-cushing-steroid-223971665962"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8238,7 +7465,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90%ea%b0%80-%eb%b0%98%eb%93%9c%ec%8b%9c-%ec%86%8c%ea%b8%88%ec%9d%84-%ec%a4%84%ec%97%ac%ec%95%bc-%ed%95%98%eb%8a%94-%ec%9d%98/",
-            "https://ireaomd.co.kr/blog/sjogren-sodium-diet-224021395159"
+            "https://ireaomd.co.kr/blog/paper-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%98-%ed%9b%84%ec%84%b1%ec%9c%a0%ec%a0%84%ec%a0%81-%ec%9b%90%ec%9d%b8-%eb%b6%84%ec%9e%90%ec%83%9d%eb%ac%bc%ed%95%99%ec%9c%bc%eb%a1%9c-%eb%b3%b8-%eb%a9%b4%ec%97%ad%ec%84%b8%ed%8f%ac%ec%9d%98-%eb%b3%91%eb%a6%ac-82174651"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8252,11 +7479,9 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b2%80%ec%82%ac%ec%97%90%ec%84%9c-%ed%95%ad%ec%84%bc%ed%8a%b8%eb%a1%9c%eb%a9%94%ec%96%b4%ed%95%ad%ec%b2%b4aca-%ec%96%91%ec%84%b1%ec%9d%b4/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/treatment/sjogren-kampo-treatment-japan"
           ],
           "priority": "중",
@@ -8303,16 +7528,18 @@
         {
           "keyword": "쇼그렌증후군 진행",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)",
+            "홈페이지(irea.co.kr)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd",
+            "https://www.irea.co.kr/sjogren/"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8350,7 +7577,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90-3600%ec%97%ac-%eb%aa%85%ec%9d%80-%ec%8b%a4%ec%a0%9c%eb%a1%9c-%ec%96%b4%eb%96%a4-%ec%a6%9d%ec%83%81%ec%9c%bc%eb%a1%9c/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9e%85%eb%a7%9b%eb%b3%80%ed%99%94-%ed%9b%84%ea%b0%81%ec%9d%b4%ec%83%81-%ec%9b%90%ec%9d%b8"
+            "https://ireaomd.co.kr/blog/sj-sjogren-220539832346"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8390,18 +7617,20 @@
         {
           "keyword": "쇼그렌증후군 신경병증",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ed%8c%94%eb%8b%a4%eb%a6%ac-%eb%ac%b4%eb%a0%a5%ea%b0%90-%eb%a7%8c%ec%84%b1-%ec%97%bc%ec%a6%9d%ec%84%b1-%ed%83%88%ec%88%98%ec%b4%88/",
-            "https://ireaomd.co.kr/blog/sj-sjogren-neuro-220522239885"
+            "https://blog.naver.com/dlfpomd",
+            "https://www.irea.co.kr/%ed%8c%94%eb%8b%a4%eb%a6%ac%ec%97%90-%ed%9e%98%ec%9d%b4-%eb%b9%a0%ec%a7%80%ea%b3%a0-%ec%a0%80%eb%a6%b0%eb%8d%b0-%ec%9b%90%ec%9d%b8%ec%9d%84-%eb%aa%bb-%ec%b0%be%eb%8a%94%eb%8b%a4%eb%a9%b4-%ec%87%bc/",
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/symptoms/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%8b%a0%ea%b2%bd%eb%b3%91%ec%a6%9d-%ec%a6%9d%ec%83%81-%ec%a2%85%eb%a5%98"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8525,10 +7754,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "홈페이지(irea.co.kr)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://www.irea.co.kr/%ec%95%88%ea%b5%ac%ea%b1%b4%ec%a1%b0%ec%a6%9d%eb%b3%b4%eb%8b%a4-%eb%a8%bc%ec%a0%80-%ec%98%a4%eb%8a%94-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%94%bc%eb%b6%80%ec%a7%88%ed%99%98/"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8690,10 +7919,12 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)"
+            "홈페이지(irea.co.kr)",
+            "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90-3600%ec%97%ac-%eb%aa%85%ec%9d%80-%ec%8b%a4%ec%a0%9c%eb%a1%9c-%ec%96%b4%eb%96%a4-%ec%a6%9d%ec%83%81%ec%9c%bc%eb%a1%9c/"
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90-3600%ec%97%ac-%eb%aa%85%ec%9d%80-%ec%8b%a4%ec%a0%9c%eb%a1%9c-%ec%96%b4%eb%96%a4-%ec%a6%9d%ec%83%81%ec%9c%bc%eb%a1%9c/",
+            "https://ireaomd.co.kr/blog/sj-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b8%b0%eb%b3%b8-%ec%a0%95%eb%b3%b4%ec%99%80-%ec%82%b0%ec%a0%95%ed%8a%b9%eb%a1%80-%ec%a0%81%ec%9a%a9-%ec%9d%98%eb%af%b8--223346576609"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -8797,12 +8028,10 @@
           "any_exposed": true,
           "found_where": [
             "블로그(dlfpomd)",
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b2%80%ec%82%ac%ec%97%90%ec%84%9c-%ed%95%ad%ec%84%bc%ed%8a%b8%eb%a1%9c%eb%a9%94%ec%96%b4%ed%95%ad%ec%b2%b4aca-%ec%96%91%ec%84%b1%ec%9d%b4/",
             "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
@@ -8847,15 +8076,17 @@
         {
           "keyword": "쇼그렌증후군 자가항체가 없는",
           "checked": true,
-          "blog": false,
+          "blog": true,
           "website": true,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
+            "블로그(dlfpomd)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
+            "https://blog.naver.com/dlfpomd",
             "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
@@ -8891,7 +8122,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%a7%9d%ec%83%81%ec%b2%ad%ed%94%bc%eb%b0%98-%eb%a9%b4%ec%97%ad-%ec%9d%b4%ec%83%81%ec%9c%bc%eb%a1%9c-%ec%9d%b8%ed%95%9c-%ed%94%bc%eb%b6%80/",
+            "https://www.irea.co.kr/lupus/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/complications/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%ad%ec%9d%b8%ec%a7%80%ec%a7%88%ed%95%ad%ec%b2%b4-%ec%9e%84%ec%83%81%ec%a0%81-%ed%8a%b9%ec%a7%95"
           ],
           "priority": "중",
@@ -8950,7 +8181,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%ec%95%88%ea%b5%ac%ea%b1%b4%ec%a1%b0%ec%a6%9d%eb%b3%b4%eb%8b%a4-%eb%a8%bc%ec%a0%80-%ec%98%a4%eb%8a%94-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%94%bc%eb%b6%80%ec%a7%88%ed%99%98/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b4%80%ec%a0%88-%ed%86%b5%ec%a6%9d-%ec%9e%90%ea%b0%80%ed%95%ad%ec%b2%b4-acpa-%ec%96%91%ec%84%b1%ec%9d%b4%eb%9d%bc%eb%a9%b4-%eb%b0%98%eb%93%9c/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/related-conditions/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9e%90%ea%b6%81%eb%82%b4%eb%a7%89%ec%a6%9d-%ec%97%b0%ea%b4%80%ec%84%b1"
           ],
           "priority": "중",
@@ -9006,7 +8237,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://ireaomd.co.kr/blog/paper-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-il-7-%ec%b9%a8%ec%83%98-%ec%97%bc%ec%a6%9d%ec%9d%84-%eb%b6%80%ec%b6%94%ea%b8%b0%eb%8a%94-%ec%8b%a0%ed%98%b8%eb%ac%bc%ec%a7%88%ec%9d%98-%eb%b3%91%eb%a6%ac-82623408"
+            "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%91%90%ed%86%b5-%ec%9b%90%ec%9d%b8"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -9043,7 +8274,7 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%b9%98%eb%a3%8c%ec%95%bd-%ed%95%a0%eb%a1%9d%ec%8b%a0%ec%9d%98-%ec%b2%ad%eb%a0%a5-%ec%86%90%ec%8b%a4-%eb%b6%80%ec%9e%91%ec%9a%a9%ea%b3%bc/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8%ec%9d%84-%eb%b0%9b%ec%9c%bc%eb%a9%b4-%ec%b2%98%ec%9d%8c%ec%97%90-%ec%96%b4%eb%96%a4-%ec%95%bd%ec%9d%84-%eb%a8%b9%ea%b2%8c/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/treatment/sjogren-halloxin-efficacy-dry-symptoms"
           ],
           "priority": "중",
@@ -9052,16 +8283,16 @@
         {
           "keyword": "쇼그렌증후군 한의학",
           "checked": true,
-          "blog": false,
-          "website": true,
+          "blog": true,
+          "website": false,
           "youtube": false,
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "이레한의원(텍스트)"
+            "블로그(dlfpomd)"
           ],
           "found_urls": [
-            "https://clip.naver.com/@ireaomd"
+            "https://blog.naver.com/dlfpomd"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -9081,7 +8312,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%b4%eb%a9%b4-%ed%98%88%ec%95%a1%ec%95%94-%ec%9c%84%ed%97%98%ec%9d%b4-%ec%a0%95%eb%a7%90-%eb%86%92%ec%95%84%ec%a7%88%ea%b9%8c%ec%9a%94/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%eb%a6%bc%ed%94%84%ec%a2%85-%ec%9c%84%ed%97%98%eb%8f%84-%ec%99%84%ec%a0%84%eb%b6%84%ec%84%9d-30%eb%85%84-%ec%97%b0%ea%b5%ac%eb%a1%9c-%eb%b0%9d/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/lifestyle/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9c%a0%eb%b0%a9%ec%95%94-%ea%b2%80%ec%a7%84-%ec%9e%90%ec%a3%bc-%eb%b0%9b%ec%95%84%ec%95%bc-%ed%95%98%eb%82%98%ec%9a%94"
           ],
           "priority": "중",
@@ -9122,7 +8353,7 @@
           ],
           "found_urls": [
             "https://www.irea.co.kr/%ec%9e%85%eb%a7%88%eb%a6%84%ea%b3%bc-%ec%bd%94%ea%b3%a8%ec%9d%b4%ec%9d%98-%ec%95%85%ec%88%9c%ed%99%98-%ec%98%ac%eb%b0%94%eb%a5%b8-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%b9%98/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/sjogren-sleep-disorder-cause"
+            "https://ireaomd.co.kr/topics/autoimmune/ai-lifestyle/%eb%b6%88%eb%a9%b4%ec%a6%9d-%ec%9e%90%ea%b0%80%eb%a9%b4%ec%97%ad%ec%a7%88%ed%99%98-%ec%97%b0%ea%b4%80%ec%84%b1"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -9142,7 +8373,7 @@
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ec%9d%b4%eb%a9%b4-%ed%98%88%ec%95%a1%ec%95%94-%ec%9c%84%ed%97%98%ec%9d%b4-%ec%a0%95%eb%a7%90-%eb%86%92%ec%95%84%ec%a7%88%ea%b9%8c%ec%9a%94/",
+            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%99%98%ec%9e%90%ea%b0%80-%eb%b0%98%eb%93%9c%ec%8b%9c-%ec%86%8c%ea%b8%88%ec%9d%84-%ec%a4%84%ec%97%ac%ec%95%bc-%ed%95%98%eb%8a%94-%ec%9d%98/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/features"
           ],
           "priority": "중",
@@ -9231,12 +8462,10 @@
           "image": false,
           "any_exposed": true,
           "found_where": [
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://www.irea.co.kr/%eb%b6%80%ec%8b%a0-%ed%98%b8%eb%a5%b4%eb%aa%ac-dhea-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0%ea%b3%bc-%ec%96%b4%eb%96%a4-%ea%b4%80%eb%a0%a8%ec%9d%b4-%ec%9e%88%ec%9d%84%ea%b9%8c%ec%9a%94/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/treatment/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%9c%ec%95%bd%ec%b9%98%eb%a3%8c-%ed%9a%a8%ea%b3%bc-%ea%b2%80%ec%82%ac%ec%a7%80%ed%91%9c"
+            "https://ireaomd.co.kr/blog/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9e%85%eb%a7%88%eb%a6%84-%ec%8b%9c%ea%b0%84%ec%9d%b4-%ec%a7%80%eb%82%98%eb%a9%b4-%ec%b9%a8-%eb%b6%84%eb%b9%84%ea%b0%80-%eb%8d%94-%ec%a4%84%ec%96%b4%eb%93%a4%ea%b9%8c"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -9257,7 +8486,7 @@
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
             "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a7%84%eb%8b%a8-%ea%b2%80%ec%82%ac-%eb%b0%a9%eb%b2%95-%ec%a1%b0%ec%a7%81%ea%b2%80%ec%82%ac-%ea%bc%ad-%ed%95%b4%ec%95%bc-%ed%95%98%eb%82%98/",
-            "https://ireaomd.co.kr/topics/sjogren-syndrome/prognosis/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ed%95%ad%ec%b2%b4-%ec%82%ac%eb%9d%bc%ec%a7%88%ec%88%98%ec%9e%88%eb%82%98%ec%9a%94"
+            "https://blog.ireaomd.co.kr/"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
@@ -9329,12 +8558,10 @@
           "any_exposed": true,
           "found_where": [
             "블로그(dlfpomd)",
-            "홈페이지(irea.co.kr)",
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
             "https://blog.naver.com/dlfpomd",
-            "https://www.irea.co.kr/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%b9%98%eb%a3%8c-%ec%9b%90%eb%a6%ac-%ed%95%9c%ec%95%bd%ec%9d%b4-tlr9-%eb%86%8d%eb%8f%84%eb%a5%bc-%ec%a4%84%ec%97%ac-%eb%a9%b4%ec%97%ad%ec%9d%84/",
             "https://ireaomd.co.kr/topics/sjogren-syndrome/pathology/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%9e%90%ea%b0%80%ed%95%ad%ec%b2%b4-%ec%a6%9d%ed%8f%ad-%ea%b8%b0%ec%a0%84"
           ],
           "priority": "중",
@@ -9519,594 +8746,21 @@
             "홈페이지(ireaomd.co.kr)"
           ],
           "found_urls": [
-            "https://ireaomd.co.kr/blog/%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ea%b5%ac%ea%b0%95%ea%b4%80%eb%a0%a8-%ec%a6%9d%ec%83%81%ec%9d%80-221765906954"
+            "https://ireaomd.co.kr/blog/sj-%ec%87%bc%ea%b7%b8%eb%a0%8c%ec%a6%9d%ed%9b%84%ea%b5%b0-%ec%a6%9d%ec%83%81-%ea%b5%ac%ea%b0%95%ea%b3%bc-%ec%9e%85%ec%88%a0-%eb%aa%a9%ec%97%90-%eb%a7%8e%ec%9d%b4-%eb%b0%9c%ec%83%9d-223164150681"
           ],
           "priority": "중",
           "disease": "쇼그렌증후군"
         }
       ],
       "delta": {
-        "newly_exposed": [
-          {
-            "keyword": "쇼그렌 증후군",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 구강건조",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 원인",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 증상",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 치료",
-            "priority": "최상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 피로감",
-            "priority": "최상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 검사",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 관절염 증상",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 관절통",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 발생 원인은",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 소화기 증상",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 신경학적인 증상",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 신장증상",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 운동",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 입마름",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 자가진단",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 조기 진단",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 증상 발생",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 진단",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 진단 기준",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 진단 자가항체",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 치료 기간",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 치료방법",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 치료약",
-            "priority": "상",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 피로",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 피부 증상",
-            "priority": "상",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "일차성 쇼그렌증후군",
-            "priority": "상",
-            "found_where": [
-              "블로그(dlfpomd)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 10대",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 50대 여성",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 Anti-Ro",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 CRP",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 Ro La",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 focus scire",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 감염",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 강직성척추염",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 건조증",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 관절",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 관절염",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 구강",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 구강관련 증상",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 기본 정보",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 기침",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 노화로",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 라식수술과 눈쌍커플",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 류마티스 관절염",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 림프종 림",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 만성부비동염",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 물 마시는 양",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 바이러스 감염",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 발견되는 자가항체",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 불면증",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 삼킴 장애",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 소화기",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 소화불량",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 식이요법",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 신장",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 암발생",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 염증성 근염",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 자가항체 양성",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 자가항체가 없는",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 주요 증상",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 진료",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 청소년",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 치아",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 침분비량",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 침샘비대증",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 통증",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 폐질환",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 피부",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 피부질환",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 한약 침샘재상",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 항류마티스 약",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 항체 검사",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 혈관염",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 호르몬",
-            "priority": "중",
-            "found_where": [
-              "이레한의원(텍스트)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 호흡기",
-            "priority": "중",
-            "found_where": [
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          },
-          {
-            "keyword": "쇼그렌증후군 흡연",
-            "priority": "중",
-            "found_where": [
-              "블로그(dlfpomd)",
-              "홈페이지(irea.co.kr)",
-              "홈페이지(ireaomd.co.kr)"
-            ]
-          }
-        ],
+        "newly_exposed": [],
         "newly_lost": []
       }
     }
   },
-  "delta_baseline": "2026-07-15T14:47:35+09:00",
+  "delta_baseline": "2026-11-20T10:00:05+09:00",
   "delta_overall": {
-    "newly_exposed_count": 200,
-    "newly_lost_count": 0
+    "newly_exposed_count": 7,
+    "newly_lost_count": 4
   }
 }
