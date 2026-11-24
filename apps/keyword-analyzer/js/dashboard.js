@@ -107,7 +107,7 @@ function render() {
     } else {
       badge.hidden = false;
       badge.textContent = 'Selenium · 풀 체크';
-      badge.title = 'Selenium 측정: 블로그·홈페이지·유튜브·이미지 모두 네이버 실제 SERP에서 확인.';
+      badge.title = 'Selenium 측정: 블로그·홈페이지·유튜브·네이버 클립·이미지 모두 네이버 실제 SERP에서 확인.';
       badge.dataset.source = 'selenium';
     }
   }
@@ -182,6 +182,7 @@ function renderSummary(d) {
     byCh.blog ? `블로그 ${byCh.blog}` : null,
     byCh.website ? `홈페이지 ${byCh.website}` : null,
     byCh.youtube ? `유튜브 ${byCh.youtube}` : null,
+    byCh.clip ? `네이버 클립 ${byCh.clip}` : null,
     byCh.image ? `이미지 ${byCh.image}` : null,
   ].filter(Boolean).join(' · ') || '—';
 
@@ -338,7 +339,7 @@ function renderTable(d) {
   $('#resultCount').textContent = `${rows.length}개`;
 
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:40px; color:#94a3b8;">
+    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:40px; color:#94a3b8;">
       조건에 맞는 키워드가 없습니다.
     </td></tr>`;
     return;
@@ -371,6 +372,7 @@ function renderTable(d) {
         <td>${ch(r.blog)}</td>
         <td>${ch(r.website)}</td>
         <td>${ch(r.youtube)}</td>
+        <td>${ch(r.clip)}</td>
         <td>${ch(r.image)}</td>
         <td style="color:#64748b; font-size:12px;">${escapeHtml(where)}</td>
       </tr>`;

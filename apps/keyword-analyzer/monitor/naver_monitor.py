@@ -55,6 +55,9 @@ HISTORY_MAX = 120  # 최근 120회 (월/금 기준 약 1년)
 BLOG_IDS = ['dlfpomd', 'dlfpomd2', 'xkjbaeakds']
 WEBSITE_DOMAINS = ['irea.co.kr', 'ireaomd.co.kr']
 YOUTUBE_IDS = ['ireakmd', '@ireakmd']
+# 네이버 클립 채널 (clip.naver.com/@ireaomd)
+CLIP_IDS = ['@ireaomd']
+CLIP_HOSTS = ['clip.naver.com', 'naver.com/shorts']
 BRAND_TEXT = '이레한의원'
 
 
@@ -146,7 +149,9 @@ def check_first_page(driver, keyword):
         'blog': False,
         'website': False,
         'youtube': False,
+        'clip': False,
         'image': False,
+        'brand_text': False,
         'any_exposed': False,
         'found_where': [],
         'found_urls': [],
@@ -225,11 +230,24 @@ def check_first_page(driver, keyword):
                     result['found_urls'].append(href)
                     break
 
-        if not (result['blog'] or result['website'] or result['youtube']):
+        # 네이버 클립: 채널 주소(@ireaomd)가 걸려 있거나,
+        # 클립 링크의 글자에 한의원 이름이 보이는 경우
+        for cid in CLIP_IDS:
+            for href, text in unique_links:
+                is_clip_link = any(h in href for h in CLIP_HOSTS)
+                if is_clip_link and (cid in href or BRAND_TEXT in text):
+                    result['clip'] = True
+                    result['found_where'].append(f'네이버 클립({cid})')
+                    result['found_urls'].append(href)
+                    break
+
+        # 위 어느 것에도 해당하지 않는데 링크 글자에 한의원 이름만 보이는 경우.
+        # 어떤 종류인지 알 수 없으므로 홈페이지로 세지 않고 따로 표시한다.
+        if not (result['blog'] or result['website'] or result['youtube'] or result['clip']):
             for href, text in unique_links:
                 if BRAND_TEXT in text:
-                    result['website'] = True
-                    result['found_where'].append(f'{BRAND_TEXT}(텍스트)')
+                    result['brand_text'] = True
+                    result['found_where'].append(f'{BRAND_TEXT}(이름만 보임)')
                     result['found_urls'].append(href)
                     break
 
@@ -249,7 +267,8 @@ def check_first_page(driver, keyword):
             pass
 
         result['any_exposed'] = (result['blog'] or result['website']
-                                 or result['youtube'] or result['image'])
+                                 or result['youtube'] or result['clip']
+                                 or result['image'] or result['brand_text'])
         result['found_urls'] = list(dict.fromkeys(result['found_urls']))[:5]
         return result
 
@@ -294,7 +313,7 @@ def summarize(results):
         bucket['total'] += 1
         if r.get('any_exposed'):
             bucket['exposed'] += 1
-    by_channel = {'blog': 0, 'website': 0, 'youtube': 0, 'image': 0}
+    by_channel = {'blog': 0, 'website': 0, 'youtube': 0, 'clip': 0, 'image': 0}
     for r in exposed:
         for k in by_channel:
             if r.get(k):
